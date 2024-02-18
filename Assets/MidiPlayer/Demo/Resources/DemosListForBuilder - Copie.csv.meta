@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 3f1c5424499d10d4b881ad45ac1d39c6
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107994
+  packageName: Maestro - Midi Player Tool Kit - Free
+  packageVersion: 2.11.1
+  assetPath: Assets/MidiPlayer/Demo/Resources/DemosListForBuilder - Copie.csv
+  uploadId: 632080

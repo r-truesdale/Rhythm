@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 0f68d2b020c7f0941bbe61e907c6a87b
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107994
+  packageName: Maestro - Midi Player Tool Kit - Free
+  packageVersion: 2.11.1
+  assetPath: Assets/MidiPlayer/Resources/MidiDB/Zagronia - Dw1gOver.bytes
+  uploadId: 632080

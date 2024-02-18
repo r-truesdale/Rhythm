@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: d8e10fb0a4f4e2e418c59174899a8ffe
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107994
+  packageName: Maestro - Midi Player Tool Kit - Free
+  packageVersion: 2.11.1
+  assetPath: Assets/MidiPlayer/Resources/MidiDB/kakariko.bytes
+  uploadId: 632080

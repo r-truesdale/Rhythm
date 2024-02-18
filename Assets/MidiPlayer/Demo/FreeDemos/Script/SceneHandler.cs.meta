@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: 51fd781824f28084b931a421c1e1f433
+timeCreated: 1538204686
+licenseType: Store
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107994
+  packageName: Maestro - Midi Player Tool Kit - Free
+  packageVersion: 2.11.1
+  assetPath: Assets/MidiPlayer/Demo/FreeDemos/Script/SceneHandler.cs
+  uploadId: 632080

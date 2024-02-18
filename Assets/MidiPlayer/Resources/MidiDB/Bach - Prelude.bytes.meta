@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 3cf9c1eeca970174fa96de0fe3b02caa
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107994
+  packageName: Maestro - Midi Player Tool Kit - Free
+  packageVersion: 2.11.1
+  assetPath: Assets/MidiPlayer/Resources/MidiDB/Bach - Prelude.bytes
+  uploadId: 632080

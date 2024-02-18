@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 7003faa9de7bb204ca4ef9ff3f83a390
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107994
+  packageName: Maestro - Midi Player Tool Kit - Free
+  packageVersion: 2.11.1
+  assetPath: Assets/MidiPlayer/Resources/MidiDB/Leo Ferre - Avec le temps.bytes
+  uploadId: 632080

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 460954fcf7db50442b17db6dd02a2a6c
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107994
+  packageName: Maestro - Midi Player Tool Kit - Free
+  packageVersion: 2.11.1
+  assetPath: Assets/MidiPlayer/Resources/MidiDB/Animal Crossing.bytes
+  uploadId: 632080

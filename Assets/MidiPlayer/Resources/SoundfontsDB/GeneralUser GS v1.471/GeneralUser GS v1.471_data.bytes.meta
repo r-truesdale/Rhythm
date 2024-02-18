@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f949558b1d1a2c54b871ac10419670cd
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107994
+  packageName: Maestro - Midi Player Tool Kit - Free
+  packageVersion: 2.11.1
+  assetPath: Assets/MidiPlayer/Resources/SoundfontsDB/GeneralUser GS v1.471/GeneralUser
+    GS v1.471_data.bytes
+  uploadId: 632080
