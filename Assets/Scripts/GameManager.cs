@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviour
     public JArray time;
     public int selectedSongIndex;
     public TMP_Text beatNum;
-    arrows arrows;
     private bool[] arrowsSpawned;
 
     void Start()
