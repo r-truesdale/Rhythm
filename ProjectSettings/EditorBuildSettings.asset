@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/jsonfiletest.unity
     guid: d41061916dec5084588b0322e96926ec
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Song1.unity
     guid: bfb4ec7065dc9d84a836e761a2a2879e
   - enabled: 0
@@ -20,7 +20,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/MidiPlayer/Demo/FreeDemos/TestMidiFilePlayer.unity
     guid: ec4a814924685e549a6544b0a555a999
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/test.unity
     guid: 267fab80b7a4e34409a3201975203dc3
   m_configObjects: {}

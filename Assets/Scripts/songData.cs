@@ -1,213 +1,106 @@
-// using System;
-// using System.Collections;
-// using System.Collections.Generic;
-// using UnityEngine;
-// using UnityEngine.Networking;
-// using Newtonsoft.Json.Linq;
-
-// public class songData : MonoBehaviour
-// {
-//     public JArray songsData;
-//     // public static JArray songsData { get; private set; }
-
-//     IEnumerator Start()
-//     {
-//         string jsonFilePath = Application.streamingAssetsPath + "/jsontest.json";
-//         UnityWebRequest www = UnityWebRequest.Get(jsonFilePath);
-//         yield return www.SendWebRequest();
-//         if (www.result == UnityWebRequest.Result.Success)
-//         {
-//             string jsonContent = www.downloadHandler.text;
-
-//             try
-//             {
-//                 JObject jsonData = JObject.Parse(jsonContent);
-//                 songsData = (JArray)jsonData["songs"];
-//                 Debug.Log("JSON data loaded successfully.");
-//             }
-//             catch (System.Exception e)
-//             {
-//                 Debug.LogError("Error parsing JSON data: " + e.Message);
-//             }
-//         }
-//         else
-//         {
-//             Debug.LogError("Failed to fetch JSON data: " + www.error);
-//         }
-//     }
-
-//     // public static JArray GetMidiScoreBeats(int songIndex)
-//     // {
-//     //     if (songsData != null && songIndex >= 0 && songIndex < songsData.Count)
-//     //     {
-//     //         JObject selectedSong = (JObject)songsData[songIndex];
-//     //         var midiScoreBeats = (JArray)selectedSong["midi_score_beats"];
-//     //         // Debug.Log("Number of beats for song " + songIndex + ": " + (midiScoreBeats != null ? midiScoreBeats.Count : 0));
-//     //         return midiScoreBeats;
-//     //     }
-//     //     else
-//     //     {
-//     //         Debug.LogError("Invalid song index or missing data.");
-//     //         return null; // Handle invalid songIndex or missing data
-//     //     }
-//     // }
-//     // public static JArray songsBeats { get; private set; }
-//     // void Start()
-//     // {
-//     //     // locate and load json file data
-//     //     string jsonFilePath = Application.streamingAssetsPath + "/scripts/jsontest.json";
-//     //     string jsonContent = File.ReadAllText(jsonFilePath);
-//     //     JObject jsonData = JObject.Parse(jsonContent);
-//     //     songsData = (JArray)jsonData["songs"];
-//     //     // Debug.Log(songsData);
-//     //     // Debug.Log("Number of songs: " + (songsData != null ? songsData.Count : 0));
-//     // // }
-//     // public JArray GetMidiScoreBeats(int songIndex)
-//     // {
-//     //     if (songsData != null && songIndex >= 0 && songIndex < songsData.Count)
-//     //     {
-//     //         JObject selectedSong = (JObject)songsData[songIndex];
-//     //         var midiScoreBeats = (JArray)selectedSong["midi_score_beats"];
-//     //         Debug.Log("Number of beats for song " + songIndex + ": " + (midiScoreBeats != null ? midiScoreBeats.Count : 0));
-//     //         return midiScoreBeats;
-//     //     }
-//     //     else
-//     //     {
-//     //         Debug.Log(songsData);
-//     //         Debug.LogError("Invalid song index or missing data.");
-//     //         return null; // Handle invalid songIndex or missing data
-//     //     }
-//     // }
-//         private void ParseMidiScoreBeats()
-//     {
-//         if (songsData != null)
-//         {
-//             foreach (JObject song in songsData)
-//             {
-//                 JArray midiScoreBeats = (JArray)song["midi_score_beats"];
-//                 // Add midi_score_beats array to the song's data
-//                 song["midi_score_beats_array"] = midiScoreBeats;
-//             }
-//         }
-//     }
-
-//     // Method to get midi_score_beats for a specific song index
-//     public JArray GetMidiScoreBeats(int songIndex)
-//     {
-//         if (songsData != null && songIndex >= 0 && songIndex < songsData.Count)
-//         {
-//             JObject selectedSong = (JObject)songsData[songIndex];
-//             // Retrieve midi_score_beats_array for the selected song
-//             var midiScoreBeats = (JArray)selectedSong["midi_score_beats_array"];
-//             Debug.Log("Number of beats for song " + songIndex + ": " + (midiScoreBeats != null ? midiScoreBeats.Count : 0));
-//             return midiScoreBeats;
-//         }
-//         else
-//         {
-//             Debug.LogError("Invalid song index or missing data.");
-//             return null;
-//         }
-//     }
-// }
-
 using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using UnityEngine.Networking;
+
+// public class songData : MonoBehaviour
+// {
+//     public JArray songsData;
+//     void Start()
+//     {
+//         LoadJsonData();
+//     }
+
+//     void LoadJsonData()
+//     {
+//         string jsonFilePath = Application.streamingAssetsPath + "/jsontest.json";
+//         string jsonContent = System.IO.File.ReadAllText(jsonFilePath);
+
+//         try
+//         {
+//             JObject jsonData = JObject.Parse(jsonContent);
+//             songsData = (JArray)jsonData["songs"];
+//             Debug.Log("JSON data loaded successfully.");
+//         }
+//         catch (System.Exception e)
+//         {
+//             Debug.LogError("Error parsing JSON data: " + e.Message);
+//         }
+//     }
+//     public JArray GetMidiScoreBeats(int songIndex)
+//     {
+//         if (songsData != null && songIndex >= 0 && songIndex < songsData.Count)
+//         {
+//             JObject selectedSong = (JObject)songsData[songIndex];
+//             var midiScoreBeats = (JArray)selectedSong["midi_score_beats"];
+//             return midiScoreBeats;
+//         }
+//         else
+//         {
+//             Debug.LogError("Invalid song index or missing data.");
+//             return null; // Handle invalid songIndex or missing data
+//         }
+//     }
+// }
 
 public class songData : MonoBehaviour
 {
-    public JArray songsData;
+    public static songData Instance { get; private set; }
+    public List<SongBlueprint> AllSongs;
+    private List<SongBlueprint> songsData;
+    
 
-    // public static JArray songsBeats { get; private set; }
-    // void Start()
-    // {
-    //     // locate and load json file data
-    //     string jsonFilePath = Path.Combine(Application.dataPath + "/StreamingAssets", "jsontest.json");
-    //     string jsonContent = File.ReadAllText(jsonFilePath);
-    //     JObject jsonData = JObject.Parse(jsonContent);
-    //     songsData = (JArray)jsonData["songs"];
-    //     // Debug.Log(songsData);
-    //     // Debug.Log("Number of songs: " + (songsData != null ? songsData.Count : 0));
-    // }
-    //         IEnumerator Start()
-    //     {
-    //         string jsonFilePath = Application.streamingAssetsPath + "/jsontest.json";
-    //         UnityWebRequest www = UnityWebRequest.Get(jsonFilePath);
-    //         yield return www.SendWebRequest();
-    //         if (www.result == UnityWebRequest.Result.Success)
-    //         {
-    //             string jsonContent = www.downloadHandler.text;
-
-    //             try
-    //             {
-    //                 JObject jsonData = JObject.Parse(jsonContent);
-    //                 songsData = (JArray)jsonData["songs"];
-    //                 Debug.Log("JSON data loaded successfully.");
-    //             }
-    //             catch (System.Exception e)
-    //             {
-    //                 Debug.LogError("Error parsing JSON data: " + e.Message);
-    //             }
-    //         }
-    //         else
-    //         {
-    //             Debug.LogError("Failed to fetch JSON data: " + www.error);
-    //         }
-    //     }
-    //     public static JArray GetMidiScoreBeats(int songIndex)
-    //     {
-    //         if (songsData != null && songIndex >= 0 && songIndex < songsData.Count)
-    //         {
-    //             JObject selectedSong = (JObject)songsData[songIndex];
-    //             var midiScoreBeats = (JArray)selectedSong["midi_score_beats"];
-    //             Debug.Log("Number of beats for song " + songIndex + ": " + (midiScoreBeats != null ? midiScoreBeats.Count : 0));
-    //             return midiScoreBeats;
-    //         }
-    //         else
-    //         {
-    //             Debug.LogError("Invalid song index or missing data.");
-    //             return null; // Handle invalid songIndex or missing data
-    //         }
-    //     }
-    // }
-
-void Start()
+    void Start()
     {
-        LoadJsonData();
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+
+        LoadSongs();
     }
 
- void LoadJsonData()
+    void LoadSongs()
     {
-        string jsonFilePath = Application.streamingAssetsPath + "/jsontest.json";
-        string jsonContent = System.IO.File.ReadAllText(jsonFilePath);
-
-        try
+        string jsonPath = Path.Combine(Application.streamingAssetsPath, "SongBlueprint.json");
+        Debug.Log("JSON file path: " + jsonPath);
+        if (File.Exists(jsonPath))
         {
-            JObject jsonData = JObject.Parse(jsonContent);
-            songsData = (JArray)jsonData["songs"];
-            Debug.Log("JSON data loaded successfully.");
+            string jsonData = File.ReadAllText(jsonPath);
+            AllSongs data = JsonConvert.DeserializeObject<AllSongs>(jsonData);
+            ConvertToSongBlueprints(data);
         }
-        catch (System.Exception e)
+        else
         {
-            Debug.LogError("Error parsing JSON data: " + e.Message);
+            Debug.LogError("SongBlueprint.json not found at path: " + jsonPath);
         }
     }
-    public JArray GetMidiScoreBeats(int songIndex)
+
+    void ConvertToSongBlueprints(AllSongs data)
     {
-        if (songsData != null && songIndex >= 0 && songIndex < songsData.Count)
+        AllSongs = data.songs;
+    }
+
+    // Method to retrieve midi score beats for a specific song
+    public List<float> GetMidiScoreBeats(int songIndex)
+    {
+        if (AllSongs != null && songIndex >= 0 && songIndex < AllSongs.Count)
         {
-            JObject selectedSong = (JObject)songsData[songIndex];
-            var midiScoreBeats = (JArray)selectedSong["midi_score_beats"];
-        return midiScoreBeats;
-    }
-    else
-    {
-        Debug.LogError("Invalid song index or missing data.");
-        return null; // Handle invalid songIndex or missing data
-    }
+            return AllSongs[songIndex].midi_score_beats;
+        }
+        else
+        {
+            Debug.LogError("Invalid song index or songs data is not initialized.");
+            return null;
+        }
     }
 }
