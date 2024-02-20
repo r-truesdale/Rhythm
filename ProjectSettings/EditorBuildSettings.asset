@@ -23,5 +23,8 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/test.unity
     guid: 267fab80b7a4e34409a3201975203dc3
+  - enabled: 0
+    path: Assets/Scenes/TestMidiFilePlayer.unity
+    guid: 37ce4cc573ee57246ab4ee9081a2e263
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

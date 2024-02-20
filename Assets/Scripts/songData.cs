@@ -6,53 +6,11 @@ using UnityEngine;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using UnityEngine.Networking;
-
-// public class songData : MonoBehaviour
-// {
-//     public JArray songsData;
-//     void Start()
-//     {
-//         LoadJsonData();
-//     }
-
-//     void LoadJsonData()
-//     {
-//         string jsonFilePath = Application.streamingAssetsPath + "/jsontest.json";
-//         string jsonContent = System.IO.File.ReadAllText(jsonFilePath);
-
-//         try
-//         {
-//             JObject jsonData = JObject.Parse(jsonContent);
-//             songsData = (JArray)jsonData["songs"];
-//             Debug.Log("JSON data loaded successfully.");
-//         }
-//         catch (System.Exception e)
-//         {
-//             Debug.LogError("Error parsing JSON data: " + e.Message);
-//         }
-//     }
-//     public JArray GetMidiScoreBeats(int songIndex)
-//     {
-//         if (songsData != null && songIndex >= 0 && songIndex < songsData.Count)
-//         {
-//             JObject selectedSong = (JObject)songsData[songIndex];
-//             var midiScoreBeats = (JArray)selectedSong["midi_score_beats"];
-//             return midiScoreBeats;
-//         }
-//         else
-//         {
-//             Debug.LogError("Invalid song index or missing data.");
-//             return null; // Handle invalid songIndex or missing data
-//         }
-//     }
-// }
-
 public class songData : MonoBehaviour
 {
     public static songData Instance { get; private set; }
     public List<SongBlueprint> AllSongs;
-    private List<SongBlueprint> songsData;
-    
+
 
     void Start()
     {
@@ -69,25 +27,60 @@ public class songData : MonoBehaviour
         LoadSongs();
     }
 
-    void LoadSongs()
+    // void LoadSongs()
+    // {
+    //     string jsonPath = Path.Combine(Application.streamingAssetsPath, "SongBlueprint.json");
+    //     Debug.Log("JSON file path: " + jsonPath);
+    //     if (File.Exists(jsonPath))
+    //     {
+    //         string jsonData = File.ReadAllText(jsonPath);
+    //         AllSongs data = JsonConvert.DeserializeObject<AllSongs>(jsonData);
+    //         ConvertToSongBlueprints(data);
+    //     }
+    //     else
+    //     {
+    //         Debug.LogError("SongBlueprint.json not found at path: " + jsonPath);
+    //     }
+    // }
+
+    //public so it can be accessed by other scripts
+    public IEnumerator LoadSongs()
     {
         string jsonPath = Path.Combine(Application.streamingAssetsPath, "SongBlueprint.json");
         Debug.Log("JSON file path: " + jsonPath);
-        if (File.Exists(jsonPath))
+        // Load JSON data from file
+        string jsonData = null;
+#if UNITY_EDITOR || UNITY_STANDALONE
+    if (File.Exists(jsonPath))
+    {
+        jsonData = File.ReadAllText(jsonPath);
+        // Debug.Log(jsonData);
+    }
+#elif UNITY_WEBGL
+    using (UnityWebRequest www = UnityWebRequest.Get(jsonPath))
+    {
+        yield return www.SendWebRequest();
+
+        if (www.result != UnityWebRequest.Result.Success)
         {
-            string jsonData = File.ReadAllText(jsonPath);
-            AllSongs data = JsonConvert.DeserializeObject<AllSongs>(jsonData);
-            ConvertToSongBlueprints(data);
+            Debug.LogError("Failed to load JSON file: " + www.error);
+            yield break; // Exit coroutine on error
+        }
+        jsonData = www.downloadHandler.text;
+        // Debug.Log(jsonData);
+    }
+#endif
+        // Deserialize JSON data into List<SongBlueprint>
+        if (jsonData != null)
+        {
+            AllSongs = JsonConvert.DeserializeObject<AllSongs>(jsonData).songs;
         }
         else
         {
-            Debug.LogError("SongBlueprint.json not found at path: " + jsonPath);
+            Debug.LogError("Failed to load JSON data.");
         }
-    }
 
-    void ConvertToSongBlueprints(AllSongs data)
-    {
-        AllSongs = data.songs;
+        yield return null; // Ensure a return value for the coroutine
     }
 
     // Method to retrieve midi score beats for a specific song
