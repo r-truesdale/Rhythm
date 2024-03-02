@@ -26,23 +26,6 @@ public class songData : MonoBehaviour
 
         LoadSongs();
     }
-
-    // void LoadSongs()
-    // {
-    //     string jsonPath = Path.Combine(Application.streamingAssetsPath, "SongBlueprint.json");
-    //     Debug.Log("JSON file path: " + jsonPath);
-    //     if (File.Exists(jsonPath))
-    //     {
-    //         string jsonData = File.ReadAllText(jsonPath);
-    //         AllSongs data = JsonConvert.DeserializeObject<AllSongs>(jsonData);
-    //         ConvertToSongBlueprints(data);
-    //     }
-    //     else
-    //     {
-    //         Debug.LogError("SongBlueprint.json not found at path: " + jsonPath);
-    //     }
-    // }
-
     //public so it can be accessed by other scripts
     public IEnumerator LoadSongs()
     {
@@ -89,6 +72,18 @@ public class songData : MonoBehaviour
         if (AllSongs != null && songIndex >= 0 && songIndex < AllSongs.Count)
         {
             return AllSongs[songIndex].midi_score_beats;
+        }
+        else
+        {
+            Debug.LogError("Invalid song index or songs data is not initialized.");
+            return null;
+        }
+    }
+        public List<float> GetMidiScoreDownBeats(int songIndex)
+    {
+        if (AllSongs != null && songIndex >= 0 && songIndex < AllSongs.Count)
+        {
+            return AllSongs[songIndex].midi_score_downbeats;
         }
         else
         {

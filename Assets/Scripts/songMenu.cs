@@ -46,7 +46,7 @@ public class songMenu : MonoBehaviour
 
         if (songIndex >= 1 && songIndex <= sceneNames.Length)
         {
-            PlayerPrefs.SetInt("selectedSongIndex", songIndex);
+            PlayerPrefs.SetInt("selectedSongIndex", songIndex-1);
             SceneManager.LoadScene(sceneNames[songIndex - 1]);
             Debug.Log(songName.text + " chosen");
         }

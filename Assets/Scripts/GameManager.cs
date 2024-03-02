@@ -1,10 +1,6 @@
-using System;
-using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
 using MidiPlayerTK;
 using TMPro;
 public class GameManager : MonoBehaviour
@@ -12,24 +8,49 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     public MidiFilePlayer midiFilePlayer;
-    public GameObject arrowPrefab;
     public TMP_Text beatsNum;
-    private List<float> time;
-    private bool[] arrowsSpawned;
+    public List<float> midiScoreBeats;
+    public List<float> midiScoreDownBeats;
+    public bool[] arrowsSpawned;
+    public GameObject arrowPrefab; // Reference to the arrow prefab
+    public HitBox[] HitBoxes; // Reference to HitBox objects for arrow spawning
+    public List<GameObject> spawnedArrows = new List<GameObject>(); // Track spawned arrows
+    private float timingThreshold = 0.1f; // Adjust as needed
+    private bool gameStarted = false;
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (!gameStarted) // Check if the game hasn't started yet
         {
-            Destroy(gameObject);
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
         else
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            Destroy(gameObject); // If the game has started, destroy this instance
         }
     }
+    IEnumerator StartCountdown()
+    {
+        int countdownTime = 3; // Countdown time in seconds
 
+        while (countdownTime > 0)
+        {
+            Debug.Log("Countdown: " + countdownTime);
+            yield return new WaitForSeconds(1f); // Wait for 1 second
+            countdownTime--;
+        }
+
+        // Start the game after the countdown
+        StartGame();
+    }
     void Start()
     {
         StartCoroutine(LoadSongData());
@@ -38,57 +59,221 @@ public class GameManager : MonoBehaviour
     IEnumerator LoadSongData()
     {
         yield return songData.Instance.LoadSongs();
-        Initialize();
-    }
+        UpdateBeatOptions();
 
-    void Initialize()
-    {
-        int selectedSongIndex = PlayerPrefs.GetInt("selectedSongIndex", 0);
-        // Debug.Log(selectedSongIndex);
-        time = songData.Instance.GetMidiScoreBeats(selectedSongIndex);
-        arrowsSpawned = new bool[time.Count];
-    }
-
-    void Update()
-    {
-
-        if (midiFilePlayer == null || time == null)
-            return;
-
-        float currentTime = (float)midiFilePlayer.MPTK_PlayTime.TotalSeconds;
-
-        for (int i = 0; i < time.Count; i++)
+        // Check if midiScoreBeats is not null before initializing arrowsSpawned
+        if (midiScoreBeats != null)
         {
-            // Debug.Log(time[i]);
-            float spawnTime = time[i];
-            float timeRange = 0.01f;
-
-            if (!arrowsSpawned[i] && Mathf.Abs(currentTime - spawnTime) < timeRange)
+            arrowsSpawned = new bool[midiScoreBeats.Count];
+            for (int i = 0; i < arrowsSpawned.Length; i++)
             {
-                SpawnArrow();
-                arrowsSpawned[i] = true;
-                beatsNum.text = spawnTime.ToString();
-                Debug.Log(spawnTime);
-                break;
+                arrowsSpawned[i] = false;
             }
+        }
+        else
+        {
+            // Handle the case where midiScoreBeats is null (e.g., show an error message)
+            Debug.LogError("Failed to load song data. midiScoreBeats is null.");
         }
     }
 
-    private void SpawnArrow()
+    public void UpdateBeatOptions()
     {
-        GameObject arrow = Instantiate(arrowPrefab, new Vector3(UnityEngine.Random.Range(-120, 100), 50, -10), Quaternion.identity);
+        int selectedSongIndex = PlayerPrefs.GetInt("selectedSongIndex", 0) - 1;
+        int beatType = PlayerPrefs.GetInt("beatType", 0); // Default to 0 for midi_score_beats
+
+        switch (beatType)
+        {
+            case 0: // midi_score_beats
+                midiScoreBeats = songData.Instance.GetMidiScoreBeats(selectedSongIndex);
+                break;
+            case 1: // midi_score_downbeats
+                midiScoreBeats = songData.Instance.GetMidiScoreDownBeats(selectedSongIndex);
+                break;
+            // case 2: // Your third option
+            //     // Get the beats for the third option and assign them to midiScoreBeats
+            //     break;
+            default: // Default to midi_score_beats if PlayerPrefs value is invalid
+                midiScoreBeats = songData.Instance.GetMidiScoreBeats(selectedSongIndex);
+                break;
+        }
+    }
+
+
+    void Update()
+    {
+        if (midiFilePlayer == null || midiScoreBeats == null)
+            return;
+
+        CheckArrowSpawn();
+        HandlePlayerInput();
+    }
+    void HandlePlayerInput()
+    {
+        if (!gameStarted && Input.GetKeyDown(KeyCode.Space)) // Check if the game hasn't started yet
+        {
+            StartGame(); // Start the game
+        }
+        else if (gameStarted && Input.GetKeyDown(KeyCode.Space)) // Check if the game has started
+        {
+            // Remove the oldest arrow from the list and destroy it
+            if (spawnedArrows.Count > 0)
+            {
+                GameObject arrowToRemove = spawnedArrows[0];
+                arrows arrowScript = arrowToRemove.GetComponent<arrows>();
+                if (arrowScript != null)
+                {
+                    // Determine the hitbox index for the arrow
+                    int hitBoxIndex = DetermineHitBoxIndex();
+                    if (hitBoxIndex != -1)
+                    {
+                        // Process the hit with the appropriate timing parameters
+                        HitBox hitBox = HitBoxes[hitBoxIndex];
+                        if (hitBox != null)
+                        {
+                            hitBox.ProcessHit(arrowScript.arrowBeat, GetPlaybackTime(), hitBoxIndex);
+                        }
+                        else
+                        {
+                            Debug.LogError("HitBox not found for arrow.");
+                        }
+                    }
+                }
+                spawnedArrows.RemoveAt(0);
+                Destroy(arrowToRemove);
+            }
+        }
+    }
+    void StartGame()
+    {
+        gameStarted = true;
+        Debug.Log("Game Started!");
+    }
+    void CheckArrowSpawn()
+    {
+        float currentPosition = (float)midiFilePlayer.MPTK_PlayTime.TotalSeconds;
+
+        // Debug log to check array lengths
+        Debug.Log("Length of midiScoreBeats: " + midiScoreBeats.Count);
+        Debug.Log("Length of arrowsSpawned: " + arrowsSpawned.Length);
+
+        for (int i = 0; i < midiScoreBeats.Count; i++)
+        {
+            float beatTime = midiScoreBeats[i];
+            float arrowSpawnTime = beatTime - currentPosition; // Calculate relative to current playback position
+
+            if (i < arrowsSpawned.Length && !arrowsSpawned[i] && arrowSpawnTime <= timingThreshold)
+            {
+                int hitBoxIndex = DetermineHitBoxIndex();
+                if (hitBoxIndex != -1)
+                {
+                    GameObject newArrow = SpawnManager.Instance.SpawnArrow(arrowPrefab, beatTime);
+                    spawnedArrows.Add(newArrow);
+                    arrowsSpawned[i] = true;
+                    beatsNum.text = beatTime.ToString();
+                }
+            }
+        }
+    }
+    Vector3 GetArrowPosition()
+    {
+        return transform.position;
+    }
+    Vector3 GetArrowSpawnPosition()
+    {
+        // Return the spawn position of the arrow (you may need to adjust this based on your scene setup)
+        return SpawnManager.Instance.GetArrowSpawnPosition(); // Modify this to match your arrow spawn position
+    }
+
+    public void CheckArrowTiming()
+    {
+        float currentPlaybackTime = GetPlaybackTime();
+
+        // Collect arrows to be removed
+        List<GameObject> arrowsToRemove = new List<GameObject>();
+
+        foreach (GameObject arrow in spawnedArrows)
+        {
+            arrows arrowScript = arrow.GetComponent<arrows>();
+            if (arrowScript != null)
+            {
+                // Determine the hitbox index for the arrow
+                int hitBoxIndex = DetermineHitBoxIndex();
+                if (hitBoxIndex != -1)
+                {
+                    // Process the hit with the appropriate timing parameters
+                    HitBox hitBox = arrow.GetComponent<HitBox>();
+                    if (hitBox != null)
+                    {
+                        hitBox.ProcessHit(arrowScript.arrowBeat, currentPlaybackTime, hitBoxIndex);
+                    }
+                    else
+                    {
+                        Debug.LogError("HitBox component not found on arrow.");
+                        // Continue to the next arrow
+                        continue;
+                    }
+
+                    // Add the arrow to the list of arrows to be removed
+                    arrowsToRemove.Add(arrow);
+                }
+            }
+        }
+        // Remove the arrows after iterating
+        foreach (GameObject arrow in arrowsToRemove)
+        {
+            spawnedArrows.Remove(arrow);
+            Destroy(arrow);
+        }
+    }
+    float GetTimeToHitbox()
+    {
+        // Calculate the time it takes for an arrow to reach the hitbox based on its speed and hitbox position
+        float hitBoxDistance = Vector3.Distance(GetArrowSpawnPosition(), HitBoxes[0].transform.position); // Assuming there's only one hitbox
+        arrows arrow = arrowPrefab.GetComponent<arrows>(); // Get the arrows component from the arrowPrefab
+        if (arrow != null)
+        {
+            return hitBoxDistance / arrow.speed;
+        }
+        else
+        {
+            Debug.LogError("Arrows component not found on arrowPrefab.");
+            return 0f; // Or handle the error in a way appropriate for your application
+        }
+    }
+    int DetermineHitBoxIndex()
+    {
+        // Get the position of the arrow
+        Vector3 arrowPosition = GetArrowPosition();
+
+        // Check which hit box the arrow is closest to
+        float minDistance = Mathf.Infinity;
+        int closestHitBoxIndex = -1;
+
+        for (int i = 0; i < HitBoxes.Length; i++)
+        {
+            float distance = Vector3.Distance(arrowPosition, HitBoxes[i].transform.position);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                closestHitBoxIndex = i;
+                Debug.Log(closestHitBoxIndex);
+                Debug.Log(distance);
+            }
+        }
+        Debug.Log(closestHitBoxIndex);
+        return closestHitBoxIndex;
+    }
+    public float GetPlaybackTime()
+    {
+        if (midiFilePlayer != null)
+        {
+            return (float)midiFilePlayer.MPTK_PlayTime.TotalSeconds;
+        }
+        else
+        {
+            Debug.LogError("MidiFilePlayer is not assigned in GameManager.");
+            return 0f;
+        }
     }
 }
-
-
-// Having a GameManager instance as a singleton is a common design pattern in Unity game development. There are several reasons why this pattern is used:
-
-// Centralized Management: The GameManager serves as a centralized hub for managing various aspects of the game, such as audio, player progress, scorekeeping, level loading, and more. By having a single instance accessible from anywhere in the game, it becomes easier to coordinate different game systems and functionalities.
-
-//     Global Access: Since the GameManager instance is typically accessible from any script in the game, it provides a convenient way for other scripts to interact with shared game state and functionality without needing direct references to each other. This promotes loose coupling between components and enhances code organization and readability.
-
-//     Persistence: By marking the GameManager instance as DontDestroyOnLoad, it persists across scene changes. This ensures that important game state and functionality remain consistent throughout the entire gameplay experience, even as players move between different levels or sections of the game.
-
-//     Singleton Pattern: Implementing the GameManager as a singleton ensures that only one instance of it exists at any given time. This prevents multiple instances from being accidentally created and helps maintain data integrity and consistency across the game.
-
-// Overall, using a GameManager instance as a singleton provides a clean and efficient way to manage and coordinate various aspects of the game, leading to better organization, maintainability, and scalability of the game codebase.
