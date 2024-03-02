@@ -321,8 +321,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1504700989}
-  - {fileID: 1017968319}
   - {fileID: 374732227}
+  - {fileID: 1017968319}
   - {fileID: 734486787}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -360,8 +360,8 @@ Transform:
   m_GameObject: {fileID: 67450226}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 43.271286, y: 0.7, z: -3.8424492}
-  m_LocalScale: {x: 250.56, y: 59.6, z: 32.60685}
+  m_LocalPosition: {x: 43.271286, y: 25.3, z: -3.8424492}
+  m_LocalScale: {x: 250.56, y: 93.7, z: 144.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1463314194}
@@ -1113,7 +1113,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -180.6, y: 0}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &374732228
@@ -1136,7 +1136,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: Test
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1602,6 +1602,14 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1203526732}
+    - target: {fileID: 3986125170193125160, guid: 3d51158c7b8ae7f49bae21134f8901d3, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3986125170193125160, guid: 3d51158c7b8ae7f49bae21134f8901d3, type: 3}
+      propertyPath: m_LayerOverridePriority
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4670348685426865977, guid: 3d51158c7b8ae7f49bae21134f8901d3, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -1624,15 +1632,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5357786554126860434, guid: 3d51158c7b8ae7f49bae21134f8901d3, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5357786554126860434, guid: 3d51158c7b8ae7f49bae21134f8901d3, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5357786554126860434, guid: 3d51158c7b8ae7f49bae21134f8901d3, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5357786554126860434, guid: 3d51158c7b8ae7f49bae21134f8901d3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1652,7 +1660,7 @@ PrefabInstance:
       objectReference: {fileID: 1363940462}
     - target: {fileID: 6407001975012622006, guid: 3d51158c7b8ae7f49bae21134f8901d3, type: 3}
       propertyPath: m_VersionIndex
-      value: 3260
+      value: 3263
       objectReference: {fileID: 0}
     - target: {fileID: 7078444635838038458, guid: 3d51158c7b8ae7f49bae21134f8901d3, type: 3}
       propertyPath: m_Mesh
@@ -1660,7 +1668,7 @@ PrefabInstance:
       objectReference: {fileID: 1203526732}
     - target: {fileID: 7078444635838038458, guid: 3d51158c7b8ae7f49bae21134f8901d3, type: 3}
       propertyPath: m_VersionIndex
-      value: 2425
+      value: 2428
       objectReference: {fileID: 0}
     - target: {fileID: 7534326915774471547, guid: 3d51158c7b8ae7f49bae21134f8901d3, type: 3}
       propertyPath: m_Mesh
@@ -1674,7 +1682,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Arrow
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6158035519677206740, guid: 3d51158c7b8ae7f49bae21134f8901d3, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1817,16 +1826,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1216393959}
-        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
-        m_MethodName: set_text
-        m_Mode: 5
+      - m_Target: {fileID: 1786925545}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: StartGame
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Clicked
+          m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 1320583019}
@@ -1840,18 +1849,6 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1320583019}
-        m_TargetAssemblyTypeName: MidiPlayerTK.MidiFilePlayer, Assembly-CSharp
-        m_MethodName: MPTK_Pause
-        m_Mode: 4
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 20000
-          m_StringArgument: 
-          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &1017968317
 MonoBehaviour:
@@ -4186,11 +4183,11 @@ SceneRoots:
   - {fileID: 1548098369}
   - {fileID: 1691605922}
   - {fileID: 1786925544}
+  - {fileID: 1463314194}
   - {fileID: 66715882}
   - {fileID: 1793101830}
   - {fileID: 12013918}
-  - {fileID: 936180905}
-  - {fileID: 1463314194}
   - {fileID: 1604285797}
   - {fileID: 2082746294}
+  - {fileID: 936180905}
   - {fileID: 1890732937}

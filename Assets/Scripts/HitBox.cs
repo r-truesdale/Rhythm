@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public class HitBox : MonoBehaviour
 {
-    public string hitBoxName;
+public string hitBoxName;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -15,39 +15,41 @@ public class HitBox : MonoBehaviour
             // Ensure the arrows script component is not null
             if (arrow != null)
             {
+                Debug.Log("HitBox triggered by: " + other.gameObject.name);
+                Debug.Log("hit");
                 float currentPlaybackTime = GameManager.Instance.GetPlaybackTime();
                 // Get the hitbox index
                 int hitBoxIndex = GetHitBoxIndex();
                 // Calculate accuracy and score
-                AccuracyManager.Instance.CalculateAccuracyAndScore(arrow.arrowBeat, currentPlaybackTime, hitBoxIndex);
+                AccuracyManager.Instance.CalculateAccuracyAndScore(arrow.beatTime, currentPlaybackTime, hitBoxIndex);
                 // Destroy the arrow
-                Destroy(other.gameObject);
+                // Destroy(other.gameObject);
             }
         }
     }
 
-public int GetHitBoxIndex()
-{
-    // Determine the hitbox index based on its name or position in the array
-    switch (hitBoxName)
+    public int GetHitBoxIndex()
     {
-        case "TooEarly":
-            Debug.Log("Hitbox Name: TooEarly");
-            return 0;
-        case "Perfect":
-            Debug.Log("Hitbox Name: Perfect");
-            return 1;
-        case "TooLate":
-            Debug.Log("Hitbox Name: TooLate");
-            return 2;
-        default:
-            Debug.LogWarning("Invalid hitbox name: " + hitBoxName);
-            return -1; // Invalid hitbox
+        // Determine the hitbox index based on its name or position in the array
+        switch (hitBoxName)
+        {
+            case "Perfect":
+                Debug.Log("Hitbox Name: Perfect");
+                return 0;
+            case "TooEarly":
+                Debug.Log("Hitbox Name: TooEarly");
+                return 1;
+            case "TooLate":
+                Debug.Log("Hitbox Name: TooLate");
+                return 2;
+            default:
+                Debug.LogWarning("Invalid hitbox name: " + hitBoxName);
+                return -1; // Invalid hitbox
+        }
     }
-}
-    public void ProcessHit(float arrowBeat, float currentPlaybackTime, int hitBoxIndex)
+    public void ProcessHit(float beatTime, float currentPlaybackTime, int hitBoxIndex)
     {
         // Call the AccuracyManager to calculate accuracy and score
-        AccuracyManager.Instance.CalculateAccuracyAndScore(arrowBeat, currentPlaybackTime, hitBoxIndex);
+        AccuracyManager.Instance.CalculateAccuracyAndScore(beatTime, currentPlaybackTime, hitBoxIndex);
     }
 }

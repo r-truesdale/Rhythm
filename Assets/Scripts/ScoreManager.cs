@@ -25,17 +25,11 @@ public class ScoreManager : MonoBehaviour
     {
         score += points;
         UpdateScoreText();
+        Debug.Log("score" + score);
     }
 
     private void UpdateScoreText()
-    {
-        if (scoreText != null)
-        {
+{
             scoreText.text = "Score: " + score.ToString();
-        }
-        else
-        {
-            Debug.LogWarning("Score text component is not assigned!");
-        }
     }
 }

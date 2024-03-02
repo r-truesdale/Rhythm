@@ -5,7 +5,8 @@ using UnityEngine;
 public class arrows : MonoBehaviour
 {
     public float speed = 1.0f;
-    public float arrowBeat;
+    public float arrowSpawnTime;
+    public float beatTime;
     private int hitBoxIndex;
     void Update()
     {
@@ -18,13 +19,4 @@ public class arrows : MonoBehaviour
         // If the arrow becomes invisible, destroy it
         Destroy(gameObject);
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        // Check if the arrow collided with the hit zone
-    if (other.CompareTag("HitBox"))
-    {
-        Destroy(gameObject);
-    }
-}
 }

@@ -37,20 +37,6 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject); // If the game has started, destroy this instance
         }
     }
-    IEnumerator StartCountdown()
-    {
-        int countdownTime = 3; // Countdown time in seconds
-
-        while (countdownTime > 0)
-        {
-            Debug.Log("Countdown: " + countdownTime);
-            yield return new WaitForSeconds(1f); // Wait for 1 second
-            countdownTime--;
-        }
-
-        // Start the game after the countdown
-        StartGame();
-    }
     void Start()
     {
         StartCoroutine(LoadSongData());
@@ -60,7 +46,6 @@ public class GameManager : MonoBehaviour
     {
         yield return songData.Instance.LoadSongs();
         UpdateBeatOptions();
-
         // Check if midiScoreBeats is not null before initializing arrowsSpawned
         if (midiScoreBeats != null)
         {
@@ -110,11 +95,7 @@ public class GameManager : MonoBehaviour
     }
     void HandlePlayerInput()
     {
-        if (!gameStarted && Input.GetKeyDown(KeyCode.Space)) // Check if the game hasn't started yet
-        {
-            StartGame(); // Start the game
-        }
-        else if (gameStarted && Input.GetKeyDown(KeyCode.Space)) // Check if the game has started
+        if (gameStarted && Input.GetKeyDown(KeyCode.Space)) // Check if the game has started
         {
             // Remove the oldest arrow from the list and destroy it
             if (spawnedArrows.Count > 0)
@@ -131,7 +112,7 @@ public class GameManager : MonoBehaviour
                         HitBox hitBox = HitBoxes[hitBoxIndex];
                         if (hitBox != null)
                         {
-                            hitBox.ProcessHit(arrowScript.arrowBeat, GetPlaybackTime(), hitBoxIndex);
+                            hitBox.ProcessHit(arrowScript.beatTime, GetPlaybackTime(), hitBoxIndex);
                         }
                         else
                         {
@@ -144,30 +125,28 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-    void StartGame()
+    public void StartGame()
     {
         gameStarted = true;
         Debug.Log("Game Started!");
     }
     void CheckArrowSpawn()
     {
+        if (!gameStarted) // Check if the game has started
+            return;
+
         float currentPosition = (float)midiFilePlayer.MPTK_PlayTime.TotalSeconds;
-
-        // Debug log to check array lengths
-        Debug.Log("Length of midiScoreBeats: " + midiScoreBeats.Count);
-        Debug.Log("Length of arrowsSpawned: " + arrowsSpawned.Length);
-
         for (int i = 0; i < midiScoreBeats.Count; i++)
         {
             float beatTime = midiScoreBeats[i];
-            float arrowSpawnTime = beatTime - currentPosition; // Calculate relative to current playback position
+            float arrowSpawnTime = beatTime - currentPosition - GetTimeToHitbox(); // Adjusted spawn time
 
             if (i < arrowsSpawned.Length && !arrowsSpawned[i] && arrowSpawnTime <= timingThreshold)
             {
                 int hitBoxIndex = DetermineHitBoxIndex();
                 if (hitBoxIndex != -1)
                 {
-                    GameObject newArrow = SpawnManager.Instance.SpawnArrow(arrowPrefab, beatTime);
+                    GameObject newArrow = SpawnManager.Instance.SpawnArrow(arrowPrefab, arrowSpawnTime, beatTime); // Spawn the arrow earlier
                     spawnedArrows.Add(newArrow);
                     arrowsSpawned[i] = true;
                     beatsNum.text = beatTime.ToString();
@@ -205,7 +184,7 @@ public class GameManager : MonoBehaviour
                     HitBox hitBox = arrow.GetComponent<HitBox>();
                     if (hitBox != null)
                     {
-                        hitBox.ProcessHit(arrowScript.arrowBeat, currentPlaybackTime, hitBoxIndex);
+                        hitBox.ProcessHit(arrowScript.beatTime, currentPlaybackTime, hitBoxIndex);
                     }
                     else
                     {
@@ -233,6 +212,7 @@ public class GameManager : MonoBehaviour
         arrows arrow = arrowPrefab.GetComponent<arrows>(); // Get the arrows component from the arrowPrefab
         if (arrow != null)
         {
+            // Debug.Log(hitBoxDistance / arrow.speed);
             return hitBoxDistance / arrow.speed;
         }
         else
@@ -257,11 +237,10 @@ public class GameManager : MonoBehaviour
             {
                 minDistance = distance;
                 closestHitBoxIndex = i;
-                Debug.Log(closestHitBoxIndex);
-                Debug.Log(distance);
+                Debug.Log("closestHitBoxIndex " + closestHitBoxIndex);
+                // Debug.Log("distance " + distance);
             }
         }
-        Debug.Log(closestHitBoxIndex);
         return closestHitBoxIndex;
     }
     public float GetPlaybackTime()
