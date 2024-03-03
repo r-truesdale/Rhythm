@@ -248,7 +248,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 2278
+  m_VersionIndex: 2281
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -564,7 +564,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 3113
+  m_VersionIndex: 3116
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -697,7 +697,7 @@ Transform:
   m_GameObject: {fileID: 9140787773481782127}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.28, y: 0.56, z: 0}
   m_LocalScale: {x: 14.71, y: 14.71, z: 14.71}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -724,8 +724,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.97, y: 1.8, z: 0.71}
-  m_Center: {x: 0.65, y: -0.09, z: 0}
+  m_Size: {x: 0.4, y: 1.26, z: 0.71}
+  m_Center: {x: 0.66, y: -0.08, z: 0}
 --- !u!114 &4825195542280931766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -739,7 +739,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 50
-  arrowBeat: 0
+  arrowSpawnTime: 0
+  beatTime: 0
 --- !u!114 &6158035519677206740
 MonoBehaviour:
   m_ObjectHideFlags: 0

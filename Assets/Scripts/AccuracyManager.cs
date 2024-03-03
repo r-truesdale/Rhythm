@@ -30,7 +30,7 @@ public class AccuracyManager : MonoBehaviour
         switch (hitBoxIndex)
         {
             case 0: // perfect
-                if (timingAccuracy < 0.5f)
+                // if (timingAccuracy < 0.5f)
                 {
                     Debug.Log("Timing accuracy: " + timingAccuracy);
                     Debug.Log("Perfect timing accuracy! Beat: " + beatTime);
@@ -38,7 +38,7 @@ public class AccuracyManager : MonoBehaviour
                 }
                 break;
             case 1: // too early
-                if (timingAccuracy < 0)
+                // if (timingAccuracy < 0)
                 {
                     Debug.Log("Timing accuracy: " + timingAccuracy);
                     Debug.Log("Too early! Beat: " + beatTime);
@@ -46,7 +46,7 @@ public class AccuracyManager : MonoBehaviour
                 }
                 break;
             case 2: // Too late
-                if (timingAccuracy >= 0.5f)
+                // if (timingAccuracy >= 0.5f)
                 {
                     Debug.Log("Timing accuracy: " + timingAccuracy);
                     Debug.Log("Too late! Beat: " + beatTime);

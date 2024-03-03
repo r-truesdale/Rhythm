@@ -6,6 +6,7 @@ using UnityEngine;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 public class songData : MonoBehaviour
 {
     public static songData Instance { get; private set; }
@@ -20,10 +21,10 @@ public class songData : MonoBehaviour
         }
         else
         {
+            Debug.Log("start");
             Instance = this;
             DontDestroyOnLoad(this.gameObject);
         }
-
         LoadSongs();
     }
     //public so it can be accessed by other scripts
@@ -37,7 +38,7 @@ public class songData : MonoBehaviour
     if (File.Exists(jsonPath))
     {
         jsonData = File.ReadAllText(jsonPath);
-        // Debug.Log(jsonData);
+        Debug.Log(jsonData);
     }
 #elif UNITY_WEBGL
     using (UnityWebRequest www = UnityWebRequest.Get(jsonPath))
@@ -79,7 +80,7 @@ public class songData : MonoBehaviour
             return null;
         }
     }
-        public List<float> GetMidiScoreDownBeats(int songIndex)
+    public List<float> GetMidiScoreDownBeats(int songIndex)
     {
         if (AllSongs != null && songIndex >= 0 && songIndex < AllSongs.Count)
         {

@@ -18,11 +18,11 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-   public GameObject SpawnArrow(GameObject arrowPrefab, float arrowSpawnTime, float beatTime)
+    public GameObject SpawnArrow(GameObject arrowPrefab, float arrowSpawnTime, float beatTime)
     {
         // Instantiate the arrow prefab at a random position within a range
         GameObject newArrow = Instantiate(arrowPrefab, GetArrowSpawnPosition(), Quaternion.identity);
-        
+
         // Assign arrowSpawnTime and beatTime to the arrow
         arrows arrowScript = newArrow.GetComponent<arrows>();
         if (arrowScript != null)
@@ -38,7 +38,7 @@ public class SpawnManager : MonoBehaviour
         return newArrow;
     }
 
-        public Vector3 GetArrowSpawnPosition()
+    public Vector3 GetArrowSpawnPosition()
     {
         return new Vector3(Random.Range(-120f, 100f), 116f, -2.5f);
     }

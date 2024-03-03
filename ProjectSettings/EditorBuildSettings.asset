@@ -8,13 +8,19 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 0
-    path: Assets/Scenes/jsonfiletest.unity
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: ebf74b9948c4eef479098c93df30c4c1
+  - enabled: 1
+    path: Assets/Scenes/gameModeMenu.unity
+    guid: 61ce961c44a8433468c7d362d73deffe
+  - enabled: 1
+    path: Assets/Scenes/practiceModeMenu.unity
     guid: d41061916dec5084588b0322e96926ec
   - enabled: 1
     path: Assets/Scenes/Song1.unity
     guid: bfb4ec7065dc9d84a836e761a2a2879e
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Song2.unity
     guid: 1487fba0b8195164898c5dc121e869af
   - enabled: 0
@@ -26,5 +32,8 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/TestMidiFilePlayer.unity
     guid: 37ce4cc573ee57246ab4ee9081a2e263
+  - enabled: 0
+    path: Assets/Scenes/Song1G.unity
+    guid: 0d06e179ba1b77d408a8c349bf0306bb
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

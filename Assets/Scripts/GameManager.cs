@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using MidiPlayerTK;
 using TMPro;
+using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
@@ -42,7 +43,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(LoadSongData());
     }
 
-    IEnumerator LoadSongData()
+    public IEnumerator LoadSongData()
     {
         yield return songData.Instance.LoadSongs();
         UpdateBeatOptions();
@@ -64,9 +65,9 @@ public class GameManager : MonoBehaviour
 
     public void UpdateBeatOptions()
     {
-        int selectedSongIndex = PlayerPrefs.GetInt("selectedSongIndex", 0) - 1;
+        int selectedSongIndex = PlayerPrefs.GetInt("selectedSongIndex", 0);
         int beatType = PlayerPrefs.GetInt("beatType", 0); // Default to 0 for midi_score_beats
-
+        Debug.Log(selectedSongIndex);
         switch (beatType)
         {
             case 0: // midi_score_beats
