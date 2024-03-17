@@ -7,11 +7,15 @@ public class arrows : MonoBehaviour
     public float speed = 1.0f;
     public float arrowSpawnTime;
     public float beatTime;
-    private int hitBoxIndex;
+    public int hitBoxIndex;
     void Update()
     {
         // Move the arrow continuously
         transform.Translate(Vector3.down * speed * Time.deltaTime);
+    }
+        public void SetHitBoxIndex(int index)
+    {
+        hitBoxIndex = index;
     }
 
     private void OnBecameInvisible()

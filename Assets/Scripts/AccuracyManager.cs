@@ -21,8 +21,8 @@ public class AccuracyManager : MonoBehaviour
 
     public void CalculateAccuracyAndScore(float beatTime, float currentPlaybackTime, int hitBoxIndex)
     {
-        // Debug.Log("Arrow Beat: " + beatTime);
-        // Debug.Log("Current Playback Time: " + currentPlaybackTime);
+
+        Debug.Log("Current Playback Time: " + currentPlaybackTime);
         // Debug.Log("Hitbox Index: " + hitBoxIndex);
         // Calculate the timing accuracy (absolute difference between current MIDI score beat and current playback time)
         float timingAccuracy = Mathf.Abs(beatTime - currentPlaybackTime);
@@ -30,15 +30,16 @@ public class AccuracyManager : MonoBehaviour
         switch (hitBoxIndex)
         {
             case 0: // perfect
-                // if (timingAccuracy < 0.5f)
+                if (timingAccuracy < 0.1f)
                 {
+                    Debug.Log("Arrow Beat: " + beatTime);
                     Debug.Log("Timing accuracy: " + timingAccuracy);
-                    Debug.Log("Perfect timing accuracy! Beat: " + beatTime);
+                    Debug.Log("Perfect timing accuracy! Time: " + currentPlaybackTime);
                     ScoreManager.Instance.AddScore(100); // Award maximum points for perfect hits
                 }
                 break;
             case 1: // too early
-                // if (timingAccuracy < 0)
+                if (timingAccuracy < 0)
                 {
                     Debug.Log("Timing accuracy: " + timingAccuracy);
                     Debug.Log("Too early! Beat: " + beatTime);
@@ -46,7 +47,7 @@ public class AccuracyManager : MonoBehaviour
                 }
                 break;
             case 2: // Too late
-                // if (timingAccuracy >= 0.5f)
+                if (timingAccuracy >= 0.1f)
                 {
                     Debug.Log("Timing accuracy: " + timingAccuracy);
                     Debug.Log("Too late! Beat: " + beatTime);
