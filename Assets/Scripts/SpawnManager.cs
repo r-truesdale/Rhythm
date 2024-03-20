@@ -34,10 +34,8 @@ public class SpawnManager : MonoBehaviour
         {
             Debug.LogError("Arrows component not found on arrowPrefab.");
         }
-
         return newArrow;
     }
-
     public Vector3 GetArrowSpawnPosition()
     {
         return new Vector3(Random.Range(-120f, 100f), 116f, -2.5f);

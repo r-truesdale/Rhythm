@@ -7,6 +7,8 @@ public class AccuracyManager : MonoBehaviour
 {
     public static AccuracyManager Instance { get; private set; }
 
+    private string accuracyResult;
+
     private void Awake()
     {
         if (Instance == null)
@@ -21,42 +23,46 @@ public class AccuracyManager : MonoBehaviour
 
     public void CalculateAccuracyAndScore(float beatTime, float currentPlaybackTime, int hitBoxIndex)
     {
-
-        Debug.Log("Current Playback Time: " + currentPlaybackTime);
+        // Debug.Log("Current Playback Time: " + currentPlaybackTime);
         // Debug.Log("Hitbox Index: " + hitBoxIndex);
+        accuracyResult = "miss";
         // Calculate the timing accuracy (absolute difference between current MIDI score beat and current playback time)
         float timingAccuracy = Mathf.Abs(beatTime - currentPlaybackTime);
         // Debug.Log("Timing Accuracy: " + timingAccuracy);
         switch (hitBoxIndex)
         {
             case 0: // perfect
-                if (timingAccuracy < 0.1f)
-                {
-                    Debug.Log("Arrow Beat: " + beatTime);
-                    Debug.Log("Timing accuracy: " + timingAccuracy);
-                    Debug.Log("Perfect timing accuracy! Time: " + currentPlaybackTime);
+                // if (timingAccuracy < 0.1f)
+                // {
+                    Debug.Log("Perfect timing accuracy! Beat: " + beatTime + "playback:" + currentPlaybackTime + "accuracy:" + timingAccuracy);
+                    accuracyResult = "perfect";
                     ScoreManager.Instance.AddScore(100); // Award maximum points for perfect hits
-                }
+                // }
                 break;
             case 1: // too early
-                if (timingAccuracy < 0)
-                {
-                    Debug.Log("Timing accuracy: " + timingAccuracy);
-                    Debug.Log("Too early! Beat: " + beatTime);
+                // if (timingAccuracy < 0)
+                // {
+                    Debug.Log("Too early! Beat: " + beatTime + "playback:" + currentPlaybackTime + "accuracy:" + timingAccuracy);
+                    accuracyResult = "early";
                     ScoreManager.Instance.AddScore(-50); // Deduct points for too early hits
-                }
+
+                // }
                 break;
             case 2: // Too late
-                if (timingAccuracy >= 0.1f)
-                {
-                    Debug.Log("Timing accuracy: " + timingAccuracy);
-                    Debug.Log("Too late! Beat: " + beatTime);
+                // if (timingAccuracy >= 0.1f)
+                // {
+                    Debug.Log("Too Late! Beat: " + beatTime + "playback:" + currentPlaybackTime + "accuracy:" + timingAccuracy);
+                    accuracyResult = "late";
                     ScoreManager.Instance.AddScore(-50); // Deduct points for too late hits
-                }
+                // }
                 break;
             default:
                 Debug.LogWarning("Invalid hitbox index.");
                 break;
         }
+    }
+    public string GetAccuracyResult()
+    {
+        return accuracyResult;
     }
 }

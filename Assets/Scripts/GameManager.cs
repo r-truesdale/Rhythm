@@ -10,14 +10,18 @@ public class GameManager : MonoBehaviour
 
     public MidiFilePlayer midiFilePlayer;
     public TMP_Text beatsNum;
+    public TMP_Text debugTest;
+    public TMP_Text scoreText;
     public List<float> midiScoreBeats;
     public List<float> midiScoreDownBeats;
     public bool[] arrowsSpawned;
     public GameObject arrowPrefab; // Reference to the arrow prefab
     public HitBox[] HitBoxes; // Reference to HitBox objects for arrow spawning
+    private HitBox hitBoxInstance;
     public List<GameObject> spawnedArrows = new List<GameObject>(); // Track spawned arrows
     private float timingThreshold = 0.1f; // Adjust as needed
     private bool gameStarted = false;
+    private List<string> previousScores = new List<string>();
 
     private void Awake()
     {
@@ -85,7 +89,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
     void Update()
     {
         if (midiFilePlayer == null || midiScoreBeats == null)
@@ -94,42 +97,20 @@ public class GameManager : MonoBehaviour
         CheckArrowSpawn();
         HandlePlayerInput();
     }
-    // void HandlePlayerInput()
-    // {
-    //     if (gameStarted && Input.GetKeyDown(KeyCode.Space)) // Check if the game has started
-    //     {
-    //         // Remove the oldest arrow from the list and destroy it
-    //         if (spawnedArrows.Count > 0)
-    //         {
-    //             GameObject arrowToRemove = spawnedArrows[0];
-    //             arrows arrowScript = arrowToRemove.GetComponent<arrows>();
-    //             if (arrowScript != null)
-    //             {
-    //                 // Determine the hitbox index for the arrow
-    //                 int hitBoxIndex = DetermineHitBoxIndex();
-    //                 if (hitBoxIndex != -1)
-    //                 {
-    //                     // Process the hit with the appropriate timing parameters
-    //                     HitBox hitBox = HitBoxes[hitBoxIndex];
-    //                     if (hitBox != null)
-    //                     {
-    //                         hitBox.ProcessHit(arrowScript.beatTime, GetPlaybackTime(), hitBoxIndex);
-    //                     }
-    //                     else
-    //                     {
-    //                         Debug.LogError("HitBox not found for arrow.");
-    //                     }
-    //                 }
-    //             }
-    //             spawnedArrows.RemoveAt(0);
-    //             Destroy(arrowToRemove);
-    //         }
-    //     }
-    // }
     public void StartGame()
     {
         gameStarted = true;
         Debug.Log("Game Started!");
+    }
+
+    Vector3 GetArrowPosition()
+    {
+        return transform.position;
+    }
+    Vector3 GetArrowSpawnPosition()
+    {
+        // Return the spawn position of the arrow (you may need to adjust this based on your scene setup)
+        return SpawnManager.Instance.GetArrowSpawnPosition(); // Modify this to match your arrow spawn position
     }
     void CheckArrowSpawn()
     {
@@ -144,25 +125,12 @@ public class GameManager : MonoBehaviour
 
             if (i < arrowsSpawned.Length && !arrowsSpawned[i] && arrowSpawnTime <= timingThreshold)
             {
-                int hitBoxIndex = DetermineHitBoxIndex();
-                if (hitBoxIndex != -1)
-                {
-                    GameObject newArrow = SpawnManager.Instance.SpawnArrow(arrowPrefab, arrowSpawnTime, beatTime); // Spawn the arrow earlier
-                    spawnedArrows.Add(newArrow);
-                    arrowsSpawned[i] = true;
-                    beatsNum.text = beatTime.ToString();
-                }
+                GameObject newArrow = SpawnManager.Instance.SpawnArrow(arrowPrefab, arrowSpawnTime, beatTime); // Spawn the arrow earlier
+                spawnedArrows.Add(newArrow);
+                arrowsSpawned[i] = true;
+                beatsNum.text = beatTime.ToString();
             }
         }
-    }
-    Vector3 GetArrowPosition()
-    {
-        return transform.position;
-    }
-    Vector3 GetArrowSpawnPosition()
-    {
-        // Return the spawn position of the arrow (you may need to adjust this based on your scene setup)
-        return SpawnManager.Instance.GetArrowSpawnPosition(); // Modify this to match your arrow spawn position
     }
     void HandlePlayerInput()
     {
@@ -172,7 +140,7 @@ public class GameManager : MonoBehaviour
             {
                 GameObject arrowToRemove = spawnedArrows[0];
                 arrows arrowScript = arrowToRemove.GetComponent<arrows>();
-                Debug.Log("spacebar");
+                int hitBoxIndex = arrowScript.hitBoxIndex;
                 for (int i = 0; i < spawnedArrows.Count; i++)
                 {
                     // GameObject arrow = spawnedArrows[i];
@@ -185,14 +153,14 @@ public class GameManager : MonoBehaviour
                             // Arrow already collided, skip to the next one
                             continue;
                         }
-
-                        int hitBoxIndex = DetermineHitBoxIndex(); // Determine the hitbox index for the arrow
-
                         // Process the hit with the appropriate timing parameters
                         HitBox hitBox = HitBoxes[hitBoxIndex];
+                        
                         if (hitBox != null)
                         {
                             hitBox.ProcessHit(arrowScript.beatTime, GetPlaybackTime(), hitBoxIndex);
+                            // string accuracy = AccuracyManager.Instance.GetAccuracyResult();
+                            // debugTest.text = $"Beat Time: {arrowScript.beatTime}\nHit Timing: {accuracy}";
                         }
                         else
                         {
@@ -200,105 +168,39 @@ public class GameManager : MonoBehaviour
                         }
                         spawnedArrows.RemoveAt(0);
                         Destroy(arrowToRemove);
-                        // Remove the arrow from the list and destroy it
-                        // spawnedArrows.RemoveAt(i);
-                        // Destroy(arrow);
-                        // i--; // Decrement the index as we removed an arrow from the list
                     }
                 }
             }
         }
     }
-        public void CheckArrowTiming()
+
+    float GetTimeToHitbox()
+    {
+        // Calculate the time it takes for an arrow to reach the hitbox based on its speed and hitbox position
+        float hitBoxDistance = Vector3.Distance(GetArrowSpawnPosition(), HitBoxes[0].transform.position); // Assuming there's only one hitbox
+        arrows arrow = arrowPrefab.GetComponent<arrows>(); // Get the arrows component from the arrowPrefab
+        if (arrow != null)
         {
-            float currentPlaybackTime = GetPlaybackTime();
-
-            // Collect arrows to be removed
-            List<GameObject> arrowsToRemove = new List<GameObject>();
-
-            foreach (GameObject arrow in spawnedArrows)
-            {
-                arrows arrowScript = arrow.GetComponent<arrows>();
-                if (arrowScript != null)
-                {
-                    // Determine the hitbox index for the arrow
-                    int hitBoxIndex = DetermineHitBoxIndex();
-                    if (hitBoxIndex != -1)
-                    {
-                        // Process the hit with the appropriate timing parameters
-                        HitBox hitBox = arrow.GetComponent<HitBox>();
-                        if (hitBox != null)
-                        {
-                            hitBox.ProcessHit(arrowScript.beatTime, currentPlaybackTime, hitBoxIndex);
-                        }
-                        else
-                        {
-                            Debug.LogError("HitBox component not found on arrow.");
-                            // Continue to the next arrow
-                            continue;
-                        }
-
-                        // Add the arrow to the list of arrows to be removed
-                        arrowsToRemove.Add(arrow);
-                    }
-                }
-            }
-            // Remove the arrows after iterating
-            foreach (GameObject arrow in arrowsToRemove)
-            {
-                spawnedArrows.Remove(arrow);
-                Destroy(arrow);
-            }
+            // Debug.Log(hitBoxDistance / arrow.speed);
+            return hitBoxDistance / arrow.speed;
         }
-        float GetTimeToHitbox()
+        else
         {
-            // Calculate the time it takes for an arrow to reach the hitbox based on its speed and hitbox position
-            float hitBoxDistance = Vector3.Distance(GetArrowSpawnPosition(), HitBoxes[0].transform.position); // Assuming there's only one hitbox
-            arrows arrow = arrowPrefab.GetComponent<arrows>(); // Get the arrows component from the arrowPrefab
-            if (arrow != null)
-            {
-                // Debug.Log(hitBoxDistance / arrow.speed);
-                return hitBoxDistance / arrow.speed;
-            }
-            else
-            {
-                Debug.LogError("Arrows component not found on arrowPrefab.");
-                return 0f; // Or handle the error in a way appropriate for your application
-            }
-        }
-        int DetermineHitBoxIndex()
-        {
-            // Get the position of the arrow
-            Vector3 arrowPosition = GetArrowPosition();
-
-            // Check which hit box the arrow is closest to
-            float minDistance = Mathf.Infinity;
-            int closestHitBoxIndex = -1;
-
-            for (int i = 0; i < HitBoxes.Length; i++)
-            {
-                float distance = Vector3.Distance(arrowPosition, HitBoxes[i].transform.position);
-                if (distance < minDistance)
-                {
-                    minDistance = distance;
-                    closestHitBoxIndex = i;
-                    Debug.Log("closestHitBoxIndex " + closestHitBoxIndex);
-                    // Debug.Log("distance " + distance);
-                }
-            }
-            return closestHitBoxIndex;
-        }
-
-        public float GetPlaybackTime()
-        {
-            if (midiFilePlayer != null)
-            {
-                return (float)midiFilePlayer.MPTK_PlayTime.TotalSeconds;
-            }
-            else
-            {
-                Debug.LogError("MidiFilePlayer is not assigned in GameManager.");
-                return 0f;
-            }
+            Debug.LogError("Arrows component not found on arrowPrefab.");
+            return 0f; // Or handle the error in a way appropriate for your application
         }
     }
+    public float GetPlaybackTime()
+    {
+        if (midiFilePlayer != null)
+        {
+            return (float)midiFilePlayer.MPTK_PlayTime.TotalSeconds;
+        }
+        else
+        {
+            Debug.LogError("MidiFilePlayer is not assigned in GameManager.");
+            return 0f;
+        }
+    }
+
+}
