@@ -23,7 +23,12 @@ public class GameManager : MonoBehaviour
     private bool gameStarted = false;
     private List<string> previousScores = new List<string>();
 
-    private void Awake()
+
+    void Start()
+    {
+        InitializeGameManager();
+    }
+    public void InitializeGameManager()
     {
         if (!gameStarted) // Check if the game hasn't started yet
         {
@@ -41,12 +46,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject); // If the game has started, destroy this instance
         }
-    }
-    void Start()
-    {
         StartCoroutine(LoadSongData());
     }
-
     public IEnumerator LoadSongData()
     {
         yield return songData.Instance.LoadSongs();
@@ -62,7 +63,6 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            // Handle the case where midiScoreBeats is null (e.g., show an error message)
             Debug.LogError("Failed to load song data. midiScoreBeats is null.");
         }
     }
@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
     {
         int selectedSongIndex = PlayerPrefs.GetInt("selectedSongIndex", 0);
         int beatType = PlayerPrefs.GetInt("beatType", 0); // Default to 0 for midi_score_beats
-        Debug.Log(selectedSongIndex);
+        Debug.Log("selectedSongIndex: " + selectedSongIndex);
         switch (beatType)
         {
             case 0: // midi_score_beats
@@ -96,6 +96,7 @@ public class GameManager : MonoBehaviour
 
         CheckArrowSpawn();
         HandlePlayerInput();
+        songEnded();
     }
     public void StartGame()
     {
@@ -155,7 +156,7 @@ public class GameManager : MonoBehaviour
                         }
                         // Process the hit with the appropriate timing parameters
                         HitBox hitBox = HitBoxes[hitBoxIndex];
-                        
+
                         if (hitBox != null)
                         {
                             hitBox.ProcessHit(arrowScript.beatTime, GetPlaybackTime(), hitBoxIndex);
@@ -203,4 +204,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public bool songEnded()
+    {
+        if(midiFilePlayer.MPTK_IsPlaying == true) {
+        Debug.Log("still playing");
+        return false;
+    }else{
+        Debug.Log("game ended");
+        return true;
+    }
+    }
 }

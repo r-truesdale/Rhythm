@@ -33,13 +33,13 @@ public class HitBox : MonoBehaviour
         switch (hitBoxName)
         {
             case "Perfect":
-                Debug.Log("Hitbox Name: Perfect");
+                // Debug.Log("Hitbox Name: Perfect");
                 return 0;
             case "TooEarly":
-                Debug.Log("Hitbox Name: TooEarly");
+                // Debug.Log("Hitbox Name: TooEarly");
                 return 1;
             case "TooLate":
-                Debug.Log("Hitbox Name: TooLate");
+                // Debug.Log("Hitbox Name: TooLate");
                 return 2;
             default:
                 Debug.LogWarning("Invalid hitbox name: " + hitBoxName);
@@ -50,7 +50,6 @@ public class HitBox : MonoBehaviour
     {
         // Call the AccuracyManager to calculate accuracy and score
         AccuracyManager.Instance.CalculateAccuracyAndScore(beatTime, currentPlaybackTime, hitBoxIndex);
-        Debug.Log("process hit from hitbox");
         return true;
     }
 }
