@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
 
         CheckArrowSpawn();
         HandlePlayerInput();
-        songEnded();
+        songStatus();
     }
     public void StartGame()
     {
@@ -204,14 +204,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public bool songEnded()
+    public bool songStatus()
     {
         if(midiFilePlayer.MPTK_IsPlaying == true) {
-        Debug.Log("still playing");
-        return false;
-    }else{
-        Debug.Log("game ended");
+        // Debug.Log("still playing");
         return true;
+    }else{
+        // Debug.Log("game ended");
+        return false;
     }
+    }
+
+    public bool checkGameStart(){
+        if (gameStarted == true){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

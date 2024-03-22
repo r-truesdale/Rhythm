@@ -37,24 +37,20 @@ public class AccuracyManager : MonoBehaviour
                     Debug.Log("Perfect timing accuracy! Beat: " + beatTime + "playback:" + currentPlaybackTime + "accuracy:" + timingAccuracy);
                     accuracyResult = "perfect";
                     ScoreManager.Instance.AddScore(100); // Award maximum points for perfect hits
+                    ScoreManager.Instance.AddPerfect(1);
                 // }
                 break;
             case 1: // too early
-                // if (timingAccuracy < 0)
-                // {
                     Debug.Log("Too early! Beat: " + beatTime + "playback:" + currentPlaybackTime + "accuracy:" + timingAccuracy);
                     accuracyResult = "early";
                     ScoreManager.Instance.AddScore(-50); // Deduct points for too early hits
-
-                // }
+                    ScoreManager.Instance.AddEarly(1);
                 break;
             case 2: // Too late
-                // if (timingAccuracy >= 0.1f)
-                // {
                     Debug.Log("Too Late! Beat: " + beatTime + "playback:" + currentPlaybackTime + "accuracy:" + timingAccuracy);
                     accuracyResult = "late";
                     ScoreManager.Instance.AddScore(-50); // Deduct points for too late hits
-                // }
+                    ScoreManager.Instance.AddLate(1);
                 break;
             default:
                 Debug.LogWarning("Invalid hitbox index.");

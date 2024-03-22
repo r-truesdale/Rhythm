@@ -58,6 +58,7 @@ public class songMenu : MonoBehaviour
 
     public void gameLevel1(int songIndex){
         PlayerPrefs.SetInt("selectedSongIndex", songIndex);
+        PlayerPrefs.SetString("gameState", "game");
         SceneManager.LoadScene("Song1");
     }
 }
