@@ -5,14 +5,27 @@ using UnityEngine;
 public class songEnd : MonoBehaviour
 {
     // bool songStatus;
-    public GameObject SongEndUI;
+    private GameObject _SongEndUI;
     private bool scoreGraphCalled = false;
     // Start is called before the first frame update
-    void Start()
+    public GameObject songEndUI
     {
-        SongEndUI.SetActive(false); 
+        get { return _SongEndUI; }
+        private set { _SongEndUI = value; }
     }
 
+    void Start()
+    {
+        songEndUI = GameObject.Find("SongEndUI");
+        if (songEndUI != null)
+        {
+            songEndUI.SetActive(false);
+        }
+        else
+        {
+            Debug.LogError("SongEndUI GameObject not found!");
+        }
+    }
     void Update()
     {
         // if (PlayerPrefs.GetString("gameState") == "game")
@@ -23,7 +36,14 @@ public class songEnd : MonoBehaviour
         if (!songStatus && gameStarted && !scoreGraphCalled)
         {
             // Debug.Log("Song has ended");
-            SongEndUI.SetActive(true);
+            if (songEndUI != null)
+            {
+                songEndUI.SetActive(true);
+            }
+            else
+            {
+                Debug.LogError("SongEndUI GameObject not found!");
+            }
             ScoreManager.Instance.getScoreGraph();
             scoreGraphCalled = true;
         }
@@ -31,8 +51,9 @@ public class songEnd : MonoBehaviour
         {
             // Debug.Log("Song is still playing");
         }
-        else if (!songStatus && !gameStarted){//for when song hasn't started playing yet at start
-        // Debug.Log("Game hasn't started");
+        else if (!songStatus && !gameStarted)
+        {//for when song hasn't started playing yet at start
+         // Debug.Log("Game hasn't started");
         }
         // }
     }

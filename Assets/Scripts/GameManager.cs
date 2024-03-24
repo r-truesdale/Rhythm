@@ -7,19 +7,23 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-
-    public MidiFilePlayer midiFilePlayer;
+    [Header("Testing")]
     public TMP_Text beatsNum;
-    public TMP_Text debugTest;
-    public TMP_Text scoreText;
+
+    [Header("Midi Data")]
+    public MidiFilePlayer midiFilePlayer;
     public List<float> midiScoreBeats;
     public List<float> midiScoreDownBeats;
+    [Header("Arrows")]
+    public GameObject arrowPrefab;
     public bool[] arrowsSpawned;
-    public GameObject arrowPrefab; // Reference to the arrow prefab
-    public HitBox[] HitBoxes; // Reference to HitBox objects for arrow spawning
+
+    [Header("Hitbox")]
+    public HitBox[] HitBoxes; //HitBox objects for arrow spawning
+    public float perfectTimingWindow = 0.2f;
     private HitBox hitBoxInstance;
     public List<GameObject> spawnedArrows = new List<GameObject>(); // Track spawned arrows
-    private float timingThreshold = 0.1f; // Adjust as needed
+    private float timingThreshold = 0.1f;
     private bool gameStarted = false;
     private List<string> previousScores = new List<string>();
 
@@ -27,6 +31,16 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         InitializeGameManager();
+        hitboxTimings();
+
+    }
+    public void hitboxTimings()
+    {
+        float arrowSpeed = arrowPrefab.GetComponent<arrows>().speed;
+        float perfectHitboxSize = arrowSpeed * perfectTimingWindow;
+        // float earlyHitboxSize = perfectHitboxSize;
+        // float lateHitboxSize = perfectHitboxSize;
+        SetHitboxSize(perfectHitboxSize);
     }
     public void InitializeGameManager()
     {
@@ -123,10 +137,10 @@ public class GameManager : MonoBehaviour
         {
             float beatTime = midiScoreBeats[i];
             float arrowSpawnTime = beatTime - currentPosition - GetTimeToHitbox(); // Adjusted spawn time
-
+            float arrowSpeed = arrowPrefab.GetComponent<arrows>().speed;
             if (i < arrowsSpawned.Length && !arrowsSpawned[i] && arrowSpawnTime <= timingThreshold)
             {
-                GameObject newArrow = SpawnManager.Instance.SpawnArrow(arrowPrefab, arrowSpawnTime, beatTime); // Spawn the arrow earlier
+                GameObject newArrow = SpawnManager.Instance.SpawnArrow(arrowPrefab, arrowSpawnTime, beatTime, arrowSpeed); // Spawn the arrow earlier
                 spawnedArrows.Add(newArrow);
                 arrowsSpawned[i] = true;
                 beatsNum.text = beatTime.ToString();
@@ -160,8 +174,6 @@ public class GameManager : MonoBehaviour
                         if (hitBox != null)
                         {
                             hitBox.ProcessHit(arrowScript.beatTime, GetPlaybackTime(), hitBoxIndex);
-                            // string accuracy = AccuracyManager.Instance.GetAccuracyResult();
-                            // debugTest.text = $"Beat Time: {arrowScript.beatTime}\nHit Timing: {accuracy}";
                         }
                         else
                         {
@@ -191,6 +203,29 @@ public class GameManager : MonoBehaviour
             return 0f; // Or handle the error in a way appropriate for your application
         }
     }
+
+    void SetHitboxSize(float size)
+    {
+        float otherSize = size * 1.5f;
+        float otherHitboxOffset = (otherSize - HitBoxes[1].transform.localScale.y);
+        HitBoxes[0].transform.localScale = new Vector3(HitBoxes[0].transform.localScale.x, size, HitBoxes[0].transform.localScale.z);
+
+        // Adjust the position of the early hitbox
+        Vector3 earlyHitboxPosition = HitBoxes[1].transform.localPosition;
+        earlyHitboxPosition.y += otherHitboxOffset;
+        HitBoxes[1].transform.localPosition = earlyHitboxPosition;
+        HitBoxes[1].transform.localScale = new Vector3(HitBoxes[1].transform.localScale.x, otherSize, HitBoxes[1].transform.localScale.z);
+
+        Vector3 earlyMissHitboxPosition = HitBoxes[3].transform.localPosition;
+        earlyMissHitboxPosition.y += otherHitboxOffset*1.5f;
+        HitBoxes[3].transform.localPosition = earlyMissHitboxPosition;
+        // HitBoxes[3].transform.localScale = new Vector3(HitBoxes[3].transform.localScale.x, otherSize, HitBoxes[3].transform.localScale.z);
+        // Adjust the position of the late hitbox
+        Vector3 lateHitboxPosition = HitBoxes[2].transform.localPosition;
+        lateHitboxPosition.y -= otherHitboxOffset; // negative bc position is below perfect hitbox
+        HitBoxes[2].transform.localPosition = lateHitboxPosition;
+        HitBoxes[2].transform.localScale = new Vector3(HitBoxes[2].transform.localScale.x, otherSize, HitBoxes[2].transform.localScale.z);
+    }
     public float GetPlaybackTime()
     {
         if (midiFilePlayer != null)
@@ -206,19 +241,26 @@ public class GameManager : MonoBehaviour
 
     public bool songStatus()
     {
-        if(midiFilePlayer.MPTK_IsPlaying == true) {
-        // Debug.Log("still playing");
-        return true;
-    }else{
-        // Debug.Log("game ended");
-        return false;
-    }
+        if (midiFilePlayer.MPTK_IsPlaying == true)
+        {
+            // Debug.Log("still playing");
+            return true;
+        }
+        else
+        {
+            // Debug.Log("game ended");
+            return false;
+        }
     }
 
-    public bool checkGameStart(){
-        if (gameStarted == true){
+    public bool checkGameStart()
+    {
+        if (gameStarted == true)
+        {
             return true;
-        }else{
+        }
+        else
+        {
             return false;
         }
     }

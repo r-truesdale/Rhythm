@@ -18,7 +18,7 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    public GameObject SpawnArrow(GameObject arrowPrefab, float arrowSpawnTime, float beatTime)
+    public GameObject SpawnArrow(GameObject arrowPrefab, float arrowSpawnTime, float beatTime, float arrowSpeed)
     {
         // Instantiate the arrow prefab at a random position within a range
         GameObject newArrow = Instantiate(arrowPrefab, GetArrowSpawnPosition(), Quaternion.identity);
@@ -29,6 +29,7 @@ public class SpawnManager : MonoBehaviour
         {
             arrowScript.arrowSpawnTime = arrowSpawnTime;
             arrowScript.beatTime = beatTime;
+            arrowScript.speed = arrowSpeed;
         }
         else
         {
