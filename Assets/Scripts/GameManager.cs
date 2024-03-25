@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+
     [Header("Testing")]
     public TMP_Text beatsNum;
 
@@ -23,25 +24,52 @@ public class GameManager : MonoBehaviour
     public float perfectTimingWindow = 0.2f;
     private HitBox hitBoxInstance;
     public List<GameObject> spawnedArrows = new List<GameObject>(); // Track spawned arrows
-    private float timingThreshold = 0.1f;
+    private float timingThreshold = 0f;
     private bool gameStarted = false;
+    private bool gameEntered = false;
     private List<string> previousScores = new List<string>();
-
+    // private bool isArrowSpawnCoroutineRunning = false;
 
     void Start()
     {
         InitializeGameManager();
         hitboxTimings();
+        gameEntered = true;
+    }
+    public void StartGame()
+    {
+        
+        Debug.Log("Game Started!");
 
+        // Start spawning arrows based on the JSON file timings
+        // StartCoroutine(CheckArrowSpawn());
+        CheckArrowSpawn();
+        // Start playing the MIDI file after a delay
+        float delay = GetTimeToHitbox(); // Adjust this delay as needed
+        StartCoroutine(DelayedStartMidi(delay));
     }
     public void hitboxTimings()
     {
         float arrowSpeed = arrowPrefab.GetComponent<arrows>().speed;
         float perfectHitboxSize = arrowSpeed * perfectTimingWindow;
-        // float earlyHitboxSize = perfectHitboxSize;
-        // float lateHitboxSize = perfectHitboxSize;
         SetHitboxSize(perfectHitboxSize);
+
     }
+    IEnumerator DelayedStartMidi(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        midiFilePlayer.MPTK_Play(); // Start playing the MIDI file
+        gameStarted = true;
+    }
+
+    //     private IEnumerator gameCountIn()
+    // {
+    //     // Start the game with a delay
+    //     float countInTime = timeToHitbox; // Adjust this delay as needed
+    //     yield return new WaitForSeconds(delayTime);
+
+    //     StartGame();
+    // }
     public void InitializeGameManager()
     {
         if (!gameStarted) // Check if the game hasn't started yet
@@ -89,7 +117,7 @@ public class GameManager : MonoBehaviour
         switch (beatType)
         {
             case 0: // midi_score_beats
-                midiScoreBeats = songData.Instance.GetMidiScoreBeats(selectedSongIndex);
+                midiScoreBeats = songData.Instance.GetMidiScoreDownBeats(selectedSongIndex);
                 break;
             case 1: // midi_score_downbeats
                 midiScoreBeats = songData.Instance.GetMidiScoreDownBeats(selectedSongIndex);
@@ -107,16 +135,17 @@ public class GameManager : MonoBehaviour
     {
         if (midiFilePlayer == null || midiScoreBeats == null)
             return;
-
         CheckArrowSpawn();
         HandlePlayerInput();
         songStatus();
+        // if (gameStarted && !isArrowSpawnCoroutineRunning)
+        // {
+        //     // Start the CheckArrowSpawn coroutine
+        //     // StartCoroutine(CheckArrowSpawn());
+        // }
+
     }
-    public void StartGame()
-    {
-        gameStarted = true;
-        Debug.Log("Game Started!");
-    }
+
 
     Vector3 GetArrowPosition()
     {
@@ -132,21 +161,71 @@ public class GameManager : MonoBehaviour
         if (!gameStarted) // Check if the game has started
             return;
 
-        float currentPosition = (float)midiFilePlayer.MPTK_PlayTime.TotalSeconds;
-        for (int i = 0; i < midiScoreBeats.Count; i++)
+        if (gameStarted)
         {
-            float beatTime = midiScoreBeats[i];
-            float arrowSpawnTime = beatTime - currentPosition - GetTimeToHitbox(); // Adjusted spawn time
-            float arrowSpeed = arrowPrefab.GetComponent<arrows>().speed;
-            if (i < arrowsSpawned.Length && !arrowsSpawned[i] && arrowSpawnTime <= timingThreshold)
+            float currentPosition = (float)midiFilePlayer.MPTK_PlayTime.TotalSeconds;
+            bool arrowSpawnedThisFrame = false; // Flag to track if an arrow has been spawned in this frame
+            for (int i = 0; i < midiScoreBeats.Count; i++)
             {
-                GameObject newArrow = SpawnManager.Instance.SpawnArrow(arrowPrefab, arrowSpawnTime, beatTime, arrowSpeed); // Spawn the arrow earlier
-                spawnedArrows.Add(newArrow);
-                arrowsSpawned[i] = true;
-                beatsNum.text = beatTime.ToString();
+                float beatTime = midiScoreBeats[i];
+                float arrowSpawnTime = beatTime - currentPosition - GetTimeToHitbox(); // Adjusted spawn time
+                float arrowSpeed = arrowPrefab.GetComponent<arrows>().speed;
+                if (i < arrowsSpawned.Length && !arrowSpawnedThisFrame && !arrowsSpawned[i] && arrowSpawnTime <= timingThreshold)
+                {
+                    GameObject newArrow = SpawnManager.Instance.SpawnArrow(arrowPrefab, arrowSpawnTime, beatTime, arrowSpeed); // Spawn the arrow earlier
+                    spawnedArrows.Add(newArrow);
+                    arrowsSpawned[i] = true;
+                    arrowSpawnedThisFrame = true; // Set the flag to true since an arrow has been spawned in this frame
+                    beatsNum.text = beatTime.ToString();
+                }
             }
         }
     }
+    // IEnumerator CheckArrowSpawn()
+    // {
+    //     isArrowSpawnCoroutineRunning = true;
+
+    //     // Wait for a delay before starting to spawn arrows
+    //     float delay = GetTimeToHitbox();
+    //     yield return new WaitForSeconds(delay);
+
+    //     // Check if the game is still running
+    //     while (gameStarted && songStatus())
+    //     {
+    //         // Calculate the current playback time
+    //         float currentTime = (float)midiFilePlayer.MPTK_PlayTime.TotalSeconds;
+
+    //         // Iterate through each beat in the MIDI score
+    //         for (int i = 0; i < midiScoreBeats.Count; i++)
+    //         {
+    //             float beatTime = midiScoreBeats[i];
+
+    //             // Calculate the arrow spawn time relative to the current playback time
+    //             float arrowSpawnTime = beatTime - currentTime - GetTimeToHitbox();
+
+    //             // Check if the arrow spawn time is within the timing threshold
+    //             if (arrowSpawnTime <= timingThreshold && arrowSpawnTime >= 0f)
+    //             {
+    //                 // Spawn the arrow
+    //                 float arrowSpeed = arrowPrefab.GetComponent<arrows>().speed;
+    //                 GameObject newArrow = SpawnManager.Instance.SpawnArrow(arrowPrefab, arrowSpawnTime, beatTime, arrowSpeed);
+    //                 spawnedArrows.Add(newArrow);
+
+    //                 // Mark the arrow as spawned
+    //                 arrowsSpawned[i] = true;
+
+    //                 // Update UI or perform any other necessary actions
+    //                 beatsNum.text = beatTime.ToString();
+    //             }
+    //         }
+
+    //         // Wait for the next frame before checking for arrow spawn again
+    //         yield return null;
+    //     }
+
+    // Reset the flag when the coroutine finishes
+    //     isArrowSpawnCoroutineRunning = false;
+    // }
     void HandlePlayerInput()
     {
         if (gameStarted && Input.GetKeyDown(KeyCode.Space)) // Check if the game has started
@@ -158,8 +237,6 @@ public class GameManager : MonoBehaviour
                 int hitBoxIndex = arrowScript.hitBoxIndex;
                 for (int i = 0; i < spawnedArrows.Count; i++)
                 {
-                    // GameObject arrow = spawnedArrows[i];
-                    // arrows arrowScript = arrow.GetComponent<arrows>();
                     if (arrowScript != null)
                     {
                         // Check if the arrow has already collided with a hitbox
@@ -217,7 +294,7 @@ public class GameManager : MonoBehaviour
         HitBoxes[1].transform.localScale = new Vector3(HitBoxes[1].transform.localScale.x, otherSize, HitBoxes[1].transform.localScale.z);
 
         Vector3 earlyMissHitboxPosition = HitBoxes[3].transform.localPosition;
-        earlyMissHitboxPosition.y += otherHitboxOffset*1.5f;
+        earlyMissHitboxPosition.y += otherHitboxOffset * 1.5f;
         HitBoxes[3].transform.localPosition = earlyMissHitboxPosition;
         // HitBoxes[3].transform.localScale = new Vector3(HitBoxes[3].transform.localScale.x, otherSize, HitBoxes[3].transform.localScale.z);
         // Adjust the position of the late hitbox
@@ -256,6 +333,17 @@ public class GameManager : MonoBehaviour
     public bool checkGameStart()
     {
         if (gameStarted == true)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+        public bool checkGameEntered()
+    {
+        if (gameEntered == true)
         {
             return true;
         }

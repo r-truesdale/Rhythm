@@ -73,7 +73,6 @@ public class songMenu : MonoBehaviour
     }
     public void practiceLevel1(int songIndex)
     {
-        songIndex = 0;
         PlayerPrefs.SetInt("selectedSongIndex", songIndex);
         PlayerPrefs.SetString("gameState", "practice");
         SceneManager.LoadScene("Song1P");

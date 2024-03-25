@@ -4,12 +4,12 @@ using TMPro;
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance { get; private set; }
-[Header("End UI Text")]
+    [Header("End UI Text")]
     public TMP_Text scoreText;
     public TMP_Text lateText;
     public TMP_Text earlyText;
     public TMP_Text perfectText;
-    
+
     private int score = 0;
     private float perfect = 0;
     private float early = 0;
