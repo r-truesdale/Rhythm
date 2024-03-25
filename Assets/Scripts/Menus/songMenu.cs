@@ -77,4 +77,14 @@ public class songMenu : MonoBehaviour
         PlayerPrefs.SetString("gameState", "practice");
         SceneManager.LoadScene("Song1P");
     }
+        public void mainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+    public void gameMenu(){
+        SceneManager.LoadScene("gameModeMenu");
+    }
+        public void practiceMenu(){
+        SceneManager.LoadScene("practiceModeMenu");
+    }
 }
