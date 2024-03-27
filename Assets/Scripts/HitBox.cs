@@ -41,6 +41,10 @@ public class HitBox : MonoBehaviour
             case "TooLate":
                 // Debug.Log("Hitbox Name: TooLate");
                 return 2;
+            case "EarlyMiss":
+                return 3;
+            case "LateMiss":
+                return 4;
             default:
                 Debug.LogWarning("Invalid hitbox name: " + hitBoxName);
                 return -1; // Invalid hitbox

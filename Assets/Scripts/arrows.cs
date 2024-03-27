@@ -13,9 +13,13 @@ public class arrows : MonoBehaviour
         // Move the arrow continuously
         transform.Translate(Vector3.down * speed * Time.deltaTime);
     }
-        public void SetHitBoxIndex(int index)
+    public void SetHitBoxIndex(int index)
     {
         hitBoxIndex = index;
+        if (hitBoxIndex == 4)
+        { //if it gets to the latemiss hitbox, destroy
+            Destroy(gameObject);
+        }
     }
 
     private void OnBecameInvisible()

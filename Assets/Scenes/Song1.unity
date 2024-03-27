@@ -1182,7 +1182,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: DownBeats
+  m_text: Beats
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2543,7 +2543,7 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: DownBeats
+    - m_Text: Beats
       m_Image: {fileID: 0}
     - m_Text: DownBeats
       m_Image: {fileID: 0}
@@ -5154,7 +5154,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1504700989
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6327,7 +6327,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &1793101827
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6641,7 +6641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3887e2f69e3c92a4d86d086d3258f1a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitBoxName: TooLate
+  hitBoxName: EarlyMiss
 --- !u!1 &1999256950
 GameObject:
   m_ObjectHideFlags: 0
@@ -7180,7 +7180,7 @@ Transform:
   m_GameObject: {fileID: 2122861874}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 43.271286, y: -114.62, z: -3.8424492}
+  m_LocalPosition: {x: 43.271286, y: -123.3, z: -3.8424492}
   m_LocalScale: {x: 247, y: 127.8, z: 30}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7225,7 +7225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3887e2f69e3c92a4d86d086d3258f1a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitBoxName: TooLate
+  hitBoxName: LateMiss
 --- !u!65 &2122861878
 BoxCollider:
   m_ObjectHideFlags: 0
