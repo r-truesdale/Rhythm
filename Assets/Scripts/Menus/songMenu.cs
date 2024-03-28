@@ -94,4 +94,14 @@ public class songMenu : MonoBehaviour
     {
         SceneManager.LoadScene("playerStats");
     }
+
+    public void statsToMenu(){
+        string mode = PlayerPrefs.GetString("gameState");
+        if(mode == "game"){
+            gameMenu();
+        }
+        else{
+            practiceMenu();
+        }
+    }
 }

@@ -5,8 +5,10 @@ using TMPro;
 
 public class playerStats : MonoBehaviour
 {
-public List<ScoreData> scores = new List<ScoreData>();
+    public List<ScoreData> scores = new List<ScoreData>();
     public TMP_Text scoreText;
+        [Header("UI Elements")]
+        public TMP_Text tableLevelName;
 
     void Start()
     {
@@ -28,4 +30,4 @@ public List<ScoreData> scores = new List<ScoreData>();
         }
         scoreText.text = scoreDisplay;
     }
-    }
+}

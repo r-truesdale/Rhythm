@@ -27,9 +27,11 @@ public class ScoreManager : MonoBehaviour
     private float lateMiss = 0;
     [Header("Player Graph")]
     public GameObject barPrefab;
+    public Transform earlyMissBarSpawnPoint;
     public Transform earlyBarSpawnPoint;
-    public Transform lateBarSpawnPoint;
     public Transform perfectBarSpawnPoint;
+    public Transform lateBarSpawnPoint;
+    public Transform lateMissBarSpawnPoint;
 
     private void Awake()
     {
@@ -80,13 +82,17 @@ public class ScoreManager : MonoBehaviour
 
     public void getScoreGraph()
     {
-        float totalPoints = perfect + early + late;
+        float totalPoints = perfect + early + late + earlyMiss + lateMiss;
         float perfectWidth = (perfect / (float)totalPoints) * 100f;
         float earlyWidth = (early / (float)totalPoints) * 100f;
         float lateWidth = (late / (float)totalPoints) * 100f;
+        float earlyMissWidth = (earlyMiss / (float)totalPoints) * 100f;
+        float lateMissWidth = (lateMiss / (float)totalPoints) * 100f;
         InstantiateCube(perfectWidth, perfectBarSpawnPoint);
         InstantiateCube(earlyWidth, earlyBarSpawnPoint);
         InstantiateCube(lateWidth, lateBarSpawnPoint);
+        InstantiateCube(earlyMissWidth, earlyMissBarSpawnPoint);
+        InstantiateCube(lateMissWidth, lateMissBarSpawnPoint);
     }
     private void UpdateScoreText()
     {
@@ -101,21 +107,6 @@ public class ScoreManager : MonoBehaviour
         // Set the scale of the bar based on the width
         bar.transform.localScale = new Vector3(widthInt, 5f, 1f);
     }
-// public void fakeScores()
-// {
-//     // Dummy data for testing
-//     string levelName = "DummyLevel";
-//     string gameMode = "DummyMode";
-//     int earlyScore = 10;
-//     int earlyMissScore = 5;
-//     int perfectScore = 20;
-//     int lateScore = 15;
-//     int lateMissScore = 8;
-//     string timestamp = System.DateTime.Now.ToString();
-    
-//     // Call getScores with the dummy data
-//     getScores(levelName, gameMode, earlyScore, earlyMissScore, perfectScore, lateScore, lateMissScore, timestamp);
-// }
 
     public void getScores(string levelName, string gameMode, int earlyScore, int earlyMissScore, int perfectScore, int lateScore, int lateMissScore, string timestamp)
     { //for the json file
@@ -134,25 +125,25 @@ public class ScoreManager : MonoBehaviour
         Debug.Log(newScore);
     }
 
-private void saveScores()
-{
-    string json = JsonConvert.SerializeObject(scores);
-    File.WriteAllText(Application.persistentDataPath + "/scores.json", json);
-}
+    private void saveScores()
+    {
+        string json = JsonConvert.SerializeObject(scores);
+        File.WriteAllText(Application.persistentDataPath + "/scores.json", json);
+    }
 
-public List<ScoreData> loadScores()
-{
-    if (File.Exists(Application.persistentDataPath + "/scores.json"))
+    public List<ScoreData> loadScores()
     {
-        string json = File.ReadAllText(Application.persistentDataPath + "/scores.json");
-        scores = JsonConvert.DeserializeObject<List<ScoreData>>(json);
+        if (File.Exists(Application.persistentDataPath + "/scores.json"))
+        {
+            string json = File.ReadAllText(Application.persistentDataPath + "/scores.json");
+            scores = JsonConvert.DeserializeObject<List<ScoreData>>(json);
+        }
+        else
+        {
+            scores = new List<ScoreData>();
+        }
+        return scores;
     }
-    else
-    {
-        scores = new List<ScoreData>();
-    }
-    return scores;
-}
     public List<ScoreData> modeScores(string gameMode)
     {
         List<ScoreData> filteredScores = new List<ScoreData>();
