@@ -56,13 +56,13 @@ public class AccuracyManager : MonoBehaviour
                 Debug.Log("Early Miss! Beat: " + beatTime + "playback:" + currentPlaybackTime + "accuracy:" + timingAccuracy);
                 accuracyResult = "late";
                 ScoreManager.Instance.AddScore(-100); // Deduct points for too late hits
-                ScoreManager.Instance.AddEarly(1);
+                ScoreManager.Instance.AddEarlyMiss(1);
                 break;
             case 4: // Too late
                 Debug.Log("Late Miss! Beat: " + beatTime + "playback:" + currentPlaybackTime + "accuracy:" + timingAccuracy);
                 accuracyResult = "late";
                 ScoreManager.Instance.AddScore(-100); // Deduct points for too late hits
-                ScoreManager.Instance.AddLate(1);
+                ScoreManager.Instance.AddLateMiss(1);
                 break;
             default:
                 Debug.LogWarning("Invalid hitbox index.");

@@ -69,6 +69,7 @@ public class songMenu : MonoBehaviour
         PlayerPrefs.SetInt("selectedSongIndex", songIndex);
         Debug.Log(songIndex);
         PlayerPrefs.SetString("gameState", "game");
+        PlayerPrefs.SetString("songName", sceneNames[songIndex]);
         SceneManager.LoadScene(sceneNames[songIndex]);
     }
     public void practiceLevel1(int songIndex)
@@ -77,14 +78,20 @@ public class songMenu : MonoBehaviour
         PlayerPrefs.SetString("gameState", "practice");
         SceneManager.LoadScene("Song1P");
     }
-        public void mainMenu()
+    public void mainMenu()
     {
         SceneManager.LoadScene("MainMenu");
     }
-    public void gameMenu(){
+    public void gameMenu()
+    {
         SceneManager.LoadScene("gameModeMenu");
     }
-        public void practiceMenu(){
+    public void practiceMenu()
+    {
         SceneManager.LoadScene("practiceModeMenu");
+    }
+    public void playerStatsMenu()
+    {
+        SceneManager.LoadScene("playerStats");
     }
 }

@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     private bool gameStarted = false;
     private bool gameEntered = false;
     private float gameStartTime;
+    private bool spawningPaused = false;
     private List<string> previousScores = new List<string>();
     // private bool isArrowSpawnCoroutineRunning = false;
 
@@ -132,6 +133,7 @@ public class GameManager : MonoBehaviour
         CheckArrowSpawn();
         HandlePlayerInput();
         songStatus();
+        checkLevelEnded();
     }
 
 
@@ -153,6 +155,9 @@ public class GameManager : MonoBehaviour
     void CheckArrowSpawn()
     {
         if (!gameStarted) // Check if the game has started
+            return;
+
+        if (spawningPaused)
             return;
 
         if (gameStarted)
@@ -179,48 +184,48 @@ public class GameManager : MonoBehaviour
         }
     }
 
-void HandlePlayerInput()
-{
-    if (gameStarted && Input.GetKeyDown(KeyCode.Space)) // Check if the game has started
+    void HandlePlayerInput()
     {
-        // Iterate over all spawned arrows
-        for (int i = 0; i < spawnedArrows.Count; i++)
+        if (gameStarted && Input.GetKeyDown(KeyCode.Space)) // Check if the game has started
         {
-            GameObject arrowObject = spawnedArrows[i];
-            
-            // Check if the arrow object is valid and active
-            if (arrowObject != null && arrowObject.activeSelf)
+            // Iterate over all spawned arrows
+            for (int i = 0; i < spawnedArrows.Count; i++)
             {
-                arrows arrowScript = arrowObject.GetComponent<arrows>();
-                
-                // Check if the arrow script is valid
-                if (arrowScript != null)
+                GameObject arrowObject = spawnedArrows[i];
+
+                // Check if the arrow object is valid and active
+                if (arrowObject != null && arrowObject.activeSelf)
                 {
-                    int hitBoxIndex = arrowScript.hitBoxIndex;
+                    arrows arrowScript = arrowObject.GetComponent<arrows>();
 
-                    // Process the hit with the appropriate timing parameters
-                    HitBox hitBox = HitBoxes[hitBoxIndex];
-                    if (hitBox != null)
+                    // Check if the arrow script is valid
+                    if (arrowScript != null)
                     {
-                        hitBox.ProcessHit(arrowScript.beatTime, GetPlaybackTime(), hitBoxIndex);
-                    }
-                    else
-                    {
-                        Debug.LogError("HitBox not found for arrow.");
-                    }
+                        int hitBoxIndex = arrowScript.hitBoxIndex;
 
-                    // Remove the arrow from spawnedArrows list and destroy it
-                    spawnedArrows.RemoveAt(i);
-                    Destroy(arrowObject);
+                        // Process the hit with the appropriate timing parameters
+                        HitBox hitBox = HitBoxes[hitBoxIndex];
+                        if (hitBox != null)
+                        {
+                            hitBox.ProcessHit(arrowScript.beatTime, GetPlaybackTime(), hitBoxIndex);
+                        }
+                        else
+                        {
+                            Debug.LogError("HitBox not found for arrow.");
+                        }
 
-                    // Exit the loop to prevent interacting with subsequent arrows
-                    break;
+                        // Remove the arrow from spawnedArrows list and destroy it
+                        spawnedArrows.RemoveAt(i);
+                        Destroy(arrowObject);
+
+                        // Exit the loop to prevent interacting with subsequent arrows
+                        break;
+                    }
                 }
             }
         }
     }
-}
-        
+
     float GetTimeToHitbox()
     {
         // Calculate the time it takes for an arrow to reach the hitbox based on its speed and hitbox position
@@ -309,4 +314,25 @@ void HandlePlayerInput()
             return false;
         }
     }
+
+    public bool checkLevelEnded()
+    {
+        if (midiFilePlayer.MPTK_IsPlaying == false && gameStarted && gameEntered)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void stopSong()
+    {
+        spawningPaused = true;
+    }
+
+    // public void levelOver(string levelName, string gameMode, int earlyScore, int earlyMissScore, int perfectScore, int lateScore, int lateMissScore, string timestamp){
+    //     ScoreManager.Instance.getScores(levelName, gameMode, earlyScore, earlyMissScore, perfectScore, lateScore, lateMissScore, timestamp);
+    // }
 }

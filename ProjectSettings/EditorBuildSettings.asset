@@ -26,6 +26,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Song1P.unity
     guid: 0ed757272892700439de29984f6dc2db
+  - enabled: 1
+    path: Assets/Scenes/playerStats.unity
+    guid: b415b7eba1565c6468982646c8be5d8e
   - enabled: 0
     path: Assets/MidiPlayer/Demo/FreeDemos/TestMidiFilePlayer.unity
     guid: ec4a814924685e549a6544b0a555a999
