@@ -1033,9 +1033,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1786925550}
         m_TargetAssemblyTypeName: songMenu, Assembly-CSharp
-        m_MethodName: playerStatsMenu
+        m_MethodName: statsToMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6813,9 +6813,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1786925550}
         m_TargetAssemblyTypeName: songMenu, Assembly-CSharp
-        m_MethodName: practiceMenu
+        m_MethodName: gameMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7154,7 +7154,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1786925550}
         m_TargetAssemblyTypeName: songMenu, Assembly-CSharp
         m_MethodName: mainMenu
         m_Mode: 1
