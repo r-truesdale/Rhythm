@@ -115,8 +115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5357786554126860434}
   - component: {fileID: 7827345220491785293}
-  - component: {fileID: 4825195542280931766}
-  - component: {fileID: 6158035519677206740}
+  - component: {fileID: 5609745791862409377}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Arrow
@@ -161,7 +160,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4825195542280931766
+--- !u!114 &5609745791862409377
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -173,20 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31825b3f558091840b33681c655b375c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 50
+  speed: 100
   arrowSpawnTime: 0
   beatTime: 0
   hitBoxIndex: 0
---- !u!114 &6158035519677206740
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9140787773481782127}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3887e2f69e3c92a4d86d086d3258f1a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitBoxName: 

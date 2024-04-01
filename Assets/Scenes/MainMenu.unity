@@ -120,6 +120,135 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &921817884
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 921817892}
+  - component: {fileID: 921817891}
+  - component: {fileID: 921817890}
+  - component: {fileID: 921817889}
+  - component: {fileID: 921817888}
+  - component: {fileID: 921817886}
+  - component: {fileID: 921817885}
+  m_Layer: 0
+  m_Name: GameMaster
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &921817885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921817884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de7389c3b0214f9429fe72ccb4ccd965, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &921817886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921817884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe83e903d753a2d45b98791c53fa300d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  midiFilePlayer: {fileID: 0}
+  arrowPrefab: {fileID: 9140787773481782127, guid: 3d51158c7b8ae7f49bae21134f8901d3, type: 3}
+  hitBoxes: []
+  midiScoreBeats: []
+  arrowsSpawned: 
+  spawnedArrows: []
+--- !u!114 &921817888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921817884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba8cd6d4211e71f48a832d3ff63b5113, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  songName: {fileID: 0}
+  sceneNames: []
+  selectedSongName: 
+--- !u!114 &921817889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921817884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb5ddfe25263f6244b419a6ebf0efe9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &921817890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921817884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9291264f41a60e4bb68fafc3ceafd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 0}
+  lateText: {fileID: 0}
+  earlyText: {fileID: 0}
+  perfectText: {fileID: 0}
+  barPrefab: {fileID: 2435481662498722344, guid: edff553223e39c34cb51e8ee0be5efe7, type: 3}
+  earlyMissBarSpawnPoint: {fileID: 0}
+  earlyBarSpawnPoint: {fileID: 0}
+  perfectBarSpawnPoint: {fileID: 0}
+  lateBarSpawnPoint: {fileID: 0}
+  lateMissBarSpawnPoint: {fileID: 0}
+--- !u!114 &921817891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921817884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 247da10189d7fd94e87647e33e9e6f78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AllSongs: []
+--- !u!4 &921817892
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921817884}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -13.642794, y: 2.5847793, z: 180.07237}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1063650803
 GameObject:
   m_ObjectHideFlags: 0
@@ -1526,3 +1655,4 @@ SceneRoots:
   - {fileID: 1190969224}
   - {fileID: 1106783507}
   - {fileID: 1288923774}
+  - {fileID: 921817892}

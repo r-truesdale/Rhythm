@@ -525,9 +525,11 @@ MonoBehaviour:
   earlyText: {fileID: 0}
   perfectText: {fileID: 0}
   barPrefab: {fileID: 0}
+  earlyMissBarSpawnPoint: {fileID: 0}
   earlyBarSpawnPoint: {fileID: 0}
-  lateBarSpawnPoint: {fileID: 0}
   perfectBarSpawnPoint: {fileID: 0}
+  lateBarSpawnPoint: {fileID: 0}
+  lateMissBarSpawnPoint: {fileID: 0}
 --- !u!1 &620785890
 GameObject:
   m_ObjectHideFlags: 0
