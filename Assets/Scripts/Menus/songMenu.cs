@@ -15,24 +15,9 @@ public class songMenu : MonoBehaviour
  void Start()
  {
   songsData = songData.Instance.AllSongs;
-
-  // // Display UI prompt with song names
-  // string prompt = "Choose a song:\n";
-  // for (int i = 0; i < songsData.Count; i++)
-  // {
-  //     prompt += (i + 1) + ". " + songsData[i].name + "\n";
-  // }
-  // songName.text = prompt;
  }
  public void gameLevel(int songIndex)
  {
-  // if (songIndex >= 1 && songIndex <= sceneNames.Length)
-  // {
-  //     PlayerPrefs.SetInt("selectedSongIndex", songIndex - 1);
-  //     SceneManager.LoadScene(sceneNames[songIndex - 1]);
-  //     Debug.Log(sceneNames[songIndex - 1] + " chosen");
-  // }
-  // string selectedSongName = songsData[songIndex].name;
   PlayerPrefs.SetInt("selectedSongIndex", songIndex);
   Debug.Log(songIndex);
   PlayerPrefs.SetString("gameState", "game");
@@ -44,6 +29,12 @@ public class songMenu : MonoBehaviour
   PlayerPrefs.SetInt("selectedSongIndex", songIndex);
   PlayerPrefs.SetString("gameState", "practice");
   SceneManager.LoadScene("Song1P");
+ }
+  public void practiceLevel(int songIndex)
+ {
+  PlayerPrefs.SetInt("selectedSongIndex", songIndex);
+  PlayerPrefs.SetString("gameState", "practice");
+  SceneManager.LoadScene(sceneNames[songIndex]+"P");
  }
  public void mainMenu()
  {

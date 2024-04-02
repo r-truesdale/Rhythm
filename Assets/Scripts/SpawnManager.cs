@@ -96,7 +96,7 @@ public class SpawnManager : MonoBehaviour
  void Update()
  {
   GameManager.Instance.checkGameStart();
-  Debug.Log(GameManager.Instance.checkGameStart());
+  // Debug.Log(GameManager.Instance.checkGameStart());
   CheckArrowSpawn();
   HandlePlayerInput();
  }

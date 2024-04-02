@@ -14,10 +14,6 @@ public class ScoreManager : MonoBehaviour
  public static ScoreManager Instance { get; private set; }
  private List<ScoreData> scores = new List<ScoreData>();
  [Header("End UI Text")]
- // public TMP_Text scoreText;
- // public TMP_Text lateText;
- // public TMP_Text earlyText;
- // public TMP_Text perfectText;
 
  private int score = 0;
  public float perfect = 0;
@@ -72,20 +68,6 @@ public class ScoreManager : MonoBehaviour
   lateMiss += lateMissPoints;
  }
 
- // private void UpdateScoreText()
- // {
- //  scoreText.text = "Score: " + score.ToString();
- // }
- // private void InstantiateCube(float width, Transform spawnPoint)
- // {
- //  int widthInt = Mathf.RoundToInt(width); // Convert float to int
- //  Vector3 barOrigin = spawnPoint.position + new Vector3(width / 2f, 0f, 0f);
- //  // Instantiate the bar prefab at the calculated position
- //  GameObject bar = Instantiate(barPrefab, barOrigin, Quaternion.identity);
- //  // Set the scale of the bar based on the width
- //  bar.transform.localScale = new Vector3(widthInt, 5f, 1f);
- // }
-
  public void getScores(string levelName, string gameMode, int earlyScore, int earlyMissScore, int perfectScore, int lateScore, int lateMissScore, string timestamp)
  { //for the json file
   timestamp = System.DateTime.Now.ToString();
@@ -99,13 +81,13 @@ public class ScoreManager : MonoBehaviour
   ScoreData newScore = new ScoreData(levelName, gameMode, earlyScore, earlyMissScore, perfectScore, lateScore, lateMissScore, timestamp);
   scores.Add(newScore);
   saveScores();
-  loadScores();
   Debug.Log(newScore);
  }
 
  private void saveScores()
  {
   string json = JsonConvert.SerializeObject(scores);
+  Debug.Log(json);
   File.WriteAllText(Application.persistentDataPath + "/scores.json", json);
  }
 
@@ -127,11 +109,12 @@ public class ScoreManager : MonoBehaviour
   List<ScoreData> filteredScores = new List<ScoreData>();
   foreach (var score in scores)
   {
-   if (score.gameMode == gameMode)
+   if (score.gameMode.Equals(gameMode))
    {
     filteredScores.Add(score);
    }
   }
+  // Debug.Log(filteredScores);
   return filteredScores;
  }
 

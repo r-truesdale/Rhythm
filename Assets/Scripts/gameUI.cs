@@ -7,17 +7,23 @@ using TMPro;
 public class gameUI : MonoBehaviour
 {
  [SerializeField] private Button startButton;
+ [Header("Scripts")]
  [SerializeField] private GameManager gameManager; //instead of using inspector bc of GM instance
  [SerializeField] private SpawnManager spawnManager;
  [SerializeField] private ScoreManager scoreManager;
+ [SerializeField] private GameObject songEndUI;
  [SerializeField] private songMenu songMenu;
+ [Header("Text Elements")]
+ [SerializeField] private TMP_Text lateText;
+ [SerializeField] private TMP_Text earlyText;
+ [SerializeField] private TMP_Text perfectText;
+ [Header("Graph Elements")]
  [SerializeField] private GameObject barPrefab;
  [SerializeField] private Transform earlyMissBarSpawnPoint;
  [SerializeField] private Transform earlyBarSpawnPoint;
  [SerializeField] private Transform perfectBarSpawnPoint;
  [SerializeField] private Transform lateBarSpawnPoint;
  [SerializeField] private Transform lateMissBarSpawnPoint;
- [SerializeField] private GameObject songEndUI;
  public Canvas EndCanvas;
  bool levelEnded = GameManager.Instance.checkLevelEnded();
 
@@ -49,7 +55,7 @@ public class gameUI : MonoBehaviour
  {
   if (levelEnded)
   {
-   
+
    songEndUI.SetActive(true); // Activate the canvas
    scoreGraph(); // Call the method to display score graph
   }
@@ -61,7 +67,7 @@ public class gameUI : MonoBehaviour
   spawnManager.findObjects();
   spawnManager.initialize();
  }
-  public void startBtn2()
+ public void startBtn2()
  {
   gameManager.startgame2();
 
@@ -74,13 +80,13 @@ public class gameUI : MonoBehaviour
   songEndUI.SetActive(true);
   scoreGraph();
  }
-  public void statsBtn()
+ public void statsBtn()
  {
   gameManager.resetLevel();
   spawnManager.levelReset();
   songMenu.playerStatsMenu();
  }
- public void scoreGraph()
+ public void scoreGraph() // calcs and instatiates score graph
  {
   float totalPoints = ScoreManager.Instance.perfect + ScoreManager.Instance.early + ScoreManager.Instance.late + ScoreManager.Instance.earlyMiss + ScoreManager.Instance.lateMiss;
   float perfectWidth = (ScoreManager.Instance.perfect / totalPoints) * 100f;
@@ -94,6 +100,9 @@ public class gameUI : MonoBehaviour
   InstantiateCube(lateWidth, lateBarSpawnPoint);
   InstantiateCube(earlyMissWidth, earlyMissBarSpawnPoint);
   InstantiateCube(lateMissWidth, lateMissBarSpawnPoint);
+  earlyText.text = scoreManager.early.ToString();
+  perfectText.text = scoreManager.perfect.ToString();
+  lateText.text = scoreManager.late.ToString();
  }
 
  private void InstantiateCube(float width, Transform spawnPoint)
