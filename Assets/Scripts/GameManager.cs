@@ -30,6 +30,9 @@ public class GameManager : MonoBehaviour
  private List<string> previousScores = new List<string>();
  // private bool isArrowSpawnCoroutineRunning = false;
  [SerializeField] private MidiFilePlayer midiFilePlayer; // Reference to the MidiFilePlayer
+ private bool levelPlaying = false; // Flag to track if the level is playing
+ private float levelStartTime = 0f; // Time when the level started playing
+
 
  void Start()
  {
@@ -60,11 +63,17 @@ public class GameManager : MonoBehaviour
  }
  public void StartGame()
  {
-    gameStarted = true;
-   UpdateBeatOptions();
+
+  gameStarted = true;
+
+  UpdateBeatOptions();
   // HitBoxes = FindObjectsOfType<HitBox>();
 
-  gameStartTime = Time.time;
+  // gameStartTime = Time.time;
+  levelPlaying = true; // Set levelPlaying to true when the level starts
+  levelStartTime = Time.time; // Record the start time of the level
+  Debug.Log("Game Started at time: " + levelStartTime);
+
   Debug.Log(gameStartTime);
   Debug.Log("Game Started!");
   // if(SpawnManager.Instance.initialized = true){
@@ -76,24 +85,16 @@ public class GameManager : MonoBehaviour
   // CheckArrowSpawn();
   // Start playing the MIDI file after a delay
   // float delay = GetTimeToHitbox(); // Adjust this delay as needed
-  // float delay = 0;
+  // float delay = 4f;
   // StartCoroutine(DelayedStartMidi(delay));
   FindMidiFilePlayer();
   midiFilePlayer.MPTK_Play(); // Start playing the MIDI file
  }
-public void startgame2(){
-   gameStarted = true;
-  gameStartTime = Time.time;
-    SpawnManager.Instance.InitializeArrowsSpawned(midiScoreBeats.Count);
-  SpawnManager.Instance.InitializeMidiScoreBeats(midiScoreBeats);
-  Debug.Log(gameStartTime);
-  Debug.Log("Game2 Started!");
-    FindMidiFilePlayer();
-  midiFilePlayer.MPTK_Play();
-}
+
  // IEnumerator DelayedStartMidi(float delay)
  // {
  //  yield return new WaitForSeconds(delay);
+ //   FindMidiFilePlayer();
  //  midiFilePlayer.MPTK_Play(); // Start playing the MIDI file
  //  gameStarted = true;
  // }
@@ -163,8 +164,17 @@ public void startgame2(){
   checkGameStart();
   songStatus();
   checkLevelEnded();
-  
+  Debug.Log(gameStarted);
+   if (levelPlaying)
+        {
+            float elapsedTime = Time.time - levelStartTime;
+            Debug.Log("Elapsed time since level start: " + elapsedTime);
+        }
  }
+     public float CheckElapsedTime()
+    {
+        return Time.time - levelStartTime;
+    }
 
  public bool songStatus()
  {
@@ -202,7 +212,27 @@ public void startgame2(){
  //   return false;
  //  }
  // }
+public void EndLevel()
+    {
+        // Other end level logic...
 
+        levelPlaying = false; // Set levelPlaying to false when the level ends
+        // Reset other level-related variables as needed
+    }
+    public void StartLevel()
+    {
+        // Other end level logic...
+
+        levelPlaying = true; // Set levelPlaying to false when the level ends
+        // Reset other level-related variables as needed
+    }
+      public void EnterMenu()
+    {
+        // Other menu entry logic...
+
+        levelPlaying = false; // Set levelPlaying to false when entering the menu
+        // Reset other level-related variables as needed
+    }
  public bool checkLevelEnded()
  {
   if (midiFilePlayer.MPTK_IsPlaying == false && gameStarted)
@@ -222,5 +252,13 @@ public void startgame2(){
   // gameStarted = false;
   // gameEntered = false;
   spawningPaused = false;
+ }
+ public void gameStartBtn()
+ {
+  gameStarted = true;
+ }
+ public void gameEndBtn()
+ {
+  gameStarted = false;
  }
 }

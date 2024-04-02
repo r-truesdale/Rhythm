@@ -84,6 +84,14 @@ public class ScoreManager : MonoBehaviour
   Debug.Log(newScore);
  }
 
+ public void clearScores(){
+score = 0;
+perfect = 0;
+ early = 0;
+ late = 0;
+ earlyMiss = 0;
+ lateMiss = 0;
+ }
  private void saveScores()
  {
   string json = JsonConvert.SerializeObject(scores);

@@ -64,18 +64,14 @@ public class gameUI : MonoBehaviour
  public void startBtn()
  {
   gameManager.StartGame();
-  spawnManager.findObjects();
-  spawnManager.initialize();
- }
- public void startBtn2()
- {
-  gameManager.startgame2();
-
+  gameManager.gameStartBtn();
+  gameManager.StartLevel();
   spawnManager.findObjects();
   spawnManager.initialize();
  }
  public void endBtn()
  {
+  gameManager.EndLevel();
   spawnManager.stopSong();
   songEndUI.SetActive(true);
   scoreGraph();
@@ -83,6 +79,9 @@ public class gameUI : MonoBehaviour
  public void statsBtn()
  {
   gameManager.resetLevel();
+  gameManager.gameEndBtn();
+  gameManager.EndLevel();
+  scoreManager.clearScores();
   spawnManager.levelReset();
   songMenu.playerStatsMenu();
  }
