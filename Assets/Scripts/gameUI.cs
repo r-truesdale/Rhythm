@@ -100,6 +100,21 @@ public class gameUI : MonoBehaviour
   earlyText.text = scoreManager.early.ToString();
   perfectText.text = scoreManager.perfect.ToString();
   lateText.text = scoreManager.late.ToString();
+
+  // scoreGraphCalled = true;
+  string levelName = PlayerPrefs.GetString("songName");
+  string gameMode = PlayerPrefs.GetString("gameState");
+  int earlyScore = 0;
+  int earlyMissScore = 0;
+  int perfectScore = 0;
+  int lateScore = 0;
+  int lateMissScore = 0;
+  string timestamp = System.DateTime.Now.ToString();
+  ScoreManager.Instance.getScores(levelName, gameMode, earlyScore, earlyMissScore, perfectScore, lateScore, lateMissScore, timestamp);
+  // songEnded = true;
+  Debug.Log("songEnd");
+  SpawnManager.Instance.levelReset();
+
  }
 
  private void InstantiateCube(float width, Transform spawnPoint)

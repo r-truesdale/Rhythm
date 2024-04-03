@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
   SpawnManager.Instance.InitializeMidiScoreBeats(midiScoreBeats);
   levelStartTime = Time.time; // record the start time of the level
   Debug.Log("Game Started at time: " + levelStartTime);
-  midiFilePlayer.MPTK_Play(); // Start playing the MIDI file
+  midiFilePlayer.MPTK_Play(); // start playing the MIDI file
  }
 
  public void UpdateBeatOptions()
@@ -107,10 +107,10 @@ public class GameManager : MonoBehaviour
    case 1: // midi_score_downbeats
     midiScoreBeats = songData.Instance.GetMidiScoreDownBeats(selectedSongIndex);
     break;
-   // case 2: // Your third option
+   // case 2:
    //     // Get the beats for the third option and assign them to midiScoreBeats
    //     break;
-   default: // Default to midi_score_beats if PlayerPrefs value is invalid
+   default: // default to midi_score_beats if PlayerPrefs value is invalid
     midiScoreBeats = songData.Instance.GetMidiScoreBeats(selectedSongIndex);
     break;
   }

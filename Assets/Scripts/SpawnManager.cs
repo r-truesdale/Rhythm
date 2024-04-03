@@ -170,7 +170,7 @@ public class SpawnManager : MonoBehaviour
   {
    // time it takes for arrow to reach  hitbox based on speed and hitbox position
    float hitBoxDistance = Vector3.Distance(GetArrowSpawnPosition(), hitBoxes[0].transform.position);
-   arrows arrow = arrowPrefab.GetComponent<arrows>(); // Get the arrows component from the arrowPrefab
+   arrows arrow = arrowPrefab.GetComponent<arrows>(); // get the arrows component from the arrowPrefab
    if (arrow != null)
    {
     return hitBoxDistance / arrow.speed;
@@ -212,24 +212,21 @@ public class SpawnManager : MonoBehaviour
   if (!GameManager.Instance.levelPlaying)
    return;
 
-  if (Input.GetKeyDown(KeyCode.Space)) // Check if the game has started
+  if (Input.GetKeyDown(KeyCode.Space))
   {
-   // Iterate over all spawned arrows
    for (int i = 0; i < spawnedArrows.Count; i++)
    {
     GameObject arrowObject = spawnedArrows[i];
 
-    // Check if the arrow object is valid and active
+    // check if arrow object active
     if (arrowObject != null && arrowObject.activeSelf)
     {
      arrows arrowScript = arrowObject.GetComponent<arrows>();
 
-     // Check if the arrow script is valid
      if (arrowScript != null)
      {
       int hitBoxIndex = arrowScript.hitBoxIndex;
 
-      // Process the hit with the appropriate timing parameters
       HitBox hitBox = hitBoxes[hitBoxIndex];
       if (hitBox != null)
       {
@@ -239,10 +236,10 @@ public class SpawnManager : MonoBehaviour
       {
        Debug.LogError("HitBox not found for arrow.");
       }
-      // Remove the arrow from spawnedArrows list and destroy it
+      // remove arrow from list then distry
       spawnedArrows.RemoveAt(i);
       Destroy(arrowObject);
-      // Exit the loop to prevent interacting with subsequent arrows
+      //exit loop
       break;
      }
     }

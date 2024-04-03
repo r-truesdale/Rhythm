@@ -21,7 +21,7 @@ public class ScoreManager : MonoBehaviour
  public float late = 0;
  public float earlyMiss = 0;
  public float lateMiss = 0;
-
+ private string filePath;
 
  private void Awake()
  {
@@ -34,6 +34,11 @@ public class ScoreManager : MonoBehaviour
    Instance = this;
    DontDestroyOnLoad(gameObject);
   }
+#if UNITY_EDITOR || UNITY_STANDALONE
+        filePath = Path.Combine(Application.persistentDataPath, "scores.json");
+#elif UNITY_WEBGL
+        filePath = Path.Combine(Application.streamingAssetsPath, "scores.json");
+#endif
  }
 
  public void AddScore(int points)
@@ -93,82 +98,49 @@ public class ScoreManager : MonoBehaviour
   earlyMiss = 0;
   lateMiss = 0;
  }
+ public void saveScores()
+ {
+  string json = JsonConvert.SerializeObject(scores);
 #if UNITY_EDITOR || UNITY_STANDALONE
-    private void saveScores()
-    {
-      Debug.Log("Saving scores for Editor/Standalone");
-        string json = JsonConvert.SerializeObject(scores);
-        File.WriteAllText(Application.persistentDataPath + "/scores.json", json);
-        Debug.Log(json);
-    }
+  File.WriteAllText(filePath, json);
+#elif   UNITY_WEBGL
+StartCoroutine(SaveScoresCoroutine(json));
+#endif
+ }
 
-    public List<ScoreData> loadScores()
-    {
-      string filePath = Application.persistentDataPath + "/scores.json";
-        if (File.Exists(filePath))
-        {
-             string json = File.ReadAllText(filePath);
-            scores = JsonConvert.DeserializeObject<List<ScoreData>>(json);
-            Debug.Log("Scores loaded successfully.");
-        }
-        else
-        {
-            scores = new List<ScoreData>();
-        }
-        return scores;
-    } 
+ private IEnumerator SaveScoresCoroutine(string json)
+ {
+  UnityWebRequest request = UnityWebRequest.Put(filePath, json);
+  yield return request.SendWebRequest();
 
-    #elif UNITY_WEBGL
-    private void saveScores()
-    {
-     Debug.Log("Saving scores for WebGL");
-        string json = JsonConvert.SerializeObject(scores);
-        StartCoroutine(SaveScoresCoroutine(json));
-    }
-
-    private IEnumerator SaveScoresCoroutine(string json)
-    {
-        string saveURL = Application.persistentDataPath + "/scores.json";
-        UnityWebRequest request = new UnityWebRequest(saveURL, "PUT");
-        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
-        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-        request.downloadHandler = new DownloadHandlerBuffer();
-        yield return request.SendWebRequest();
-
-        if (request.result != UnityWebRequest.Result.Success)
-        {
-            Debug.LogError("Failed to save scores: " + request.error);
-            yield return null;
-        }
-        else
-        {
-            Debug.Log("Scores saved successfully.");
-        }
-    }
+  if (request.result != UnityWebRequest.Result.Success)
+  {
+   Debug.LogError("Failed to save scores: " + request.error);
+  }
+  else
+  {
+   Debug.Log("Scores saved successfully.");
+  }
+ }
 
  public List<ScoreData> loadScores()
-{
-    StartCoroutine(LoadScoresCoroutine());
-    return scores;
-}
+ {
+  string json;
 
-private IEnumerator LoadScoresCoroutine()
-{
-    string loadURL = "file://" + Application.persistentDataPath + "/scores.json";
-    UnityWebRequest request = UnityWebRequest.Get(loadURL);
-    yield return request.SendWebRequest();
-
-    if (request.result != UnityWebRequest.Result.Success)
-    {
-        Debug.LogError("Failed to load scores: " + request.error);
-        yield break;
-    }
-
-    string json = request.downloadHandler.text;
-    scores = JsonConvert.DeserializeObject<List<ScoreData>>(json);
-    Debug.Log("Scores loaded successfully.");
-}
+#if UNITY_EDITOR || UNITY_STANDALONE
+  json = File.ReadAllText(filePath);
+#elif UNITY_WEBGL
+          UnityWebRequest request = UnityWebRequest.Get(filePath);
+        request.SendWebRequest();
+        while (!request.isDone) { }
+        json = request.downloadHandler.text;
 #endif
+
+  scores = JsonConvert.DeserializeObject<List<ScoreData>>(json);
+  Debug.Log("Scores loaded successfully.");
+  return scores;
+ }
+
  public List<ScoreData> modeScores(string gameMode)
  {
   List<ScoreData> filteredScores = new List<ScoreData>();
@@ -183,16 +155,16 @@ private IEnumerator LoadScoresCoroutine()
   return filteredScores;
  }
  public void DeleteAllScores()
-    {
-        string filePath = Application.persistentDataPath + "/scores.json";
-        if (File.Exists(filePath))
-        {
-            File.Delete(filePath);
-            Debug.Log("All saved score data deleted successfully.");
-        }
-        else
-        {
-            Debug.LogWarning("No saved score data found to delete.");
-        }
-    }
+ {
+  string filePath = Application.persistentDataPath + "/scores.json";
+  if (File.Exists(filePath))
+  {
+   File.Delete(filePath);
+   Debug.Log("All saved score data deleted successfully.");
+  }
+  else
+  {
+   Debug.LogWarning("No saved score data found to delete.");
+  }
+ }
 }

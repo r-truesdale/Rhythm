@@ -45,7 +45,7 @@ public class songData : MonoBehaviour
         if (www.result != UnityWebRequest.Result.Success)
         {
             Debug.LogError("Failed to load JSON file: " + www.error);
-            yield break; // Exit coroutine on error
+            yield break; // exit coroutine on error
         }
         jsonData = www.downloadHandler.text;
     }
@@ -63,7 +63,7 @@ public class songData : MonoBehaviour
         yield return null; // Ensure a return value for the coroutine
     }
 
-    // Method to retrieve midi score beats for a specific song
+    //retrieve midi score beats for a specific song
     public List<float> GetMidiScoreBeats(int songIndex)
     {
         if (AllSongs != null && songIndex >= 0 && songIndex < AllSongs.Count)
