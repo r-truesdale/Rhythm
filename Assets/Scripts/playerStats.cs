@@ -32,6 +32,7 @@ public class playerStats : MonoBehaviour
   if (scoreManager != null)
   {
    scores = scoreManager.loadScores();
+   Debug.Log(scores);
    currentMode = recentGameMode();
    DisplayScores(currentMode);
   }
@@ -61,7 +62,7 @@ public class playerStats : MonoBehaviour
 
  void UpdateModeText()
  {
-  // Update mode text based on the current mode
+  // update mode text based on the current mode
   modeText.text = (currentMode == "game") ? "Game Mode Scores" : "Practice Mode Scores";
  }
 
@@ -74,11 +75,11 @@ public class playerStats : MonoBehaviour
 
   List<ScoreData> filteredScores = scoreManager.modeScores(gameMode);
 
-  // Calculate score item height
+  // calc score item height
   float totalHeight = filteredScores.Count * (scorePrefab.GetComponent<RectTransform>().rect.height + spacing);
   float startYPos = 0f;
 
-  // Iterate through each score to display
+  // go through each score to display
   for (int i = filteredScores.Count - 1; i>= 0; i--)
   {
    GameObject scoreItem = Instantiate(scorePrefab, scorePanel);

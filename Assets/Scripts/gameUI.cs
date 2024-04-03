@@ -63,26 +63,24 @@ public class gameUI : MonoBehaviour
  // Update is called once per frame
  public void startBtn()
  {
-  gameManager.StartGame();
-  gameManager.gameStartBtn();
-  gameManager.StartLevel();
-  spawnManager.findObjects();
-  spawnManager.initialize();
+  GameManager.Instance.StartGame();
+  SpawnManager.Instance.findObjects();
+  SpawnManager.Instance.initialize();
+  SpawnManager.Instance.playSpawn();
  }
  public void endBtn()
  {
-  gameManager.EndLevel();
-  spawnManager.stopSong();
+  // gameManager.EndLevel();
+  SpawnManager.Instance.stopSpawn();
   songEndUI.SetActive(true);
   scoreGraph();
  }
  public void statsBtn()
  {
-  gameManager.resetLevel();
-  gameManager.gameEndBtn();
-  gameManager.EndLevel();
-  scoreManager.clearScores();
-  spawnManager.levelReset();
+  GameManager.Instance.gameEndBtn();
+  GameManager.Instance.resetLevel();
+  SpawnManager.Instance.levelReset();
+  ScoreManager.Instance.clearScores();
   songMenu.playerStatsMenu();
  }
  public void scoreGraph() // calcs and instatiates score graph

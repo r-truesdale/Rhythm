@@ -27,12 +27,9 @@ public class songData : MonoBehaviour
         }
         LoadSongs();
     }
-    //public so it can be accessed by other scripts
     public IEnumerator LoadSongs()
     {
         string jsonPath = Path.Combine(Application.streamingAssetsPath, "SongBlueprint.json");
-        // Debug.Log("JSON file path: " + jsonPath);
-        // Load JSON data from file
         string jsonData = null;
 #if UNITY_EDITOR || UNITY_STANDALONE
     if (File.Exists(jsonPath))
@@ -53,7 +50,7 @@ public class songData : MonoBehaviour
         jsonData = www.downloadHandler.text;
     }
 #endif
-        // Deserialize JSON data into List<SongBlueprint>
+        // deserialize JSON data into List<SongBlueprint>
         if (jsonData != null)
         {
             AllSongs = JsonConvert.DeserializeObject<AllSongs>(jsonData).songs;

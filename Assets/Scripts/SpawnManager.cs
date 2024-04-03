@@ -8,21 +8,21 @@ public class SpawnManager : MonoBehaviour
 {
  public static SpawnManager Instance { get; private set; }
  [SerializeField] private MidiFilePlayer midiFilePlayer; // Reference to the MidiFilePlayer
- // [SerializeField] private GameManager gameManager; // Reference to the GameManager
  [SerializeField] private GameObject arrowPrefab; // Reference to the arrow prefab
  [SerializeField] private List<HitBox> hitBoxes = new List<HitBox>(); // Reference to the hitboxes
  [SerializeField] private List<float> midiScoreBeats = new List<float>(); // Reference to the MIDI score beats
  [SerializeField] private bool[] arrowsSpawned;
  public List<GameObject> spawnedArrows = new List<GameObject>(); // Track spawned arrows
  public bool initialized = false;
-
- // private bool gameStarted = false;
+ public bool spawningPaused = false;
  private float gameStartTime = 0f;
  private void Awake()
  {
   if (Instance == null)
   {
    Instance = this;
+   spawningPaused = false;
+   levelReset();
    findObjects();
   }
   else
@@ -30,17 +30,8 @@ public class SpawnManager : MonoBehaviour
    Destroy(gameObject);
   }
  }
- // public bool checkGameStarted(){
- //  if(GameManager.Instance.checkGameStart){
- //   return true;
- //  }else
- //  {
- //   return false;
- //  }
- // }
  void Start()
  {
-  // findObjects();
   CheckArrowSpawn();
   initialize();
   if (midiScoreBeats != null)
@@ -70,7 +61,7 @@ public class SpawnManager : MonoBehaviour
  {
   foreach (Transform child in parent)
   {
-   // Check if the current child has the "Hitbox" tag
+   // check if current child has "Hitbox" tag
    if (child.CompareTag("HitBox"))
    {
     HitBox hitBoxComponent = child.GetComponent<HitBox>();
@@ -83,7 +74,7 @@ public class SpawnManager : MonoBehaviour
      Debug.LogError("HitBox component not found on GameObject with tag 'Hitbox'.");
     }
    }
-   // Recursively search child objects
+   //search child objects
    FindHitboxesInHierarchy(child);
   }
  }
@@ -95,15 +86,14 @@ public class SpawnManager : MonoBehaviour
  void Update()
  {
   GameManager.Instance.checkGameStart();
-  // Debug.Log(GameManager.Instance.checkGameStart());
   CheckArrowSpawn();
   HandlePlayerInput();
  }
  public void InitializeSpawnManager(List<HitBox> hitBoxes, List<float> midiScoreBeats, List<GameObject> spawnedArrows)
  {
   this.hitBoxes = hitBoxes;
-  // this.midiScoreBeats = midiScoreBeats;
-  initialized = true;
+  // this.spawnedArrows = spawnedArrows;
+  // initialized = true;
  }
  public void InitializeArrowsSpawned(int count)
  {
@@ -118,14 +108,13 @@ public class SpawnManager : MonoBehaviour
  public void InitializeMidiScoreBeats(List<float> scoreBeats)
  {
   midiScoreBeats = new List<float>(scoreBeats);
-  initialized = true;
  }
  public GameObject SpawnArrow(GameObject arrowPrefab, float arrowSpawnTime, float beatTime, float arrowSpeed)
  {
-  // Instantiate the arrow prefab at a random position within a range
+  // instantiate arrow prefab
   GameObject newArrow = Instantiate(arrowPrefab, GetArrowSpawnPosition(), Quaternion.identity);
 
-  // Assign arrowSpawnTime and beatTime to the arrow
+  // assign arrowSpawnTime and beatTime to the arrow
   arrows arrowScript = newArrow.GetComponent<arrows>();
   if (arrowScript != null)
   {
@@ -141,137 +130,140 @@ public class SpawnManager : MonoBehaviour
  }
  void CheckArrowSpawn()
  {
-  // if (!gameStarted) // Check if the game has started
-  //     return;
+  if (spawningPaused)
+   return;
 
-  // if (spawningPaused)
-  //  return;
-
-    float elapsedTime = GameManager.Instance.CheckElapsedTime();
-  float currentPosition = (float)midiFilePlayer.MPTK_PlayTime.TotalSeconds;
-  bool arrowSpawnedThisFrame = false; // Flag to track if an arrow has been spawned in this frame
-
-  for (int i = 0; i < midiScoreBeats.Count; i++)
+  if (GameManager.Instance.levelPlaying && GameManager.Instance.songStatus() && GameManager.Instance.gameStarted)
   {
-   float beatTime = midiScoreBeats[i];
-   float arrowSpawnTime = beatTime - GetTimeToHitbox();
+   float elapsedTime = GameManager.Instance.CheckElapsedTime();
+   float currentPosition = (float)midiFilePlayer.MPTK_PlayTime.TotalSeconds;
+   bool arrowSpawnedThisFrame = false; // track if an arrow has been spawned in this frame
 
-   // Debug.Log((arrowSpawnTime));
-   float arrowSpeed = arrowPrefab.GetComponent<arrows>().speed;
-
-   if (i < arrowsSpawned.Length && !arrowSpawnedThisFrame && !arrowsSpawned[i] && elapsedTime >= arrowSpawnTime)
+   for (int i = 0; i < midiScoreBeats.Count; i++)
    {
-    GameObject newArrow = SpawnArrow(arrowPrefab, arrowSpawnTime, beatTime, arrowSpeed); // Spawn the arrow earlier
-    spawnedArrows.Add(newArrow);
-    arrowsSpawned[i] = true;
-    arrowSpawnedThisFrame = true; // Set the flag to true since an arrow has been spawned in this frame
-    break;
-   }
-  }
- }
+    float beatTime = midiScoreBeats[i];
+    float arrowSpawnTime = beatTime - GetTimeToHitbox();
 
+    float arrowSpeed = arrowPrefab.GetComponent<arrows>().speed;
 
-public Vector3 GetArrowSpawnPosition()
-{
- // Return the spawn position of the arrow (you may need to adjust this based on your scene setup)
- return new Vector3(50f, 100f, -2.5f); // Example position, adjust as needed
-}
-
-private float GetTimeToHitbox()
-{
- if (arrowPrefab != null && hitBoxes.Count > 0)
- {
-  // Calculate the time it takes for an arrow to reach the hitbox based on its speed and hitbox position
-  float hitBoxDistance = Vector3.Distance(GetArrowSpawnPosition(), hitBoxes[0].transform.position); // Assuming there's only one hitbox
-  arrows arrow = arrowPrefab.GetComponent<arrows>(); // Get the arrows component from the arrowPrefab
-  if (arrow != null)
-  {
-   return hitBoxDistance / arrow.speed;
-  }
-  else
-  {
-   Debug.LogError("Arrows component not found on arrowPrefab.");
-   return 0f; // Or handle the error in a way appropriate for your application
-  }
- }
- else
- {
-  Debug.LogError("ArrowPrefab or HitBoxes not assigned.");
-  return 0f;
- }
-}
-
-
-
-public void ProcessArrowHit(arrows arrowScript)
-{
- int hitBoxIndex = arrowScript.hitBoxIndex;
- float currentPosition = (float)midiFilePlayer.MPTK_PlayTime.TotalSeconds;
- HitBox hitBox = hitBoxes[hitBoxIndex];
- if (hitBox != null)
- {
-  hitBox.ProcessHit(arrowScript.beatTime, currentPosition, hitBoxIndex);
- }
- else
- {
-  Debug.LogError("HitBox not found for arrow.");
- }
-
- // Remove the arrow from spawnedArrows list and destroy it
- spawnedArrows.Remove(arrowScript.gameObject);
- Destroy(arrowScript.gameObject);
-}
-void HandlePlayerInput()
-{
- if (Input.GetKeyDown(KeyCode.Space)) // Check if the game has started
- {
-  // Iterate over all spawned arrows
-  for (int i = 0; i < spawnedArrows.Count; i++)
-  {
-   GameObject arrowObject = spawnedArrows[i];
-
-   // Check if the arrow object is valid and active
-   if (arrowObject != null && arrowObject.activeSelf)
-   {
-    arrows arrowScript = arrowObject.GetComponent<arrows>();
-
-    // Check if the arrow script is valid
-    if (arrowScript != null)
+    if (i < arrowsSpawned.Length && !arrowSpawnedThisFrame && !arrowsSpawned[i] && elapsedTime >= arrowSpawnTime)
     {
-     int hitBoxIndex = arrowScript.hitBoxIndex;
-
-     // Process the hit with the appropriate timing parameters
-     HitBox hitBox = hitBoxes[hitBoxIndex];
-     if (hitBox != null)
-     {
-      hitBox.ProcessHit(arrowScript.beatTime, (float)midiFilePlayer.MPTK_PlayTime.TotalSeconds, hitBoxIndex);
-     }
-     else
-     {
-      Debug.LogError("HitBox not found for arrow.");
-     }
-     // Remove the arrow from spawnedArrows list and destroy it
-     spawnedArrows.RemoveAt(i);
-     Destroy(arrowObject);
-     // Exit the loop to prevent interacting with subsequent arrows
+     GameObject newArrow = SpawnArrow(arrowPrefab, arrowSpawnTime, beatTime, arrowSpeed); // spawn the arrow earlier
+     spawnedArrows.Add(newArrow);
+     arrowsSpawned[i] = true;
+     arrowSpawnedThisFrame = true;
      break;
     }
    }
   }
  }
-}
 
-public void levelReset()
-{
- spawnedArrows.Clear();
- // arrowsSpawned.Clear();
- arrowsSpawned = new bool[midiScoreBeats.Count]; // You need to initialize the array first
- Array.Clear(arrowsSpawned, 0, arrowsSpawned.Length);
- hitBoxes.Clear();
- midiScoreBeats.Clear();
-}
-public void stopSong()
-{
- // spawningPaused = true;
-}
+
+ public Vector3 GetArrowSpawnPosition()
+ {
+  return new Vector3(50f, 100f, -2.5f);
+ }
+
+ private float GetTimeToHitbox()
+ {
+  if (arrowPrefab != null && hitBoxes.Count > 0)
+  {
+   // time it takes for arrow to reach  hitbox based on speed and hitbox position
+   float hitBoxDistance = Vector3.Distance(GetArrowSpawnPosition(), hitBoxes[0].transform.position);
+   arrows arrow = arrowPrefab.GetComponent<arrows>(); // Get the arrows component from the arrowPrefab
+   if (arrow != null)
+   {
+    return hitBoxDistance / arrow.speed;
+   }
+   else
+   {
+    Debug.LogError("Arrows component not found on arrowPrefab.");
+    return 0f;
+   }
+  }
+  else
+  {
+   Debug.LogError("ArrowPrefab or HitBoxes not assigned.");
+   return 0f;
+  }
+ }
+
+
+
+ public void ProcessArrowHit(arrows arrowScript)
+ {
+  int hitBoxIndex = arrowScript.hitBoxIndex;
+  float currentPosition = (float)midiFilePlayer.MPTK_PlayTime.TotalSeconds;
+  HitBox hitBox = hitBoxes[hitBoxIndex];
+  if (hitBox != null)
+  {
+   hitBox.ProcessHit(arrowScript.beatTime, currentPosition, hitBoxIndex);
+  }
+  else
+  {
+   Debug.LogError("HitBox not found for arrow.");
+  }
+  // remove arrow from spawnedArrows list and destroy
+  spawnedArrows.Remove(arrowScript.gameObject);
+  Destroy(arrowScript.gameObject);
+ }
+ void HandlePlayerInput()
+ {
+  if (!GameManager.Instance.levelPlaying)
+   return;
+
+  if (Input.GetKeyDown(KeyCode.Space)) // Check if the game has started
+  {
+   // Iterate over all spawned arrows
+   for (int i = 0; i < spawnedArrows.Count; i++)
+   {
+    GameObject arrowObject = spawnedArrows[i];
+
+    // Check if the arrow object is valid and active
+    if (arrowObject != null && arrowObject.activeSelf)
+    {
+     arrows arrowScript = arrowObject.GetComponent<arrows>();
+
+     // Check if the arrow script is valid
+     if (arrowScript != null)
+     {
+      int hitBoxIndex = arrowScript.hitBoxIndex;
+
+      // Process the hit with the appropriate timing parameters
+      HitBox hitBox = hitBoxes[hitBoxIndex];
+      if (hitBox != null)
+      {
+       hitBox.ProcessHit(arrowScript.beatTime, (float)midiFilePlayer.MPTK_PlayTime.TotalSeconds, hitBoxIndex);
+      }
+      else
+      {
+       Debug.LogError("HitBox not found for arrow.");
+      }
+      // Remove the arrow from spawnedArrows list and destroy it
+      spawnedArrows.RemoveAt(i);
+      Destroy(arrowObject);
+      // Exit the loop to prevent interacting with subsequent arrows
+      break;
+     }
+    }
+   }
+  }
+ }
+
+ public void levelReset()
+ {
+  spawnedArrows.Clear();
+  Array.Clear(arrowsSpawned, 0, arrowsSpawned.Length);
+ Debug.Log(arrowsSpawned);
+  hitBoxes.Clear();
+  midiScoreBeats.Clear();
+ }
+ public void stopSpawn()
+ {
+  spawningPaused = true;
+ }
+ public void playSpawn()
+ {
+  spawningPaused = false;
+ }
 }

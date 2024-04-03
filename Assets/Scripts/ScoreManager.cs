@@ -84,34 +84,91 @@ public class ScoreManager : MonoBehaviour
   Debug.Log(newScore);
  }
 
- public void clearScores(){
-score = 0;
-perfect = 0;
- early = 0;
- late = 0;
- earlyMiss = 0;
- lateMiss = 0;
- }
- private void saveScores()
+ public void clearScores()
  {
-  string json = JsonConvert.SerializeObject(scores);
-  Debug.Log(json);
-  File.WriteAllText(Application.persistentDataPath + "/scores.json", json);
+  score = 0;
+  perfect = 0;
+  early = 0;
+  late = 0;
+  earlyMiss = 0;
+  lateMiss = 0;
  }
+#if UNITY_EDITOR || UNITY_STANDALONE
+    private void saveScores()
+    {
+      Debug.Log("Saving scores for Editor/Standalone");
+        string json = JsonConvert.SerializeObject(scores);
+        File.WriteAllText(Application.persistentDataPath + "/scores.json", json);
+        Debug.Log(json);
+    }
+
+    public List<ScoreData> loadScores()
+    {
+      string filePath = Application.persistentDataPath + "/scores.json";
+        if (File.Exists(filePath))
+        {
+             string json = File.ReadAllText(filePath);
+            scores = JsonConvert.DeserializeObject<List<ScoreData>>(json);
+            Debug.Log("Scores loaded successfully.");
+        }
+        else
+        {
+            scores = new List<ScoreData>();
+        }
+        return scores;
+    } 
+
+    #elif UNITY_WEBGL
+    private void saveScores()
+    {
+     Debug.Log("Saving scores for WebGL");
+        string json = JsonConvert.SerializeObject(scores);
+        StartCoroutine(SaveScoresCoroutine(json));
+    }
+
+    private IEnumerator SaveScoresCoroutine(string json)
+    {
+        string saveURL = Application.persistentDataPath + "/scores.json";
+        UnityWebRequest request = new UnityWebRequest(saveURL, "PUT");
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        request.downloadHandler = new DownloadHandlerBuffer();
+        yield return request.SendWebRequest();
+
+        if (request.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError("Failed to save scores: " + request.error);
+            yield return null;
+        }
+        else
+        {
+            Debug.Log("Scores saved successfully.");
+        }
+    }
 
  public List<ScoreData> loadScores()
- {
-  if (File.Exists(Application.persistentDataPath + "/scores.json"))
-  {
-   string json = File.ReadAllText(Application.persistentDataPath + "/scores.json");
-   scores = JsonConvert.DeserializeObject<List<ScoreData>>(json);
-  }
-  else
-  {
-   scores = new List<ScoreData>();
-  }
-  return scores;
- }
+{
+    StartCoroutine(LoadScoresCoroutine());
+    return scores;
+}
+
+private IEnumerator LoadScoresCoroutine()
+{
+    string loadURL = "file://" + Application.persistentDataPath + "/scores.json";
+    UnityWebRequest request = UnityWebRequest.Get(loadURL);
+    yield return request.SendWebRequest();
+
+    if (request.result != UnityWebRequest.Result.Success)
+    {
+        Debug.LogError("Failed to load scores: " + request.error);
+        yield break;
+    }
+
+    string json = request.downloadHandler.text;
+    scores = JsonConvert.DeserializeObject<List<ScoreData>>(json);
+    Debug.Log("Scores loaded successfully.");
+}
+#endif
  public List<ScoreData> modeScores(string gameMode)
  {
   List<ScoreData> filteredScores = new List<ScoreData>();
@@ -125,5 +182,17 @@ perfect = 0;
   // Debug.Log(filteredScores);
   return filteredScores;
  }
-
+ public void DeleteAllScores()
+    {
+        string filePath = Application.persistentDataPath + "/scores.json";
+        if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
+            Debug.Log("All saved score data deleted successfully.");
+        }
+        else
+        {
+            Debug.LogWarning("No saved score data found to delete.");
+        }
+    }
 }
