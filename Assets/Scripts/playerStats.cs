@@ -9,7 +9,7 @@ public class playerStats : MonoBehaviour
  public List<ScoreData> scores = new List<ScoreData>();
  [SerializeField] private ScoreManager scoreManager;
  [SerializeField] private GameObject scorePrefab;
- [SerializeField] private Transform scorePanel;
+ private Transform scorePanel;
  [SerializeField] private float spacing = 10f; // Adjust this value as needed
 
  [Header("UI Elements")]
@@ -28,6 +28,7 @@ public class playerStats : MonoBehaviour
 
  void Start()
  {
+  scorePanel = GameObject.Find("Canvas/Scroll/Viewport/Content").transform;
   scoreManager = GameObject.Find("GameMaster").GetComponent<ScoreManager>();
   if (scoreManager != null)
   {

@@ -17,12 +17,12 @@ public class GameManager : MonoBehaviour
  public bool gameStarted;
  public bool levelPlaying;
  public float gameStartTime;
- 
+
  private bool spawningPaused = false;
  private List<string> previousScores = new List<string>();
  // private bool isArrowSpawnCoroutineRunning = false;
  [SerializeField] private MidiFilePlayer midiFilePlayer; // Reference to the MidiFilePlayer
-  // Flag to track if the level is playing
+                                                         // Flag to track if the level is playing
  private float levelStartTime = 0f; // Time when the level started playing
 
 
@@ -129,9 +129,9 @@ public class GameManager : MonoBehaviour
   {
    float elapsedTime = Time.time - levelStartTime;
   }
-  Debug.Log("Level playing" + levelPlaying);
-  Debug.Log("Game started" + gameStarted);
-  Debug.Log("Song Status" + songStatus());
+  // Debug.Log("Level playing" + levelPlaying);
+  // Debug.Log("Game started" + gameStarted);
+  // Debug.Log("Song Status" + songStatus());
  }
  public float CheckElapsedTime()
  {
@@ -140,16 +140,21 @@ public class GameManager : MonoBehaviour
 
  public bool songStatus()
  {
-  if (midiFilePlayer.MPTK_IsPlaying == true)
+  if (midiFilePlayer != null)
   {
-   // Debug.Log("still playing");
-   return true;
-  }
-  else
-  {
-   // Debug.Log("game ended");
+   if (midiFilePlayer.MPTK_IsPlaying == true)
+   {
+    // Debug.Log("still playing");
+    return true;
+   }
+   else
+   {
+    // Debug.Log("game ended");
+    return false;
+   }
    return false;
   }
+  return false;
  }
 
  public bool checkGameStart()
@@ -177,14 +182,19 @@ public class GameManager : MonoBehaviour
  // }
  public bool checkLevelEnded()
  {
-  if (midiFilePlayer.MPTK_IsPlaying == false && gameStarted && !levelPlaying)
+  if (midiFilePlayer != null)
   {
-   return true;
-  }
-  else
-  {
+   if (midiFilePlayer.MPTK_IsPlaying == false && gameStarted && !levelPlaying)
+   {
+    return true;
+   }
+   else
+   {
+    return false;
+   }
    return false;
   }
+  return false;
  }
 
  public void resetLevel()
