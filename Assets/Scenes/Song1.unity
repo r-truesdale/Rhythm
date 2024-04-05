@@ -546,7 +546,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitBoxName: TooEarly
-  midiFilePlayer: {fileID: 1320583019}
 --- !u!65 &67450229
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1558,9 +1557,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1706508481}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 42.15, y: -14.55}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 84.3, y: 29.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &608858889
@@ -1694,9 +1693,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1389164400}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 665.8334, y: -50}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &624404200
@@ -2378,7 +2377,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &818010411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2954,7 +2953,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitBoxName: 
-  midiFilePlayer: {fileID: 0}
 --- !u!43 &1056146382
 Mesh:
   m_ObjectHideFlags: 0
@@ -3732,9 +3730,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1706508481}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 42.15, y: -150.95}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 84.3, y: 29.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1318103862
@@ -4122,9 +4120,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1389164400}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 399.5, y: -50}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1348402951
@@ -5461,7 +5459,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitBoxName: Perfect
-  midiFilePlayer: {fileID: 1320583019}
 --- !u!54 &1632437390
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5596,9 +5593,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1389164400}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 133.16667, y: -50}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1677518090
@@ -6212,9 +6209,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1706508481}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 42.15, y: -48.649998}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 84.3, y: 29.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1867033811
@@ -6346,9 +6343,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1706508481}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 42.15, y: -116.85}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 84.3, y: 29.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1881547591
@@ -6863,7 +6860,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitBoxName: EarlyMiss
-  midiFilePlayer: {fileID: 1320583019}
 --- !u!1 &1922097540
 GameObject:
   m_ObjectHideFlags: 0
@@ -7046,7 +7042,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitBoxName: TooLate
-  midiFilePlayer: {fileID: 1320583019}
 --- !u!65 &1999256953
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7750,9 +7745,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1706508481}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 42.15, y: -82.75}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 84.3, y: 29.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2112684552
@@ -8062,7 +8057,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitBoxName: LateMiss
-  midiFilePlayer: {fileID: 1320583019}
 --- !u!65 &2122861878
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ public class ScoreManager : MonoBehaviour
 {
  public static ScoreManager Instance { get; private set; }
  private List<ScoreData> scores = new List<ScoreData>();
+ private bool scoreRegistered;
  [Header("End UI Text")]
 
  private int score = 0;
@@ -33,12 +34,8 @@ public class ScoreManager : MonoBehaviour
   {
    Instance = this;
    DontDestroyOnLoad(gameObject);
+   scoreRegistered = false;
   }
-#if UNITY_EDITOR || UNITY_STANDALONE
-        filePath = Path.Combine(Application.persistentDataPath, "scores.json");
-#elif UNITY_WEBGL
-        filePath = Path.Combine(Application.streamingAssetsPath, "scores.json");
-#endif
  }
 
  public void AddScore(int points)
@@ -88,6 +85,28 @@ public class ScoreManager : MonoBehaviour
   saveScores();
   Debug.Log(newScore);
  }
+public void Update(){
+ if (scoreRegistered == false){
+ levelEndScores();
+ }
+}
+ public void levelEndScores()
+ {
+  if (GameManager.Instance.checkLevelEnded() && scoreRegistered == false)
+  {
+   string levelName = PlayerPrefs.GetString("songName");
+   string gameMode = PlayerPrefs.GetString("gameState");
+   int earlyScore = 0;
+   int earlyMissScore = 0;
+   int perfectScore = 0;
+   int lateScore = 0;
+   int lateMissScore = 0;
+   string timestamp = System.DateTime.Now.ToString();
+   getScores(levelName, gameMode, earlyScore, earlyMissScore, perfectScore, lateScore, lateMissScore, timestamp);
+   Debug.Log("songEnd");
+   scoreRegistered = true;
+  }
+ }
 
  public void clearScores()
  {
@@ -98,22 +117,46 @@ public class ScoreManager : MonoBehaviour
   earlyMiss = 0;
   lateMiss = 0;
  }
- public void saveScores()
- {
-  string json = JsonConvert.SerializeObject(scores);
 #if UNITY_EDITOR || UNITY_STANDALONE
-  File.WriteAllText(filePath, json);
-#elif   UNITY_WEBGL
-StartCoroutine(SaveScoresCoroutine(json));
-#endif
- }
+    private void saveScores()
+    {
+      Debug.Log("Saving scores for Editor/Standalone");
+        string json = JsonConvert.SerializeObject(scores);
+        File.WriteAllText(Application.persistentDataPath + "/scores.json", json);
+        Debug.Log(json);
+    }
+
+    public List<ScoreData> loadScores()
+    {
+      string filePath = Application.persistentDataPath + "/scores.json";
+      Debug.Log(filePath);
+        if (File.Exists(filePath))
+        {
+             string json = File.ReadAllText(filePath);
+            scores = JsonConvert.DeserializeObject<List<ScoreData>>(json);
+            Debug.Log("Scores loaded successfully.");
+        }
+        else
+        {
+            scores = new List<ScoreData>();
+        }
+        return scores;
+    } 
+#elif UNITY_WEBGL
+    private void saveScores()
+    {
+     Debug.Log("Saving scores for WebGL");
+        string json = JsonConvert.SerializeObject(scores);
+        StartCoroutine(SaveScoresCoroutine(json));
+        Debug.Log(json);
+    }
 
  private IEnumerator SaveScoresCoroutine(string json)
- {
-  UnityWebRequest request = UnityWebRequest.Put(filePath, json);
-  yield return request.SendWebRequest();
-
-  if (request.result != UnityWebRequest.Result.Success)
+    {
+      filePath = Path.Combine(Application.streamingAssetsPath, "scores.json");
+      UnityWebRequest request = UnityWebRequest.Put(filePath, json);
+     yield return request.SendWebRequest();
+      if (request.result != UnityWebRequest.Result.Success)
   {
    Debug.LogError("Failed to save scores: " + request.error);
   }
@@ -123,24 +166,27 @@ StartCoroutine(SaveScoresCoroutine(json));
   }
  }
 
- public List<ScoreData> loadScores()
- {
-  string json;
-
-#if UNITY_EDITOR || UNITY_STANDALONE
-  json = File.ReadAllText(filePath);
-#elif UNITY_WEBGL
-          UnityWebRequest request = UnityWebRequest.Get(filePath);
-        request.SendWebRequest();
-        while (!request.isDone) { }
-        json = request.downloadHandler.text;
+public List<ScoreData> loadScores()
+{
+ Debug.Log("Attempting to load scores");
+    string filePath = Path.Combine(Application.streamingAssetsPath, "scores.json");
+    UnityWebRequest request = UnityWebRequest.Get(filePath);
+    request.SendWebRequest();
+    while (!request.isDone) { }
+    if (request.result != UnityWebRequest.Result.Success)
+    {
+        Debug.LogError("Failed to load scores: " + request.error);
+        return null;
+    }
+    // read data from request handler
+    string json = request.downloadHandler.text;
+    //move data into list of ScoreData objects
+    scores = JsonConvert.DeserializeObject<List<ScoreData>>(json);
+    Debug.Log("Scores loaded successfully.");
+    Debug.Log("Scores: "+scores);
+    return scores;
+}
 #endif
-
-  scores = JsonConvert.DeserializeObject<List<ScoreData>>(json);
-  Debug.Log("Scores loaded successfully.");
-  return scores;
- }
-
  public List<ScoreData> modeScores(string gameMode)
  {
   List<ScoreData> filteredScores = new List<ScoreData>();

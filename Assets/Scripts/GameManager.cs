@@ -17,19 +17,16 @@ public class GameManager : MonoBehaviour
  public bool gameStarted;
  public bool levelPlaying;
  public float gameStartTime;
-
  private bool spawningPaused = false;
  private List<string> previousScores = new List<string>();
  // private bool isArrowSpawnCoroutineRunning = false;
  [SerializeField] private MidiFilePlayer midiFilePlayer; // Reference to the MidiFilePlayer
-                                                         // Flag to track if the level is playing
  private float levelStartTime = 0f; // Time when the level started playing
-
 
  void Start()
  {
+ 
   InitializeGameManager();
-  Debug.Log("GMStart");
   if (midiFilePlayer == null)
   {
    Debug.LogError("MidiFilePlayer is not assigned!");
@@ -37,6 +34,10 @@ public class GameManager : MonoBehaviour
   else
   {
    Debug.Log("MidiFilePlayer is assigned correctly.");
+  }
+  if (SceneManager.GetActiveScene().name == "MainMenu")
+  {
+   PlayerPrefs.SetString("sceneType", "menu");
   }
  }
  public void InitializeGameManager()
@@ -68,6 +69,12 @@ public class GameManager : MonoBehaviour
  }
  public IEnumerator LoadSongData()
  {
+  if (songData.Instance == null)
+  {
+   Debug.Log("song data null");
+   yield break;
+  }
+  Debug.Log("load song data");
   yield return songData.Instance.LoadSongs();
  }
  private void FindMidiFilePlayer()
@@ -87,6 +94,7 @@ public class GameManager : MonoBehaviour
   gameStarted = true;
   levelPlaying = true;
   UpdateBeatOptions();
+  // Debug.Log("MidiScoreBeats"+ midiScoreBeats);
   SpawnManager.Instance.InitializeArrowsSpawned(midiScoreBeats.Count);
   SpawnManager.Instance.InitializeMidiScoreBeats(midiScoreBeats);
   levelStartTime = Time.time; // record the start time of the level
@@ -96,6 +104,7 @@ public class GameManager : MonoBehaviour
 
  public void UpdateBeatOptions()
  {
+  if (songData.Instance != null){
   int selectedSongIndex = PlayerPrefs.GetInt("selectedSongIndex", 0);
   int beatType = PlayerPrefs.GetInt("beatType", 0); // Default to 0 for midi_score_beats
   Debug.Log("selectedSongIndex: " + selectedSongIndex);
@@ -114,6 +123,7 @@ public class GameManager : MonoBehaviour
     midiScoreBeats = songData.Instance.GetMidiScoreBeats(selectedSongIndex);
     break;
   }
+ }
  }
 
  void Update()
@@ -168,10 +178,11 @@ public class GameManager : MonoBehaviour
    return false;
   }
  }
- // public void EndLevel()
- // {
- //  levelPlaying = false;
- // }
+ public void EndLevel()
+ {
+  // midiFilePlayer.MPTK_Stop();
+  levelPlaying = false;
+ }
  // public void StartLevel()
  // {
  //  levelPlaying = true;
@@ -196,12 +207,6 @@ public class GameManager : MonoBehaviour
   }
   return false;
  }
-
- public void resetLevel()
- {
-  midiFilePlayer.MPTK_Stop();
-  // spawningPaused = false;
- }
  public void gameStartBtn()
  {
   gameStarted = true;
@@ -211,5 +216,6 @@ public class GameManager : MonoBehaviour
  {
   gameStarted = false;
   levelPlaying = false;
+  spawningPaused = false;
  }
 }

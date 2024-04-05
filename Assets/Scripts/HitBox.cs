@@ -9,7 +9,6 @@ public class HitBox : MonoBehaviour
  private float otherHitboxMultiplier = 1.5f;
  private arrows arrow;
  private float perfectTimingWindow = 0.2f;
- [SerializeField] private MidiFilePlayer midiFilePlayer;
  private void OnTriggerEnter(Collider other)
  {
   // Check if the collided object has the "Arrow" tag
@@ -20,7 +19,6 @@ public class HitBox : MonoBehaviour
    // Ensure the arrows script component is not null
    if (arrow != null)
    {
-    // float currentPlaybackTime = (float)midiFilePlayer.MPTK_PlayTime.TotalSeconds;
     // Debug.Log(currentPlaybackTime);
     // Calculate accuracy and score
 
@@ -66,43 +64,35 @@ public class HitBox : MonoBehaviour
  }
  public void SetHitboxSize()
  {
-  float arrowSpeed = arrow.GetComponent<arrows>().speed;
+  arrow = GetComponentInParent<arrows>();
+  if (arrow == null)
+  {
+   return;
+  }
+  float arrowSpeed = arrow.speed;
   float perfectHitboxSize = arrowSpeed * perfectTimingWindow;
-  // Calculate the size of the other hitboxes
   float otherSize = perfectHitboxSize * otherHitboxMultiplier;
-  // Calculate the offset for positioning the other hitboxes relative to the perfect hitbox
   float otherHitboxOffset = (otherSize - transform.localScale.y);
 
-  // Set the scale of the perfect hitbox
   transform.localScale = new Vector3(transform.localScale.x, perfectHitboxSize, transform.localScale.z);
-
-  // Set the scale and position of the early hitbox
-  HitBox earlyHitbox = FindHitBox("TooEarly");
-  if (earlyHitbox != null)
+  hitBoxScale("TooEarly", otherSize, otherHitboxOffset);
+  hitBoxScale("EarlyMiss", otherSize, otherHitboxOffset * otherHitboxMultiplier);
+  hitBoxScale("TooLate", otherSize, -otherHitboxOffset);
+ }
+ private void hitBoxScale(string hitBoxName, float otherSize, float yOffset)
+ {
+  HitBox hitBox = FindHitBox(hitBoxName);
+  if (hitBox != null)
   {
-   earlyHitbox.transform.localPosition = new Vector3(earlyHitbox.transform.localPosition.x, otherHitboxOffset, earlyHitbox.transform.localPosition.z);
-   earlyHitbox.transform.localScale = new Vector3(earlyHitbox.transform.localScale.x, otherSize, earlyHitbox.transform.localScale.z);
-  }
-
-  // Set the scale and position of the early miss hitbox
-  HitBox earlyMissHitbox = FindHitBox("EarlyMiss");
-  if (earlyMissHitbox != null)
-  {
-   earlyMissHitbox.transform.localPosition = new Vector3(earlyMissHitbox.transform.localPosition.x, otherHitboxOffset * otherHitboxMultiplier, earlyMissHitbox.transform.localPosition.z);
+   hitBox.transform.localPosition = new Vector3(hitBox.transform.localPosition.x, yOffset, hitBox.transform.localPosition.z);
+   hitBox.transform.localScale = new Vector3(hitBox.transform.localScale.x, otherSize, hitBox.transform.localScale.z);
   }
   else
   {
-   Debug.LogError("earlyMiss null");
-  }
-
-  // Set the scale and position of the late hitbox
-  HitBox lateHitbox = FindHitBox("TooLate");
-  if (lateHitbox != null)
-  {
-   lateHitbox.transform.localPosition = new Vector3(lateHitbox.transform.localPosition.x, -otherHitboxOffset, lateHitbox.transform.localPosition.z);
-   lateHitbox.transform.localScale = new Vector3(lateHitbox.transform.localScale.x, otherSize, lateHitbox.transform.localScale.z);
+   Debug.LogError(hitBoxName + " hitbox not found.");
   }
  }
+
  private HitBox FindHitBox(string hitBoxName)
  {
   // Find the hitbox with the specified name within the same parent
@@ -116,22 +106,9 @@ public class HitBox : MonoBehaviour
   Debug.Log("null");
   return null; // Return null if the hitbox is not found
  }
- // public void hitboxTimings()
- // {
- //  // if (arrow != null)
- //  // {
- //   // float arrowSpeed = arrow.speed;
-
- //   // SetHitboxSize(perfectHitboxSize);
- //  // }
- //  // else
- //  // {
- //  //  Debug.LogError("Arrows component not found on the HitBox GameObject.");
- //  // }
- // }
  public bool ProcessHit(float beatTime, float currentPlaybackTime, int hitBoxIndex)
  {
-  // Call the AccuracyManager to calculate accuracy and score
+  // call accuracyManager to calculate accuracy and score
   AccuracyManager.Instance.CalculateAccuracyAndScore(beatTime, currentPlaybackTime, hitBoxIndex);
   return true;
  }

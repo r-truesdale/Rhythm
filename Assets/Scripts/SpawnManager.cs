@@ -22,8 +22,8 @@ public class SpawnManager : MonoBehaviour
   {
    Instance = this;
    spawningPaused = false;
-   levelReset();
-   findObjects();
+   // levelReset();
+   // findObjects();
   }
   else
   {
@@ -32,6 +32,8 @@ public class SpawnManager : MonoBehaviour
  }
  void Start()
  {
+  findObjects();
+  Debug.Log("spawnmanager start");
   CheckArrowSpawn();
   initialize();
   if (midiScoreBeats != null)
@@ -47,14 +49,17 @@ public class SpawnManager : MonoBehaviour
    Debug.LogError("Failed to load song data. midiScoreBeats is null.");
   }
  }
-
  public void findObjects()
  {
+  if (midiFilePlayer == null)
+  {
+  Debug.Log("Find Objects");
   midiFilePlayer = FindObjectOfType<MidiFilePlayer>();
   GameObject[] rootObjects = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
   foreach (GameObject rootObject in rootObjects)
   {
    FindHitboxesInHierarchy(rootObject.transform);
+  }
   }
  }
  private void FindHitboxesInHierarchy(Transform parent)
@@ -85,6 +90,10 @@ public class SpawnManager : MonoBehaviour
  }
  void Update()
  {
+  if (PlayerPrefs.GetString("sceneType") == "gameplay")
+  {
+   findObjects();
+  }
   GameManager.Instance.checkGameStart();
   CheckArrowSpawn();
   HandlePlayerInput();
@@ -92,8 +101,6 @@ public class SpawnManager : MonoBehaviour
  public void InitializeSpawnManager(List<HitBox> hitBoxes, List<float> midiScoreBeats, List<GameObject> spawnedArrows)
  {
   this.hitBoxes = hitBoxes;
-  // this.spawnedArrows = spawnedArrows;
-  // initialized = true;
  }
  public void InitializeArrowsSpawned(int count)
  {
@@ -103,11 +110,14 @@ public class SpawnManager : MonoBehaviour
    arrowsSpawned[i] = false;
   }
   initialized = true;
+  Debug.Log("arrows spawned initialized");
  }
 
  public void InitializeMidiScoreBeats(List<float> scoreBeats)
  {
+
   midiScoreBeats = new List<float>(scoreBeats);
+  Debug.Log("midiinitialized");
  }
  public GameObject SpawnArrow(GameObject arrowPrefab, float arrowSpawnTime, float beatTime, float arrowSpeed)
  {
@@ -130,22 +140,21 @@ public class SpawnManager : MonoBehaviour
  }
  void CheckArrowSpawn()
  {
-  if (spawningPaused)
+  if (spawningPaused || GameManager.Instance == null)
+   return;
+  if (!GameManager.Instance.checkGameStart())
    return;
 
-  if (GameManager.Instance.levelPlaying && GameManager.Instance.songStatus() && GameManager.Instance.gameStarted)
+  if (GameManager.Instance.levelPlaying && GameManager.Instance.songStatus() && GameManager.Instance.checkGameStart())
   {
    float elapsedTime = GameManager.Instance.CheckElapsedTime();
    float currentPosition = (float)midiFilePlayer.MPTK_PlayTime.TotalSeconds;
    bool arrowSpawnedThisFrame = false; // track if an arrow has been spawned in this frame
-
    for (int i = 0; i < midiScoreBeats.Count; i++)
    {
     float beatTime = midiScoreBeats[i];
     float arrowSpawnTime = beatTime - GetTimeToHitbox();
-
     float arrowSpeed = arrowPrefab.GetComponent<arrows>().speed;
-
     if (i < arrowsSpawned.Length && !arrowSpawnedThisFrame && !arrowsSpawned[i] && elapsedTime >= arrowSpawnTime)
     {
      GameObject newArrow = SpawnArrow(arrowPrefab, arrowSpawnTime, beatTime, arrowSpeed); // spawn the arrow earlier
@@ -157,7 +166,6 @@ public class SpawnManager : MonoBehaviour
    }
   }
  }
-
 
  public Vector3 GetArrowSpawnPosition()
  {
@@ -188,8 +196,6 @@ public class SpawnManager : MonoBehaviour
   }
  }
 
-
-
  public void ProcessArrowHit(arrows arrowScript)
  {
   int hitBoxIndex = arrowScript.hitBoxIndex;
@@ -207,8 +213,11 @@ public class SpawnManager : MonoBehaviour
   spawnedArrows.Remove(arrowScript.gameObject);
   Destroy(arrowScript.gameObject);
  }
+
  void HandlePlayerInput()
  {
+  if (spawningPaused || GameManager.Instance == null)
+   return;
   if (!GameManager.Instance.levelPlaying)
    return;
 
@@ -217,16 +226,13 @@ public class SpawnManager : MonoBehaviour
    for (int i = 0; i < spawnedArrows.Count; i++)
    {
     GameObject arrowObject = spawnedArrows[i];
-
     // check if arrow object active
     if (arrowObject != null && arrowObject.activeSelf)
     {
      arrows arrowScript = arrowObject.GetComponent<arrows>();
-
      if (arrowScript != null)
      {
       int hitBoxIndex = arrowScript.hitBoxIndex;
-
       HitBox hitBox = hitBoxes[hitBoxIndex];
       if (hitBox != null)
       {
@@ -251,7 +257,7 @@ public class SpawnManager : MonoBehaviour
  {
   spawnedArrows.Clear();
   Array.Clear(arrowsSpawned, 0, arrowsSpawned.Length);
- Debug.Log(arrowsSpawned);
+  // Debug.Log(arrowsSpawned);
   hitBoxes.Clear();
   midiScoreBeats.Clear();
  }

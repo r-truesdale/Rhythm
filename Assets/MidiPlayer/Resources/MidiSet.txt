@@ -42,6 +42,7 @@
     <string>DarkCloud2</string>
     <string>Debussy - Clair De Lune</string>
     <string>Debussy - Clair De Lune V2</string>
+    <string>Denisova06M</string>
     <string>Donkey Kong - Country</string>
     <string>Donkey Kong - Theme</string>
     <string>Dragon Ball Z - Battle Theme1</string>

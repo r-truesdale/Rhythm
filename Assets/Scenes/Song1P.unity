@@ -346,11 +346,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startButton: {fileID: 0}
-  gameManager: {fileID: 1862701657}
+  gameManager: {fileID: 0}
   spawnManager: {fileID: 0}
   scoreManager: {fileID: 0}
   songEndUI: {fileID: 818010410}
   songMenu: {fileID: 0}
+  playerStats: {fileID: 0}
   lateText: {fileID: 1247046472}
   earlyText: {fileID: 1770352587}
   perfectText: {fileID: 1842676704}
@@ -410,7 +411,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitBoxName: TooEarly
-  midiFilePlayer: {fileID: 1320583019}
 --- !u!65 &67450229
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2360,18 +2360,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1320583019}
-        m_TargetAssemblyTypeName: MidiPlayerTK.MidiFilePlayer, Assembly-CSharp
-        m_MethodName: MPTK_Stop
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 66715878}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -2395,6 +2383,18 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1320583019}
+        m_TargetAssemblyTypeName: MidiPlayerTK.MidiFilePlayer, Assembly-CSharp
+        m_MethodName: MPTK_Pause
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: -1
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &979383696
 MonoBehaviour:
@@ -2672,7 +2672,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitBoxName: 
-  midiFilePlayer: {fileID: 0}
 --- !u!43 &1056146382
 Mesh:
   m_ObjectHideFlags: 0
@@ -4766,7 +4765,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitBoxName: Perfect
-  midiFilePlayer: {fileID: 1320583019}
 --- !u!54 &1632437390
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5485,57 +5483,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1842676702}
   m_CullTransparentMesh: 1
---- !u!1 &1862701656
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1862701658}
-  - component: {fileID: 1862701657}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1862701657
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1862701656}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bce5c9a92b90c23489acd1ef7c12a752, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  beatsNum: {fileID: 0}
-  midiScoreBeats: []
-  midiScoreDownBeats: []
-  arrowPrefab: {fileID: 9140787773481782127, guid: 3d51158c7b8ae7f49bae21134f8901d3, type: 3}
-  gameStarted: 0
-  gameStartTime: 0
-  midiFilePlayer: {fileID: 0}
---- !u!4 &1862701658
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1862701656}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 375.30002, y: 268.2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1867033809
 GameObject:
   m_ObjectHideFlags: 0
@@ -6219,7 +6166,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitBoxName: EarlyMiss
-  midiFilePlayer: {fileID: 1320583019}
 --- !u!1 &1922097540
 GameObject:
   m_ObjectHideFlags: 0
@@ -6303,9 +6249,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: songMenu, Assembly-CSharp
-        m_MethodName: gameMenu
+      - m_Target: {fileID: 66715883}
+        m_TargetAssemblyTypeName: gameUI, Assembly-CSharp
+        m_MethodName: lvlSelectPracBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6402,7 +6348,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitBoxName: TooLate
-  midiFilePlayer: {fileID: 1320583019}
 --- !u!65 &1999256953
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6645,9 +6590,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: songMenu, Assembly-CSharp
-        m_MethodName: mainMenu
+      - m_Target: {fileID: 66715883}
+        m_TargetAssemblyTypeName: gameUI, Assembly-CSharp
+        m_MethodName: mainMenuBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7418,7 +7363,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitBoxName: LateMiss
-  midiFilePlayer: {fileID: 1320583019}
 --- !u!65 &2122861878
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7497,7 +7441,6 @@ SceneRoots:
   - {fileID: 245515623}
   - {fileID: 73283124}
   - {fileID: 1181406143}
-  - {fileID: 1862701658}
   - {fileID: 1320583018}
   - {fileID: 1548098369}
   - {fileID: 1463314194}

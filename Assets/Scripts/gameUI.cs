@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
+using UnityEngine.SceneManagement;
 public class gameUI : MonoBehaviour
 {
+ public static gameUI Instance { get; private set; }
  [SerializeField] private Button startButton;
  [Header("Scripts")]
  [SerializeField] private GameManager gameManager; //instead of using inspector bc of GM instance
@@ -13,6 +14,7 @@ public class gameUI : MonoBehaviour
  [SerializeField] private ScoreManager scoreManager;
  [SerializeField] private GameObject songEndUI;
  [SerializeField] private songMenu songMenu;
+ [SerializeField] private playerStats playerStats;
  [Header("Text Elements")]
  [SerializeField] private TMP_Text lateText;
  [SerializeField] private TMP_Text earlyText;
@@ -25,37 +27,23 @@ public class gameUI : MonoBehaviour
  [SerializeField] private Transform lateBarSpawnPoint;
  [SerializeField] private Transform lateMissBarSpawnPoint;
  public Canvas EndCanvas;
- bool levelEnded = GameManager.Instance.checkLevelEnded();
-
-
- // }
+ private bool levelEnded;
  void Start()
  {
-
   // Find the GameManager instance
-  GameManager gameManager = FindObjectOfType<GameManager>();
+  gameManager = FindObjectOfType<GameManager>();
   spawnManager = GameObject.Find("GameMaster").GetComponent<SpawnManager>();
+  playerStats = GameObject.Find("GameMaster").GetComponent<playerStats>();
   scoreManager = GameObject.Find("GameMaster").GetComponent<ScoreManager>();
   songMenu = GameObject.Find("GameMaster").GetComponent<songMenu>();
   songEndUI.SetActive(false);
-
-
-  if (gameManager != null && spawnManager != null)
-  {
-   // Get the Button component attached to this GameObject
-   startButton = GameObject.Find("StartBtn").GetComponent<Button>();
-  }
-  else
-  {
-   Debug.LogError("GameManager not found in the scene.");
-  }
+  // bool levelEnded = GameManager.Instance.checkLevelEnded();
  }
 
  void Update()
  {
   if (levelEnded)
   {
-
    songEndUI.SetActive(true); // Activate the canvas
    scoreGraph(); // Call the method to display score graph
   }
@@ -70,15 +58,41 @@ public class gameUI : MonoBehaviour
  }
  public void endBtn()
  {
-  // gameManager.EndLevel();
-  SpawnManager.Instance.stopSpawn();
+  // GameManager.Instance.EndLevel();
   songEndUI.SetActive(true);
   scoreGraph();
+  SpawnManager.Instance.stopSpawn();
+
+ }
+
+ public void lvlSelectPracBtn()
+ {
+  // GameManager.Instance.resetLevel();
+  GameManager.Instance.gameEndBtn();
+  SpawnManager.Instance.levelReset();
+  ScoreManager.Instance.clearScores();
+  songMenu.practiceMenu();
+ }
+ public void lvlSelectGameBtn()
+ {
+  // GameManager.Instance.resetLevel();
+  GameManager.Instance.gameEndBtn();
+  SpawnManager.Instance.levelReset();
+  ScoreManager.Instance.clearScores();
+  songMenu.gameMenu();
+ }
+ public void mainMenuBtn()
+ {
+  // GameManager.Instance.resetLevel();
+  GameManager.Instance.gameEndBtn();
+  SpawnManager.Instance.levelReset();
+  ScoreManager.Instance.clearScores();
+  // songMenu.Instance.mainMenu();
+  // SceneManager.LoadScene("MainMenu");
  }
  public void statsBtn()
  {
   GameManager.Instance.gameEndBtn();
-  GameManager.Instance.resetLevel();
   SpawnManager.Instance.levelReset();
   ScoreManager.Instance.clearScores();
   songMenu.playerStatsMenu();
@@ -101,7 +115,6 @@ public class gameUI : MonoBehaviour
   perfectText.text = scoreManager.perfect.ToString();
   lateText.text = scoreManager.late.ToString();
 
-  // scoreGraphCalled = true;
   string levelName = PlayerPrefs.GetString("songName");
   string gameMode = PlayerPrefs.GetString("gameState");
   int earlyScore = 0;
@@ -111,10 +124,6 @@ public class gameUI : MonoBehaviour
   int lateMissScore = 0;
   string timestamp = System.DateTime.Now.ToString();
   ScoreManager.Instance.getScores(levelName, gameMode, earlyScore, earlyMissScore, perfectScore, lateScore, lateMissScore, timestamp);
-  // songEnded = true;
-  Debug.Log("songEnd");
-  SpawnManager.Instance.levelReset();
-
  }
 
  private void InstantiateCube(float width, Transform spawnPoint)
