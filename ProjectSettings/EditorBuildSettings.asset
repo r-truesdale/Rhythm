@@ -30,6 +30,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Song1P.unity
     guid: 4a8dbf6b3cee59a4fa94ca59a6b1e70b
   - enabled: 1
+    path: Assets/Scenes/Song2.unity
+    guid: cdb09aaf75623b84e8c3e0d2ee4c92cf
+  - enabled: 1
     path: Assets/Scenes/Song2P.unity
     guid: 1487fba0b8195164898c5dc121e869af
   - enabled: 0

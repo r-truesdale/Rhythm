@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
  void Start()
  {
- 
+
   InitializeGameManager();
   if (midiFilePlayer == null)
   {
@@ -86,44 +86,58 @@ public class GameManager : MonoBehaviour
   }
   else
   {
-   Debug.LogError("MidiFilePlayer component found and assigned successfully.");
+   Debug.Log("MidiFilePlayer component found and assigned successfully.");
   }
  }
  public void StartGame()
  {
-  gameStarted = true;
-  levelPlaying = true;
+  // gameStarted = true;
+
   UpdateBeatOptions();
   // Debug.Log("MidiScoreBeats"+ midiScoreBeats);
   SpawnManager.Instance.InitializeArrowsSpawned(midiScoreBeats.Count);
   SpawnManager.Instance.InitializeMidiScoreBeats(midiScoreBeats);
-  levelStartTime = Time.time; // record the start time of the level
+
   Debug.Log("Game Started at time: " + levelStartTime);
-  midiFilePlayer.MPTK_Play(); // start playing the MIDI file
+  float delay = 1f;
+  StartCoroutine(DelayedStartMidi(delay));
+  // midiFilePlayer.MPTK_Play(); // start playing the MIDI file
+ }
+ IEnumerator DelayedStartMidi(float delay)
+ {
+  yield return new WaitForSeconds(delay);
+  FindMidiFilePlayer();
+  levelStartTime = Time.time; // record the start time of the level
+  gameStarted = true;
+  levelPlaying = true;
+  midiFilePlayer.MPTK_Play(); // Start playing the MIDI file
  }
 
  public void UpdateBeatOptions()
  {
-  if (songData.Instance != null){
-  int selectedSongIndex = PlayerPrefs.GetInt("selectedSongIndex", 0);
-  int beatType = PlayerPrefs.GetInt("beatType", 0); // Default to 0 for midi_score_beats
-  Debug.Log("selectedSongIndex: " + selectedSongIndex);
-  switch (beatType)
+  if (songData.Instance != null)
   {
-   case 0: // midi_score_beats
-    midiScoreBeats = songData.Instance.GetMidiScoreBeats(selectedSongIndex);
-    break;
-   case 1: // midi_score_downbeats
-    midiScoreBeats = songData.Instance.GetMidiScoreDownBeats(selectedSongIndex);
-    break;
-   // case 2:
-   //     // Get the beats for the third option and assign them to midiScoreBeats
-   //     break;
-   default: // default to midi_score_beats if PlayerPrefs value is invalid
-    midiScoreBeats = songData.Instance.GetMidiScoreBeats(selectedSongIndex);
-    break;
+   int selectedSongIndex = PlayerPrefs.GetInt("selectedSongIndex", 0);
+   int beatType = PlayerPrefs.GetInt("beatType", 0); // Default to 0 for midi_score_beats
+   Debug.Log("selectedSongIndex: " + selectedSongIndex);
+   switch (beatType)
+   {
+    case 0: // midi_score_beats
+     midiScoreBeats = songData.Instance.GetMidiScoreBeats(selectedSongIndex);
+     Debug.Log("beats");
+     break;
+    case 1: // midi_score_downbeats
+     midiScoreBeats = songData.Instance.GetMidiScoreDownBeats(selectedSongIndex);
+     break;
+     Debug.Log("down beats");
+    // case 2:
+    //     // Get the beats for the third option and assign them to midiScoreBeats
+    //     break;
+    default: // default to midi_score_beats if PlayerPrefs value is invalid
+     midiScoreBeats = songData.Instance.GetMidiScoreBeats(selectedSongIndex);
+     break;
+   }
   }
- }
  }
 
  void Update()

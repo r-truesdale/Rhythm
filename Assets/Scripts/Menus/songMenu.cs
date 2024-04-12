@@ -39,11 +39,12 @@ public class songMenu : MonoBehaviour
   PlayerPrefs.SetString("sceneType", "gameplay");
   PlayerPrefs.SetInt("selectedSongIndex", songIndex);
   PlayerPrefs.SetString("gameState", "practice");
+  PlayerPrefs.SetString("songName", sceneNames[songIndex]);
   SceneManager.LoadScene(sceneNames[songIndex] + "P");
  }
  public void mainMenu()
  {
-    getSongData();
+    // getSongData();
   SceneManager.LoadScene("MainMenu");
   PlayerPrefs.SetString("sceneType", "menu");
  }

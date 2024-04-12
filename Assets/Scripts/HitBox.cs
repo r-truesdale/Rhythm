@@ -6,7 +6,7 @@ public class HitBox : MonoBehaviour
 {
  public string hitBoxName;
  private float perfectHitboxSize = 1.0f;
- private float otherHitboxMultiplier = 1.5f;
+ private float otherHitboxMultiplier = 1f;
  private arrows arrow;
  private float perfectTimingWindow = 0.2f;
  private void OnTriggerEnter(Collider other)
@@ -34,11 +34,6 @@ public class HitBox : MonoBehaviour
   }
  }
 
- void Start()
- {
-  // hitboxTimings();
-  SetHitboxSize();
- }
  public int GetHitBoxIndex()
  {
   // Determine the hitbox index based on its name or position in the array
@@ -62,40 +57,59 @@ public class HitBox : MonoBehaviour
     return -1; // Invalid hitbox
   }
  }
- public void SetHitboxSize()
+ public void Start()
  {
-  arrow = GetComponentInParent<arrows>();
+
+  GameObject arrowPrefab = SpawnManager.Instance.arrowPrefab;
+  arrows arrow = arrowPrefab.GetComponent<arrows>();
   if (arrow == null)
   {
    return;
-  }
+  } // hitboxes change size to match change in arrow speed
   float arrowSpeed = arrow.speed;
   float perfectHitboxSize = arrowSpeed * perfectTimingWindow;
+  float sizeDifference = perfectHitboxSize - this.perfectHitboxSize;
   float otherSize = perfectHitboxSize * otherHitboxMultiplier;
-  float otherHitboxOffset = (otherSize - transform.localScale.y);
+  float otherHitboxOffset = sizeDifference * 0.5f;
+  Debug.Log("sethitboxsize" + otherSize);
+  this.perfectHitboxSize = perfectHitboxSize;
+  transform.localScale = new Vector3(perfectHitboxSize, transform.localScale.y, transform.localScale.z);
+  Vector3 perfectPosition = transform.position;
+  Vector3 tooEarlyPosition = perfectPosition + transform.right * (0.5f * (transform.localScale.x + otherSize));
+  Vector3 tooLatePosition = perfectPosition - transform.right * (0.5f * (transform.localScale.x + otherSize));
+  Vector3 earlyMissPosition = tooEarlyPosition + transform.right * otherSize;
+  Vector3 lateMissPosition = tooLatePosition - transform.right * otherSize;
 
-  transform.localScale = new Vector3(transform.localScale.x, perfectHitboxSize, transform.localScale.z);
-  hitBoxScale("TooEarly", otherSize, otherHitboxOffset);
-  hitBoxScale("EarlyMiss", otherSize, otherHitboxOffset * otherHitboxMultiplier);
-  hitBoxScale("TooLate", otherSize, -otherHitboxOffset);
- }
- private void hitBoxScale(string hitBoxName, float otherSize, float yOffset)
- {
-  HitBox hitBox = FindHitBox(hitBoxName);
-  if (hitBox != null)
-  {
-   hitBox.transform.localPosition = new Vector3(hitBox.transform.localPosition.x, yOffset, hitBox.transform.localPosition.z);
-   hitBox.transform.localScale = new Vector3(hitBox.transform.localScale.x, otherSize, hitBox.transform.localScale.z);
-  }
-  else
-  {
-   Debug.LogError(hitBoxName + " hitbox not found.");
-  }
- }
+  float earlyMissXOffset = 0.5f * (transform.localScale.x + otherSize);
+  float lateMissXOffset = 0.5f * (transform.localScale.x + otherSize);
 
+  Vector3 earlyMissOffset = transform.right * (earlyMissXOffset*2f);
+  Vector3 lateMissOffset = transform.right * lateMissXOffset;
+
+  Vector3 earlyMissAdjustedPosition = earlyMissPosition + earlyMissOffset*2f;
+  Vector3 lateMissAdjustedPosition = lateMissPosition - lateMissOffset;
+float screenWidth = Camera.main.aspect * Camera.main.orthographicSize * 2f;
+  HitBox tooEarlyHitbox = FindHitBox("TooEarly");
+  HitBox tooLateHitbox = FindHitBox("TooLate");
+  HitBox earlyMissHitbox = FindHitBox("EarlyMiss");
+  HitBox lateMissHitbox = FindHitBox("LateMiss");
+  HitBox perfectHitbox = FindHitBox("Perfect");
+  if (tooEarlyHitbox != null && tooLateHitbox != null)
+  {
+   perfectHitbox.transform.position = perfectPosition;
+   tooEarlyHitbox.transform.position = tooEarlyPosition;
+   tooLateHitbox.transform.position = tooLatePosition;
+   earlyMissHitbox.transform.position = earlyMissAdjustedPosition;
+   lateMissHitbox.transform.position = lateMissAdjustedPosition;
+   float earlyMissScaleX = Mathf.Abs(earlyMissAdjustedPosition.x - tooEarlyPosition.x - (earlyMissXOffset/2)) * 2f;
+   float lateMissScaleX = Mathf.Abs(tooLatePosition.x - lateMissAdjustedPosition.x - (lateMissXOffset/2)) * 2f;
+
+   earlyMissHitbox.transform.localScale = new Vector3(earlyMissScaleX, earlyMissHitbox.transform.localScale.y, earlyMissHitbox.transform.localScale.z);
+   lateMissHitbox.transform.localScale = new Vector3(lateMissScaleX, lateMissHitbox.transform.localScale.y, lateMissHitbox.transform.localScale.z);
+  }
+ }
  private HitBox FindHitBox(string hitBoxName)
  {
-  // Find the hitbox with the specified name within the same parent
   foreach (Transform child in transform.parent)
   {
    if (child.CompareTag("HitBox") && child.GetComponent<HitBox>().hitBoxName == hitBoxName)
@@ -104,8 +118,9 @@ public class HitBox : MonoBehaviour
    }
   }
   Debug.Log("null");
-  return null; // Return null if the hitbox is not found
+  return null;
  }
+ 
  public bool ProcessHit(float beatTime, float currentPlaybackTime, int hitBoxIndex)
  {
   // call accuracyManager to calculate accuracy and score

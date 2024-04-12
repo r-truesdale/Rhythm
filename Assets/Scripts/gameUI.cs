@@ -37,7 +37,6 @@ public class gameUI : MonoBehaviour
   scoreManager = GameObject.Find("GameMaster").GetComponent<ScoreManager>();
   songMenu = GameObject.Find("GameMaster").GetComponent<songMenu>();
   songEndUI.SetActive(false);
-  // bool levelEnded = GameManager.Instance.checkLevelEnded();
  }
 
  void Update()
@@ -62,7 +61,7 @@ public class gameUI : MonoBehaviour
   songEndUI.SetActive(true);
   scoreGraph();
   SpawnManager.Instance.stopSpawn();
-
+SpawnManager.Instance.destroyArrows();
  }
 
  public void lvlSelectPracBtn()

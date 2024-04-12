@@ -8,7 +8,7 @@ public class SpawnManager : MonoBehaviour
 {
  public static SpawnManager Instance { get; private set; }
  [SerializeField] private MidiFilePlayer midiFilePlayer; // Reference to the MidiFilePlayer
- [SerializeField] private GameObject arrowPrefab; // Reference to the arrow prefab
+ public GameObject arrowPrefab; // public so hitbox can access for speed
  [SerializeField] private List<HitBox> hitBoxes = new List<HitBox>(); // Reference to the hitboxes
  [SerializeField] private List<float> midiScoreBeats = new List<float>(); // Reference to the MIDI score beats
  [SerializeField] private bool[] arrowsSpawned;
@@ -53,13 +53,13 @@ public class SpawnManager : MonoBehaviour
  {
   if (midiFilePlayer == null)
   {
-  Debug.Log("Find Objects");
-  midiFilePlayer = FindObjectOfType<MidiFilePlayer>();
-  GameObject[] rootObjects = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
-  foreach (GameObject rootObject in rootObjects)
-  {
-   FindHitboxesInHierarchy(rootObject.transform);
-  }
+   Debug.Log("Find Objects");
+   midiFilePlayer = FindObjectOfType<MidiFilePlayer>();
+   GameObject[] rootObjects = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
+   foreach (GameObject rootObject in rootObjects)
+   {
+    FindHitboxesInHierarchy(rootObject.transform);
+   }
   }
  }
  private void FindHitboxesInHierarchy(Transform parent)
@@ -169,7 +169,7 @@ public class SpawnManager : MonoBehaviour
 
  public Vector3 GetArrowSpawnPosition()
  {
-  return new Vector3(50f, 100f, -2.5f);
+  return new Vector3(100f, 50f, -2.5f);
  }
 
  private float GetTimeToHitbox()
@@ -260,6 +260,15 @@ public class SpawnManager : MonoBehaviour
   // Debug.Log(arrowsSpawned);
   hitBoxes.Clear();
   midiScoreBeats.Clear();
+ }
+ public void destroyArrows(){
+     foreach (GameObject arrowObject in spawnedArrows)
+    {
+        if (arrowObject != null)
+        {
+            Destroy(arrowObject);
+        }
+    }
  }
  public void stopSpawn()
  {
