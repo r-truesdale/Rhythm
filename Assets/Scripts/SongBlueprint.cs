@@ -20,6 +20,6 @@ public class SongBlueprint
     public string name;
     public List<float> midi_score_beats;
     public List<float> midi_score_downbeats;
-
+    public List<float> midi_offbeats;
 }
 

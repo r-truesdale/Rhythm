@@ -11,21 +11,14 @@ public class HitBox : MonoBehaviour
  private float perfectTimingWindow = 0.2f;
  private void OnTriggerEnter(Collider other)
  {
-  // Check if the collided object has the "Arrow" tag
   if (other.CompareTag("Arrow"))
   {
-   // Retrieve the arrows script component
+   //get arrows script component
    arrows arrow = other.GetComponent<arrows>();
-   // Ensure the arrows script component is not null
    if (arrow != null)
    {
-    // Debug.Log(currentPlaybackTime);
-    // Calculate accuracy and score
-
     int hitBoxIndex = GetHitBoxIndex();
-    // AccuracyManager.Instance.CalculateAccuracyAndScore(arrow.beatTime, currentPlaybackTime, hitBoxIndex);
     arrow.SetHitBoxIndex(hitBoxIndex);
-    // Set the hit box index in the arrows script
    }
    else
    {
@@ -36,7 +29,6 @@ public class HitBox : MonoBehaviour
 
  public int GetHitBoxIndex()
  {
-  // Determine the hitbox index based on its name or position in the array
   switch (hitBoxName)
   {
    case "Perfect":
@@ -71,7 +63,7 @@ public class HitBox : MonoBehaviour
   float sizeDifference = perfectHitboxSize - this.perfectHitboxSize;
   float otherSize = perfectHitboxSize * otherHitboxMultiplier;
   float otherHitboxOffset = sizeDifference * 0.5f;
-  Debug.Log("sethitboxsize" + otherSize);
+  // Debug.Log("sethitboxsize" + otherSize);
   this.perfectHitboxSize = perfectHitboxSize;
   transform.localScale = new Vector3(perfectHitboxSize, transform.localScale.y, transform.localScale.z);
   Vector3 perfectPosition = transform.position;
@@ -120,7 +112,7 @@ float screenWidth = Camera.main.aspect * Camera.main.orthographicSize * 2f;
   Debug.Log("null");
   return null;
  }
- 
+
  public bool ProcessHit(float beatTime, float currentPlaybackTime, int hitBoxIndex)
  {
   // call accuracyManager to calculate accuracy and score

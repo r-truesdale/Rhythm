@@ -10,8 +10,10 @@ public class arrows : MonoBehaviour
  public int hitBoxIndex;
  void Update()
  {
-  // Move the arrow left continuously
-  transform.Translate(Vector3.left * speed * Time.deltaTime);
+    if (!GameManager.Instance.gamePaused)
+    {
+        transform.Translate(Vector3.left * speed * Time.deltaTime);
+    }
  }
  public void SetHitBoxIndex(int index)
  {

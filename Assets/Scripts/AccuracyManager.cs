@@ -32,13 +32,10 @@ public class AccuracyManager : MonoBehaviour
   switch (hitBoxIndex)
   {
    case 0: // perfect
-           // if (timingAccuracy < 0.1f)
-           // {
     Debug.Log("Perfect timing accuracy! Beat: " + beatTime + "playback:" + currentPlaybackTime + "accuracy:" + timingAccuracy);
     accuracyResult = "perfect";
     ScoreManager.Instance.AddScore(100); // Award maximum points for perfect hits
     ScoreManager.Instance.AddPerfect(1);
-    // }
     break;
    case 1: // too early
     Debug.Log("Too early! Beat: " + beatTime + "playback:" + currentPlaybackTime + "accuracy:" + timingAccuracy);

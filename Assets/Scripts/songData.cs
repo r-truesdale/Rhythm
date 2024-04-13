@@ -90,4 +90,15 @@ public class songData : MonoBehaviour
    return null;
   }
  }
+  public List<float> GetMidiOffBeats(int songIndex)
+ {
+  if (AllSongs != null && songIndex >= 0 && songIndex < AllSongs.Count)
+  {
+   return AllSongs[songIndex].midi_offbeats;
+  }
+  else
+  {
+   return null;
+  }
+ }
 }

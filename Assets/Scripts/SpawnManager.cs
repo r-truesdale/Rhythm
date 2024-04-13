@@ -22,8 +22,6 @@ public class SpawnManager : MonoBehaviour
   {
    Instance = this;
    spawningPaused = false;
-   // levelReset();
-   // findObjects();
   }
   else
   {
@@ -252,7 +250,20 @@ public class SpawnManager : MonoBehaviour
    }
   }
  }
-
+ public void pauseArrows()
+ {
+  foreach (GameObject arrowObject in spawnedArrows)
+  {
+   if (arrowObject != null)
+   {
+    Rigidbody2D rb = arrowObject.GetComponent<Rigidbody2D>();
+    if (rb != null)
+    {
+     rb.velocity = Vector2.zero;
+    }
+   }
+  }
+ }
  public void levelReset()
  {
   spawnedArrows.Clear();
@@ -261,17 +272,19 @@ public class SpawnManager : MonoBehaviour
   hitBoxes.Clear();
   midiScoreBeats.Clear();
  }
- public void destroyArrows(){
-     foreach (GameObject arrowObject in spawnedArrows)
-    {
-        if (arrowObject != null)
-        {
-            Destroy(arrowObject);
-        }
-    }
+ public void destroyArrows()
+ {
+  foreach (GameObject arrowObject in spawnedArrows)
+  {
+   if (arrowObject != null)
+   {
+    Destroy(arrowObject);
+   }
+  }
  }
  public void stopSpawn()
  {
+  pauseArrows();
   spawningPaused = true;
  }
  public void playSpawn()

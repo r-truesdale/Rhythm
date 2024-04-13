@@ -29,7 +29,7 @@ public class playerStats : MonoBehaviour
  void Start()
  {
   InitializeStatsScreen();
-  Debug.Log("Stats awake");
+  // Debug.Log("Stats awake");
  }
  void InitializeStatsScreen()
  {
@@ -42,7 +42,6 @@ public class playerStats : MonoBehaviour
    switchModeButton = GameObject.Find("Canvas/ModeBtn").GetComponent<Button>();
    modeText = GameObject.Find("Canvas/modeText").GetComponent<TextMeshProUGUI>();
    statsScreen();
-   Debug.Log("Stats scene");
   }
  }
  public void statsScreen()

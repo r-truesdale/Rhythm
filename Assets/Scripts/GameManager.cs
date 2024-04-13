@@ -18,22 +18,25 @@ public class GameManager : MonoBehaviour
  public bool levelPlaying;
  public float gameStartTime;
  private bool spawningPaused = false;
+ private float pausedTime;
+ public bool gamePaused = false;
  private List<string> previousScores = new List<string>();
  // private bool isArrowSpawnCoroutineRunning = false;
  [SerializeField] private MidiFilePlayer midiFilePlayer; // Reference to the MidiFilePlayer
  private float levelStartTime = 0f; // Time when the level started playing
-
+ private double lastNote;
+ private double currentDuration;
  void Start()
  {
 
   InitializeGameManager();
   if (midiFilePlayer == null)
   {
-   Debug.LogError("MidiFilePlayer is not assigned!");
+   // Debug.Log("MidiFilePlayer is not assigned!");
   }
   else
   {
-   Debug.Log("MidiFilePlayer is assigned correctly.");
+   // Debug.Log("MidiFilePlayer is assigned correctly.");
   }
   if (SceneManager.GetActiveScene().name == "MainMenu")
   {
@@ -66,6 +69,7 @@ public class GameManager : MonoBehaviour
   levelPlaying = false;
   gameStarted = false;
   midiFilePlayer = FindObjectOfType<MidiFilePlayer>();
+
  }
  public IEnumerator LoadSongData()
  {
@@ -92,7 +96,6 @@ public class GameManager : MonoBehaviour
  public void StartGame()
  {
   // gameStarted = true;
-
   UpdateBeatOptions();
   // Debug.Log("MidiScoreBeats"+ midiScoreBeats);
   SpawnManager.Instance.InitializeArrowsSpawned(midiScoreBeats.Count);
@@ -120,23 +123,46 @@ public class GameManager : MonoBehaviour
    int selectedSongIndex = PlayerPrefs.GetInt("selectedSongIndex", 0);
    int beatType = PlayerPrefs.GetInt("beatType", 0); // Default to 0 for midi_score_beats
    Debug.Log("selectedSongIndex: " + selectedSongIndex);
-   switch (beatType)
+   if (PlayerPrefs.GetString("gameState") == "practice")
    {
-    case 0: // midi_score_beats
-     midiScoreBeats = songData.Instance.GetMidiScoreBeats(selectedSongIndex);
-     Debug.Log("beats");
-     break;
-    case 1: // midi_score_downbeats
-     midiScoreBeats = songData.Instance.GetMidiScoreDownBeats(selectedSongIndex);
-     break;
-     Debug.Log("down beats");
-    // case 2:
-    //     // Get the beats for the third option and assign them to midiScoreBeats
-    //     break;
-    default: // default to midi_score_beats if PlayerPrefs value is invalid
-     midiScoreBeats = songData.Instance.GetMidiScoreBeats(selectedSongIndex);
-     break;
+    switch (beatType)
+    {
+     case 0: // midi_score_beats
+      midiScoreBeats = songData.Instance.GetMidiScoreBeats(selectedSongIndex);
+      Debug.Log("beats");
+      break;
+     case 1: // midi_score_downbeats
+      midiScoreBeats = songData.Instance.GetMidiScoreDownBeats(selectedSongIndex);
+      break;
+      Debug.Log("down beats");
+     case 2:
+      midiScoreBeats = songData.Instance.GetMidiOffBeats(selectedSongIndex);
+      Debug.Log("off beats");
+      break;
+     default: // default to midi_score_beats if PlayerPrefs value is invalid
+      midiScoreBeats = songData.Instance.GetMidiOffBeats(selectedSongIndex);
+      break;
+    }
    }
+   else if (PlayerPrefs.GetString("gameState") == "game")
+    switch (beatType)
+    {
+     case 0: // midi_score_beats
+      midiScoreBeats = songData.Instance.GetMidiScoreBeats(selectedSongIndex);
+      Debug.Log("beats");
+      break;
+     case 1: // midi_score_downbeats
+      midiScoreBeats = songData.Instance.GetMidiScoreDownBeats(selectedSongIndex);
+      break;
+      Debug.Log("down beats");
+     case 2:
+      midiScoreBeats = songData.Instance.GetMidiOffBeats(selectedSongIndex);
+      Debug.Log("off beats");
+      break;
+     default: // default to midi_score_beats if PlayerPrefs value is invalid
+      midiScoreBeats = songData.Instance.GetMidiScoreBeats(selectedSongIndex);
+      break;
+    }
   }
  }
 
@@ -146,16 +172,35 @@ public class GameManager : MonoBehaviour
   {
    midiFilePlayer = FindObjectOfType<MidiFilePlayer>();
   }
+  else if (midiFilePlayer != null){
+  lastNote = midiFilePlayer.MPTK_DurationMS;
+  currentDuration = midiFilePlayer.MPTK_Position;
   checkGameStart();
   songStatus();
   checkLevelEnded();
+  songDuration();
+  // Debug.Log(songDuration());
+  Debug.Log(lastNote);
+  Debug.Log(currentDuration);
+  //   Debug.Log("Level playing" + levelPlaying);
+  // Debug.Log("Game started" + gameStarted);
+  // Debug.Log("Song Status" + songStatus());
   if (levelPlaying)
   {
    float elapsedTime = Time.time - levelStartTime;
   }
-  // Debug.Log("Level playing" + levelPlaying);
-  // Debug.Log("Game started" + gameStarted);
-  // Debug.Log("Song Status" + songStatus());
+ }
+ }
+ public bool songDuration()
+ {
+  if (levelPlaying && (lastNote) <= (currentDuration))
+  {
+   return true;
+  }
+  else
+  {
+   return false;
+  }
  }
  public float CheckElapsedTime()
  {
@@ -168,12 +213,10 @@ public class GameManager : MonoBehaviour
   {
    if (midiFilePlayer.MPTK_IsPlaying == true)
    {
-    // Debug.Log("still playing");
     return true;
    }
    else
    {
-    // Debug.Log("game ended");
     return false;
    }
    return false;
@@ -194,17 +237,9 @@ public class GameManager : MonoBehaviour
  }
  public void EndLevel()
  {
-  // midiFilePlayer.MPTK_Stop();
   levelPlaying = false;
  }
- // public void StartLevel()
- // {
- //  levelPlaying = true;
- // }
- // public void EnterMenu()
- // {
- //  levelPlaying = false;
- // }
+
  public bool checkLevelEnded()
  {
   if (midiFilePlayer != null)
@@ -231,5 +266,20 @@ public class GameManager : MonoBehaviour
   gameStarted = false;
   levelPlaying = false;
   spawningPaused = false;
+ }
+ public void PauseGame()
+ {
+  gamePaused = true;
+  pausedTime = Time.time;
+ }
+
+ public void ResumeGame()
+ {
+  if (gamePaused)
+  {
+   gamePaused = false;
+   float pauseDuration = Time.time - pausedTime;
+   levelStartTime += pauseDuration;
+  }
  }
 }

@@ -14,6 +14,7 @@ public class gameUI : MonoBehaviour
  [SerializeField] private ScoreManager scoreManager;
  [SerializeField] private GameObject songEndUI;
  [SerializeField] private songMenu songMenu;
+
  [SerializeField] private playerStats playerStats;
  [Header("Text Elements")]
  [SerializeField] private TMP_Text lateText;
@@ -26,8 +27,10 @@ public class gameUI : MonoBehaviour
  [SerializeField] private Transform perfectBarSpawnPoint;
  [SerializeField] private Transform lateBarSpawnPoint;
  [SerializeField] private Transform lateMissBarSpawnPoint;
- public Canvas EndCanvas;
- private bool levelEnded;
+ public Canvas pauseMenuCanvas;
+ [SerializeField] private Button pauseBtn;
+ [SerializeField] private Button resumeBtn;
+ [SerializeField] private Button gameOverBtn;
  void Start()
  {
   // Find the GameManager instance
@@ -41,13 +44,34 @@ public class gameUI : MonoBehaviour
 
  void Update()
  {
-  if (levelEnded)
-  {
-   songEndUI.SetActive(true); // Activate the canvas
-   scoreGraph(); // Call the method to display score graph
+  if(GameManager.Instance.songDuration()){
+   songEnded();
   }
  }
+
+ public void songEnded(){
+  gameOverBtn.onClick.Invoke();
+ }
  // Update is called once per frame
+ public void pauseMenu()
+ {
+  if (Input.GetKeyDown(KeyCode.P))
+  {
+   pauseMenuCanvas.enabled = !pauseMenuCanvas.enabled;
+   if (pauseMenuCanvas.enabled)
+   {
+    GameManager.Instance.PauseGame();
+    SpawnManager.Instance.stopSpawn();
+    pauseBtn.onClick.Invoke();
+   }
+   else
+   {
+    resumeBtn.onClick.Invoke();
+    SpawnManager.Instance.playSpawn();
+    GameManager.Instance.ResumeGame();
+   }
+  }
+ }
  public void startBtn()
  {
   GameManager.Instance.StartGame();
@@ -57,11 +81,10 @@ public class gameUI : MonoBehaviour
  }
  public void endBtn()
  {
-  // GameManager.Instance.EndLevel();
   songEndUI.SetActive(true);
   scoreGraph();
   SpawnManager.Instance.stopSpawn();
-SpawnManager.Instance.destroyArrows();
+  SpawnManager.Instance.destroyArrows();
  }
 
  public void lvlSelectPracBtn()
