@@ -184,7 +184,9 @@ public class gameUI : MonoBehaviour
  }
  public void inputKeyChoice()
  {
+  if (currentBtn != null){
    currentBtnText.GetComponent<TMP_Text>();
+  }
   if (currentBtn != null && Input.anyKeyDown && waitingForKeyInput)
   {
    foreach (KeyCode keyCode in System.Enum.GetValues(typeof(KeyCode)))
