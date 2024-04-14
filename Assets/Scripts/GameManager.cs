@@ -11,8 +11,7 @@ public class GameManager : MonoBehaviour
  [Header("Midi Data")]
  public List<float> midiScoreBeats;
  public List<float> midiScoreDownBeats;
- [Header("Arrows")]
- public GameObject arrowPrefab;
+ [Header("Timings")]
  private float timingThreshold = 0.1f;
  public bool gameStarted;
  public bool levelPlaying;
@@ -20,12 +19,15 @@ public class GameManager : MonoBehaviour
  private bool spawningPaused = false;
  private float pausedTime;
  public bool gamePaused = false;
+ private float levelStartTime = 0f;
  private List<string> previousScores = new List<string>();
- // private bool isArrowSpawnCoroutineRunning = false;
- [SerializeField] private MidiFilePlayer midiFilePlayer; // Reference to the MidiFilePlayer
- private float levelStartTime = 0f; // Time when the level started playing
+ [Header("Objects")]
+ public GameObject arrowPrefab;
+ [SerializeField] private MidiFilePlayer midiFilePlayer;
  private double lastNote;
  private double currentDuration;
+ private KeyCode defaultInputKey = KeyCode.Space;
+ private KeyCode currentInputKey = KeyCode.Space;
  void Start()
  {
 
@@ -172,24 +174,25 @@ public class GameManager : MonoBehaviour
   {
    midiFilePlayer = FindObjectOfType<MidiFilePlayer>();
   }
-  else if (midiFilePlayer != null){
-  lastNote = midiFilePlayer.MPTK_DurationMS;
-  currentDuration = midiFilePlayer.MPTK_Position;
-  checkGameStart();
-  songStatus();
-  checkLevelEnded();
-  songDuration();
-  // Debug.Log(songDuration());
-  Debug.Log(lastNote);
-  Debug.Log(currentDuration);
-  //   Debug.Log("Level playing" + levelPlaying);
-  // Debug.Log("Game started" + gameStarted);
-  // Debug.Log("Song Status" + songStatus());
-  if (levelPlaying)
+  else if (midiFilePlayer != null)
   {
-   float elapsedTime = Time.time - levelStartTime;
+   lastNote = midiFilePlayer.MPTK_DurationMS;
+   currentDuration = midiFilePlayer.MPTK_Position;
+   checkGameStart();
+   songStatus();
+   checkLevelEnded();
+   songDuration();
+   // Debug.Log(songDuration());
+   // Debug.Log(lastNote);
+   // Debug.Log(currentDuration);
+   //   Debug.Log("Level playing" + levelPlaying);
+   // Debug.Log("Game started" + gameStarted);
+   // Debug.Log("Song Status" + songStatus());
+   if (levelPlaying)
+   {
+    float elapsedTime = Time.time - levelStartTime;
+   }
   }
- }
  }
  public bool songDuration()
  {
@@ -281,5 +284,13 @@ public class GameManager : MonoBehaviour
    float pauseDuration = Time.time - pausedTime;
    levelStartTime += pauseDuration;
   }
+ }
+ public KeyCode getInputKey()
+ {
+  return currentInputKey;
+ }
+ public void setInputKey(KeyCode key)
+ {
+  currentInputKey = key;
  }
 }

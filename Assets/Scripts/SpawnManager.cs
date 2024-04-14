@@ -219,7 +219,7 @@ public class SpawnManager : MonoBehaviour
   if (!GameManager.Instance.levelPlaying)
    return;
 
-  if (Input.GetKeyDown(KeyCode.Space))
+  if (Input.GetKeyDown(GameManager.Instance.getInputKey()))
   {
    for (int i = 0; i < spawnedArrows.Count; i++)
    {

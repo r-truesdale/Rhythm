@@ -31,6 +31,9 @@ public class gameUI : MonoBehaviour
  [SerializeField] private Button pauseBtn;
  [SerializeField] private Button resumeBtn;
  [SerializeField] private Button gameOverBtn;
+ [SerializeField] private Button currentBtn;
+ [SerializeField] private TMP_Text currentBtnText;
+ private bool waitingForKeyInput = false; 
  void Start()
  {
   // Find the GameManager instance
@@ -44,12 +47,16 @@ public class gameUI : MonoBehaviour
 
  void Update()
  {
-  if(GameManager.Instance.songDuration()){
+  if (GameManager.Instance.songDuration())
+  {
    songEnded();
   }
+  pauseMenu();
+  inputKeyChoice();
  }
 
- public void songEnded(){
+ public void songEnded()
+ {
   gameOverBtn.onClick.Invoke();
  }
  // Update is called once per frame
@@ -71,6 +78,11 @@ public class gameUI : MonoBehaviour
     GameManager.Instance.ResumeGame();
    }
   }
+ }
+ public void resumeLevel()
+ {
+  SpawnManager.Instance.playSpawn();
+  GameManager.Instance.ResumeGame();
  }
  public void startBtn()
  {
@@ -105,12 +117,9 @@ public class gameUI : MonoBehaviour
  }
  public void mainMenuBtn()
  {
-  // GameManager.Instance.resetLevel();
   GameManager.Instance.gameEndBtn();
   SpawnManager.Instance.levelReset();
   ScoreManager.Instance.clearScores();
-  // songMenu.Instance.mainMenu();
-  // SceneManager.LoadScene("MainMenu");
  }
  public void statsBtn()
  {
@@ -154,5 +163,46 @@ public class gameUI : MonoBehaviour
   Vector3 barOrigin = spawnPoint.position + new Vector3(width / 2f, 0f, 0f);
   GameObject bar = Instantiate(barPrefab, barOrigin, Quaternion.identity);
   bar.transform.localScale = new Vector3(widthInt, 5f, 1f);
+ }
+ public void setInputKey(KeyCode key)
+ {
+  GameManager.Instance.setInputKey(key);
+ }
+
+ public KeyCode getInputKey()
+ {
+  return GameManager.Instance.getInputKey();
+ }
+ public void SetNextInputKey(Button button)
+ {
+   currentBtnText.GetComponent<TMP_Text>();
+  if (!waitingForKeyInput){
+  currentBtn = button;
+  currentBtnText.text = "Press Key...";
+  waitingForKeyInput = true;
+ }
+ }
+ public void inputKeyChoice()
+ {
+   currentBtnText.GetComponent<TMP_Text>();
+  if (currentBtn != null && Input.anyKeyDown && waitingForKeyInput)
+  {
+   foreach (KeyCode keyCode in System.Enum.GetValues(typeof(KeyCode)))
+   {
+    if (Input.GetKeyDown(keyCode))
+    {
+     gameManager.setInputKey(keyCode);
+     currentBtnText.text = keyCode.ToString(); 
+     currentBtn = null;
+     waitingForKeyInput = false; 
+     break;
+    }
+   }
+  }
+ }
+ public void resetKey()
+ {
+  setInputKey(KeyCode.Space);
+  currentBtnText.text = "SPACE";
  }
 }
