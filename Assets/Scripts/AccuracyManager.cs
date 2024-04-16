@@ -7,7 +7,7 @@ public class AccuracyManager : MonoBehaviour
 {
  public static AccuracyManager Instance { get; private set; }
 
- private string accuracyResult;
+ public string accuracyResult;
 
  private void Awake()
  {
@@ -51,13 +51,13 @@ public class AccuracyManager : MonoBehaviour
     break;
    case 3: // Too late
     Debug.Log("Early Miss! Beat: " + beatTime + "playback:" + currentPlaybackTime + "accuracy:" + timingAccuracy);
-    accuracyResult = "late";
+    accuracyResult = "miss";
     ScoreManager.Instance.AddScore(-100); // Deduct points for too late hits
     ScoreManager.Instance.AddEarlyMiss(1);
     break;
    case 4: // Too late
     Debug.Log("Late Miss! Beat: " + beatTime + "playback:" + currentPlaybackTime + "accuracy:" + timingAccuracy);
-    accuracyResult = "late";
+    accuracyResult = "miss";
     ScoreManager.Instance.AddScore(-100); // Deduct points for too late hits
     ScoreManager.Instance.AddLateMiss(1);
     break;
@@ -71,9 +71,10 @@ public class AccuracyManager : MonoBehaviour
   Debug.Log("Late Miss!");
   ScoreManager.Instance.AddScore(-100); // Deduct points for too late hits
   ScoreManager.Instance.AddLateMiss(1);
+  accuracyResult = "miss";
  }
- public string GetAccuracyResult()
- {
-  return accuracyResult;
- }
+ // public string GetAccuracyResult()
+ // {
+ //  return accuracyResult;
+ // }
 }

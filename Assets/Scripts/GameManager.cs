@@ -24,8 +24,8 @@ public class GameManager : MonoBehaviour
  [Header("Objects")]
  public GameObject arrowPrefab;
  [SerializeField] private MidiFilePlayer midiFilePlayer;
- private double lastNote;
- private double currentDuration;
+ public double lastNote;
+ public double currentDuration;
  private KeyCode defaultInputKey = KeyCode.Space;
  private KeyCode currentInputKey = KeyCode.Space;
  void Start()
@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
   midiFilePlayer = FindObjectOfType<MidiFilePlayer>();
   if (midiFilePlayer == null)
   {
-   Debug.LogError("MidiFilePlayer component not found in the scene.");
+   Debug.Log("MidiFilePlayer component not found in the scene.");
   }
   else
   {

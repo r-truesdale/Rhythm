@@ -115,7 +115,8 @@ public class playerStats : MonoBehaviour
     scoreTexts[3].text = filteredScores[i].perfectScore.ToString();
     scoreTexts[4].text = filteredScores[i].lateScore.ToString();
     scoreTexts[5].text = filteredScores[i].lateMissScore.ToString();
-    scoreTexts[6].text = filteredScores[i].gameMode;
+    scoreTexts[6].text = filteredScores[i].totalScore.ToString();
+    scoreTexts[7].text = filteredScores[i].gameMode;
 
     float yPos = startYPos - (i * (scorePrefab.GetComponent<RectTransform>().rect.height + spacing));
 

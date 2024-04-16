@@ -14,12 +14,17 @@ public class gameUI : MonoBehaviour
  [SerializeField] private ScoreManager scoreManager;
  [SerializeField] private GameObject songEndUI;
  [SerializeField] private songMenu songMenu;
-
  [SerializeField] private playerStats playerStats;
  [Header("Text Elements")]
- [SerializeField] private TMP_Text lateText;
+ [SerializeField] private TMP_Text earlyMissText;
  [SerializeField] private TMP_Text earlyText;
  [SerializeField] private TMP_Text perfectText;
+ [SerializeField] private TMP_Text lateText;
+ [SerializeField] private TMP_Text lateMissText;
+ [SerializeField] private TMP_Text accuracyText;
+ public float fadeDuration = 1f;
+ private Coroutine fadeOutCoroutine;
+ private CanvasGroup canvasGroup;
  [Header("Graph Elements")]
  [SerializeField] private GameObject barPrefab;
  [SerializeField] private Transform earlyMissBarSpawnPoint;
@@ -28,12 +33,14 @@ public class gameUI : MonoBehaviour
  [SerializeField] private Transform lateBarSpawnPoint;
  [SerializeField] private Transform lateMissBarSpawnPoint;
  public Canvas pauseMenuCanvas;
+ [Header("UI Elements")]
+ [SerializeField] private Slider songProgressBar;
  [SerializeField] private Button pauseBtn;
  [SerializeField] private Button resumeBtn;
  [SerializeField] private Button gameOverBtn;
  [SerializeField] private Button currentBtn;
  [SerializeField] private TMP_Text currentBtnText;
- private bool waitingForKeyInput = false; 
+ private bool waitingForKeyInput = false;
  void Start()
  {
   // Find the GameManager instance
@@ -43,6 +50,7 @@ public class gameUI : MonoBehaviour
   scoreManager = GameObject.Find("GameMaster").GetComponent<ScoreManager>();
   songMenu = GameObject.Find("GameMaster").GetComponent<songMenu>();
   songEndUI.SetActive(false);
+  // canvasGroup = accuracyText.GetComponent<CanvasGroup>();
  }
 
  void Update()
@@ -51,32 +59,47 @@ public class gameUI : MonoBehaviour
   {
    songEnded();
   }
-  pauseMenu();
+  pauseMenuKey();
   inputKeyChoice();
+  if (GameManager.Instance.songStatus())
+  {
+   songProgress();
+   accuracy();
+  }
  }
 
  public void songEnded()
  {
   gameOverBtn.onClick.Invoke();
  }
- // Update is called once per frame
  public void pauseMenu()
+ {
+  if (pauseMenuCanvas.enabled)
+  {
+   pauseBtn.onClick.Invoke();
+   pauseBtn.enabled = false;
+   GameManager.Instance.PauseGame();
+   SpawnManager.Instance.stopSpawn();
+  }
+  else
+  {
+   resumeBtn.onClick.Invoke();
+   pauseBtn.enabled = true;
+   SpawnManager.Instance.playSpawn();
+   GameManager.Instance.ResumeGame();
+  }
+ }
+ public void pauseMenuBtn() //ui pause button
+ {
+  pauseMenuCanvas.enabled = !pauseMenuCanvas.enabled;
+  pauseMenu();
+  Debug.Log("pause btn pressed");
+ }
+ public void pauseMenuKey()//press 'P' while playing
  {
   if (Input.GetKeyDown(KeyCode.P))
   {
-   pauseMenuCanvas.enabled = !pauseMenuCanvas.enabled;
-   if (pauseMenuCanvas.enabled)
-   {
-    GameManager.Instance.PauseGame();
-    SpawnManager.Instance.stopSpawn();
-    pauseBtn.onClick.Invoke();
-   }
-   else
-   {
-    resumeBtn.onClick.Invoke();
-    SpawnManager.Instance.playSpawn();
-    GameManager.Instance.ResumeGame();
-   }
+   pauseMenuBtn();
   }
  }
  public void resumeLevel()
@@ -142,10 +165,11 @@ public class gameUI : MonoBehaviour
   InstantiateCube(lateWidth, lateBarSpawnPoint);
   InstantiateCube(earlyMissWidth, earlyMissBarSpawnPoint);
   InstantiateCube(lateMissWidth, lateMissBarSpawnPoint);
+  earlyMissText.text = scoreManager.earlyMiss.ToString();
   earlyText.text = scoreManager.early.ToString();
   perfectText.text = scoreManager.perfect.ToString();
   lateText.text = scoreManager.late.ToString();
-
+  lateMissText.text = scoreManager.lateMiss.ToString();
   string levelName = PlayerPrefs.GetString("songName");
   string gameMode = PlayerPrefs.GetString("gameState");
   int earlyScore = 0;
@@ -153,13 +177,14 @@ public class gameUI : MonoBehaviour
   int perfectScore = 0;
   int lateScore = 0;
   int lateMissScore = 0;
+  int totalScore = 0;
   string timestamp = System.DateTime.Now.ToString();
-  ScoreManager.Instance.getScores(levelName, gameMode, earlyScore, earlyMissScore, perfectScore, lateScore, lateMissScore, timestamp);
+  ScoreManager.Instance.getScores(levelName, gameMode, earlyScore, earlyMissScore, perfectScore, lateScore, lateMissScore, totalScore, timestamp);
  }
 
  private void InstantiateCube(float width, Transform spawnPoint)
  {
-  int widthInt = Mathf.RoundToInt(width); // Convert float to int
+  int widthInt = Mathf.RoundToInt(width);
   Vector3 barOrigin = spawnPoint.position + new Vector3(width / 2f, 0f, 0f);
   GameObject bar = Instantiate(barPrefab, barOrigin, Quaternion.identity);
   bar.transform.localScale = new Vector3(widthInt, 5f, 1f);
@@ -175,16 +200,17 @@ public class gameUI : MonoBehaviour
  }
  public void SetNextInputKey(Button button)
  {
-   currentBtnText.GetComponent<TMP_Text>();
-  if (!waitingForKeyInput){
-  currentBtn = button;
-  currentBtnText.text = "Press Key...";
-  waitingForKeyInput = true;
- }
+  currentBtnText.GetComponent<TMP_Text>();
+  if (!waitingForKeyInput)
+  {
+   currentBtn = button;
+   currentBtnText.text = "Press Key...";
+   waitingForKeyInput = true;
+  }
  }
  public void inputKeyChoice()
  {
-   currentBtnText.GetComponent<TMP_Text>();
+  currentBtnText.GetComponent<TMP_Text>();
   if (currentBtn != null && Input.anyKeyDown && waitingForKeyInput)
   {
    foreach (KeyCode keyCode in System.Enum.GetValues(typeof(KeyCode)))
@@ -192,9 +218,9 @@ public class gameUI : MonoBehaviour
     if (Input.GetKeyDown(keyCode))
     {
      gameManager.setInputKey(keyCode);
-     currentBtnText.text = keyCode.ToString(); 
+     currentBtnText.text = keyCode.ToString();
      currentBtn = null;
-     waitingForKeyInput = false; 
+     waitingForKeyInput = false;
      break;
     }
    }
@@ -205,4 +231,35 @@ public class gameUI : MonoBehaviour
   setInputKey(KeyCode.Space);
   currentBtnText.text = "SPACE";
  }
+
+ public void songProgress()
+ {
+  float currentTime = (float)GameManager.Instance.currentDuration;
+  float totalDuration = (float)GameManager.Instance.lastNote;
+  float progress = currentTime / totalDuration;
+  songProgressBar.value = progress;
+ }
+ public void accuracy()
+ {
+  accuracyText.text = AccuracyManager.Instance.accuracyResult;
+  // if (fadeOutCoroutine != null)
+  // {
+  //  StopCoroutine(fadeOutCoroutine);
+  // }
+  // fadeOutCoroutine = StartCoroutine(FadeOutCoroutine());
+ }
+ // private IEnumerator FadeOutCoroutine()
+ // {
+ //  yield return new WaitForSeconds(0.1f);
+ //  float startAlpha = accuracyText.color.a;
+ //  float timer = 0f;
+ //  while (timer < fadeDuration)
+ //  {
+ //   timer += Time.deltaTime;
+ //   float newAlpha = Mathf.Lerp(startAlpha, 0f, timer / fadeDuration);
+ //   accuracyText.color = new Color(accuracyText.color.r, accuracyText.color.g, accuracyText.color.b, newAlpha);
+ //   yield return null;
+ //  }
+ //  accuracyText.color = new Color(accuracyText.color.r, accuracyText.color.g, accuracyText.color.b, 0f);
+ // }
 }

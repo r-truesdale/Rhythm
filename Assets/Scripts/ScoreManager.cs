@@ -12,11 +12,11 @@ using TMPro;
 public class ScoreManager : MonoBehaviour
 {
  public static ScoreManager Instance { get; private set; }
- private List<ScoreData> scores = new List<ScoreData>();
+ public List<ScoreData> scores = new List<ScoreData>();//public for statsGraph
  private bool scoreRegistered;
  [Header("End UI Text")]
 
- private int score = 0;
+ private int totalScore = 0;
  public float perfect = 0;
  public float early = 0;
  public float late = 0;
@@ -40,9 +40,8 @@ public class ScoreManager : MonoBehaviour
 
  public void AddScore(int points)
  {
-  score += points;
-  // UpdateScoreText();
-  Debug.Log("score" + score);
+  totalScore += points;
+  Debug.Log("score" + totalScore);
  }
 
  public void AddLate(int latePoints)
@@ -70,7 +69,7 @@ public class ScoreManager : MonoBehaviour
   lateMiss += lateMissPoints;
  }
 
- public void getScores(string levelName, string gameMode, int earlyScore, int earlyMissScore, int perfectScore, int lateScore, int lateMissScore, string timestamp)
+ public void getScores(string levelName, string gameMode, int earlyScore, int earlyMissScore, int perfectScore, int lateScore, int lateMissScore, int totalScore, string timestamp)
  { //for the json file
   timestamp = System.DateTime.Now.ToString();
   earlyScore = Mathf.RoundToInt(this.early);
@@ -78,18 +77,21 @@ public class ScoreManager : MonoBehaviour
   lateScore = Mathf.RoundToInt(this.late);
   earlyMissScore = Mathf.RoundToInt(this.earlyMiss);
   lateMissScore = Mathf.RoundToInt(this.lateMiss);
+  totalScore = Mathf.RoundToInt(this.totalScore);
   gameMode = PlayerPrefs.GetString("gameState", "test");
   levelName = PlayerPrefs.GetString("songName", "test");
-  ScoreData newScore = new ScoreData(levelName, gameMode, earlyScore, earlyMissScore, perfectScore, lateScore, lateMissScore, timestamp);
+  ScoreData newScore = new ScoreData(levelName, gameMode, earlyScore, earlyMissScore, perfectScore, lateScore, lateMissScore, totalScore, timestamp);
   scores.Add(newScore);
   saveScores();
   Debug.Log(newScore);
  }
-public void Update(){
- if (scoreRegistered == false){
- levelEndScores();
+ public void Update()
+ {
+  if (scoreRegistered == false)
+  {
+   levelEndScores();
+  }
  }
-}
  public void levelEndScores()
  {
   if (GameManager.Instance.checkLevelEnded() && scoreRegistered == false)
@@ -101,8 +103,9 @@ public void Update(){
    int perfectScore = 0;
    int lateScore = 0;
    int lateMissScore = 0;
+   int totalScore = 0;
    string timestamp = System.DateTime.Now.ToString();
-   getScores(levelName, gameMode, earlyScore, earlyMissScore, perfectScore, lateScore, lateMissScore, timestamp);
+   getScores(levelName, gameMode, earlyScore, earlyMissScore, perfectScore, lateScore, lateMissScore, totalScore, timestamp);
    Debug.Log("songEnd");
    scoreRegistered = true;
   }
@@ -110,12 +113,13 @@ public void Update(){
 
  public void clearScores()
  {
-  score = 0;
+  totalScore = 0;
   perfect = 0;
   early = 0;
   late = 0;
   earlyMiss = 0;
   lateMiss = 0;
+  totalScore = 0;
  }
 #if UNITY_EDITOR || UNITY_STANDALONE
     private void saveScores()

@@ -167,7 +167,7 @@ public class SpawnManager : MonoBehaviour
 
  public Vector3 GetArrowSpawnPosition()
  {
-  return new Vector3(100f, 50f, -2.5f);
+  return new Vector3(120f, 0f, 40f);
  }
 
  private float GetTimeToHitbox()
