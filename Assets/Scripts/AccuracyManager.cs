@@ -73,8 +73,4 @@ public class AccuracyManager : MonoBehaviour
   ScoreManager.Instance.AddLateMiss(1);
   accuracyResult = "miss";
  }
- // public string GetAccuracyResult()
- // {
- //  return accuracyResult;
- // }
 }

@@ -47,18 +47,14 @@ public class ScoreManager : MonoBehaviour
  public void AddLate(int latePoints)
  {
   late += latePoints;
-  // lateText.text = late.ToString();
  }
  public void AddEarly(int earlyPoints)
  {
   early += earlyPoints;
-  // earlyText.text = early.ToString();
-
  }
  public void AddPerfect(int perfectPoints)
  {
   perfect += perfectPoints;
-  // perfectText.text = perfect.ToString();
  }
  public void AddEarlyMiss(int earlyMissPoints)
  {

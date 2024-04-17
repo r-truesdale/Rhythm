@@ -8,9 +8,9 @@ using UnityEngine.SceneManagement;
 
 public class songMenu : MonoBehaviour
 {
- public TMP_Text songName;
+ // public TMP_Text songName;
  public string[] sceneNames;
- public string selectedSongName;
+ // public string selectedSongName;
  private List<SongBlueprint> songsData;
  public void getSongData()
  {
@@ -44,7 +44,7 @@ public class songMenu : MonoBehaviour
  }
  public void mainMenu()
  {
-    // getSongData();
+  // getSongData();
   SceneManager.LoadScene("MainMenu");
   PlayerPrefs.SetString("sceneType", "menu");
  }
@@ -53,7 +53,7 @@ public class songMenu : MonoBehaviour
   SceneManager.LoadScene("gameModeMenu");
   PlayerPrefs.SetString("sceneType", "menu");
  }
- 
+
  public void practiceMenu()
  {
   SceneManager.LoadScene("practiceModeMenu");

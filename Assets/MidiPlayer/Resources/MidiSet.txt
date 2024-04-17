@@ -82,6 +82,7 @@
     <string>Palm Bricks</string>
     <string>Patti Smith - Because the Night</string>
     <string>Pergolesi - Stabat Mater</string>
+    <string>Pirates of the Caribbean - He's a Pirate _3_</string>
     <string>Reayo - Amor de Hombre</string>
     <string>Salvador Henri - Jardin D'hiver</string>
     <string>Satie - Gnossienne 4</string>
