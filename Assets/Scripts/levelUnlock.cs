@@ -9,9 +9,14 @@ public class levelUnlock : MonoBehaviour
  [SerializeField] private Button Btn2;
  void Start()
  {
-  Debug.Log("level unlock start");
-  Debug.Log(PlayerPrefs.GetString("gameState"));
   List<ScoreData> scores = ScoreManager.Instance.scores;
+
+  if (scores.Count == 0) //to stop error on first load of menu screen trying to get an index that isn't there yet
+  {
+   Debug.Log("No score data found.");
+   return;
+  }
+
   ScoreData lastPlayedData = ScoreManager.Instance.scores[ScoreManager.Instance.scores.Count - 1];
   if (lastPlayedData == null)
   {
