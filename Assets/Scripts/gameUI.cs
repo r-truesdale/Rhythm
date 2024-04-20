@@ -152,6 +152,7 @@ public class gameUI : MonoBehaviour
         GameManager.Instance.gameEndBtn();
         SpawnManager.Instance.levelReset();
         ScoreManager.Instance.clearScores();
+        songMenu.mainMenu();
     }
     public void statsBtn()
     {

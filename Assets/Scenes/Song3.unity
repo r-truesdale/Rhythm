@@ -1571,7 +1571,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.9607844, g: 0.9607844, b: 0.9607844, a: 1}
-    m_HighlightedColor: {r: 0.28627452, g: 0.28235295, b: 0.75686276, a: 1}
+    m_HighlightedColor: {r: 0.7843138, g: 0.7843138, b: 0.7843138, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -4185,7 +4185,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0.495
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -4449,7 +4449,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 97403375}
         m_TargetAssemblyTypeName: MidiPlayerTK.MidiSynth, Assembly-CSharp
         m_MethodName: set_MPTK_Volume
         m_Mode: 0
@@ -4603,7 +4603,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 97403375}
         m_TargetAssemblyTypeName: MidiPlayerTK.MidiFilePlayer, Assembly-CSharp
         m_MethodName: MPTK_Pause
         m_Mode: 4
@@ -5817,7 +5817,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Use the UP and DOWN arrow keys to move your box across the screen to catch
     the beats! \nPress the SPACEBAR to get points for staying in time. \nGet at least
-    8000 points to unlock the next level.\nPress 'P' or the       button to pause
+    2000 points to unlock the next level.\nPress 'P' or the       button to pause
     the level"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7018,7 +7018,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -311.4, y: 0}
+  m_AnchoredPosition: {x: -311.40002, y: 0}
   m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1092296090
@@ -9080,7 +9080,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -118.00003, y: -30}
+  m_AnchoredPosition: {x: -118, y: -30}
   m_SizeDelta: {x: -292.80005, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1587460776
@@ -13534,17 +13534,17 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 97403373}
-  - {fileID: 1891987450}
-  - {fileID: 1633571170}
-  - {fileID: 187387507}
   - {fileID: 897436039}
   - {fileID: 1224044791}
+  - {fileID: 187387507}
   - {fileID: 1212603037}
-  - {fileID: 1693733277}
-  - {fileID: 1449943406}
-  - {fileID: 671147255}
-  - {fileID: 844245844}
   - {fileID: 569000257}
+  - {fileID: 671147255}
+  - {fileID: 1693733277}
   - {fileID: 1865039904}
-  - {fileID: 2045948459}
+  - {fileID: 1449943406}
+  - {fileID: 844245844}
   - {fileID: 845801724}
+  - {fileID: 2045948459}
+  - {fileID: 1633571170}
+  - {fileID: 1891987450}

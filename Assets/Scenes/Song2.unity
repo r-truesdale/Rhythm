@@ -457,7 +457,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114662785300262660, guid: 32a8d8859acf18d4ba134834a876d5ea, type: 3}
       propertyPath: midiIndexToPlay
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 114662785300262660, guid: 32a8d8859acf18d4ba134834a876d5ea, type: 3}
       propertyPath: showSynthEvents
@@ -1213,7 +1213,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Use the UP and DOWN arrow keys to move your box across the screen to catch
     the beats! \nPress the SPACEBAR to get points for staying in time. \nGet at least
-    8000 points to unlock the next level.\nPress 'P' or the       button to pause
+    2000 points to unlock the next level.\nPress 'P' or the       button to pause
     the level"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1745,7 +1745,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &379893147
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2204,7 +2204,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 97403375}
         m_TargetAssemblyTypeName: MidiPlayerTK.MidiFilePlayer, Assembly-CSharp
         m_MethodName: MPTK_Pause
         m_Mode: 4
@@ -2674,12 +2674,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -5554,7 +5554,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.9607844, g: 0.9607844, b: 0.9607844, a: 1}
-    m_HighlightedColor: {r: 0.28627452, g: 0.28235295, b: 0.75686276, a: 1}
+    m_HighlightedColor: {r: 0.7843138, g: 0.7843138, b: 0.7843138, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -11857,7 +11857,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 97403375}
         m_TargetAssemblyTypeName: MidiPlayerTK.MidiSynth, Assembly-CSharp
         m_MethodName: set_MPTK_Volume
         m_Mode: 0
@@ -13492,12 +13492,12 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 97403373}
-  - {fileID: 162268825}
+  - {fileID: 1021304505}
   - {fileID: 1789519403}
-  - {fileID: 467597156}
   - {fileID: 674855920}
   - {fileID: 526752047}
-  - {fileID: 1021304505}
+  - {fileID: 467597156}
+  - {fileID: 162268825}
   - {fileID: 1090418006}
   - {fileID: 1381419700}
   - {fileID: 1476107033}

@@ -1548,7 +1548,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Use the UP and DOWN arrow keys to move your box across the screen to catch
     the beats! \nPress the SPACEBAR to get points for staying in time. \nGet at least
-    8000 points to unlock the next level.\nPress 'P' or the       button to pause
+    2000 points to unlock the next level.\nPress 'P' or the       button to pause
     the level"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

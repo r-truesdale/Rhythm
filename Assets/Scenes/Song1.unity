@@ -2213,7 +2213,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Use the UP and DOWN arrow keys to move your box across the screen to catch
     the beats! \nPress the SPACEBAR to get points for staying in time. \nGet at least
-    8000 points to unlock the next level.\nPress 'P' or the       button to pause
+    2000 points to unlock the next level.\nPress 'P' or the       button to pause
     the level"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5319,7 +5319,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114662785300262660, guid: 32a8d8859acf18d4ba134834a876d5ea, type: 3}
       propertyPath: midiNameToPlay
-      value: Pirates of the Caribbean - He's a Pirate _3_
+      value: Animal Crossing
       objectReference: {fileID: 0}
     - target: {fileID: 114662785300262660, guid: 32a8d8859acf18d4ba134834a876d5ea, type: 3}
       propertyPath: MPTK_CorePlayer
@@ -5327,7 +5327,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114662785300262660, guid: 32a8d8859acf18d4ba134834a876d5ea, type: 3}
       propertyPath: midiIndexToPlay
-      value: 9
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114662785300262660, guid: 32a8d8859acf18d4ba134834a876d5ea, type: 3}
       propertyPath: showSynthEvents
@@ -7494,7 +7494,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.9607844, g: 0.9607844, b: 0.9607844, a: 1}
-    m_HighlightedColor: {r: 0.28627452, g: 0.28235295, b: 0.75686276, a: 1}
+    m_HighlightedColor: {r: 0.7843138, g: 0.7843138, b: 0.7843138, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -8920,12 +8920,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -8938,7 +8938,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1282876543}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 1682006649}
@@ -9664,7 +9664,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Tempo: 74
+  m_text: 'Tempo: 120
 
 '
   m_isRightToLeft: 0
@@ -9693,7 +9693,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30.65
+  m_fontSize: 27.4
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -10515,7 +10515,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Hey jude - the beatles
+  m_text: Animal Crossing
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -10542,7 +10542,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35.65
+  m_fontSize: 45.65
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -12430,6 +12430,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1915793057}
   m_CullTransparentMesh: 1
+--- !u!1 &1924302792
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1924302794}
+  - component: {fileID: 1924302793}
+  m_Layer: 0
+  m_Name: RoutineTimingController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1924302793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924302792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 754970a73e201694787a76901341dc92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TimeBetweenSlowUpdateCalls: 0.14285715
+  ProfilerDebugAmount: 0
+  AutoTriggerManualTimeframe: 1
+  UpdateCoroutines: 0
+  FixedUpdateCoroutines: 0
+  LateUpdateCoroutines: 0
+  SlowUpdateCoroutines: 0
+  RealtimeUpdateCoroutines: 0
+  EditorUpdateCoroutines: 0
+  EditorSlowUpdateCoroutines: 0
+  EndOfFrameCoroutines: 0
+  ManualTimeframeCoroutines: 0
+  _instanceID: 1
+--- !u!4 &1924302794
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924302792}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1928543965
 GameObject:
   m_ObjectHideFlags: 0
@@ -13613,3 +13670,4 @@ SceneRoots:
   - {fileID: 1568379386}
   - {fileID: 482756373}
   - {fileID: 791866306}
+  - {fileID: 1924302794}

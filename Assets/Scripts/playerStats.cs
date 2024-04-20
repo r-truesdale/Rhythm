@@ -107,7 +107,7 @@ public class playerStats : MonoBehaviour
             {
                 if (filteredScores[i].levelName == "Song1")//assigns actual song names 
                 {
-                    filteredScores[i].levelName = "Hey Jude";
+                    filteredScores[i].levelName = "Animal Crossing";
                 }
                 if (filteredScores[i].levelName == "Song2")
                 {

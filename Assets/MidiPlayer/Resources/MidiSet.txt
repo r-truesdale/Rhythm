@@ -18,8 +18,11 @@
     <string>Hey-Jude-1</string>
     <string>Hey-Jude-2</string>
     <string>In the hall of the Mountain King</string>
+    <string>Louis Armstrong - What A Wonderful World</string>
+    <string>Louis Armstrong - What A Wonderful World2</string>
     <string>midi_score</string>
     <string>Paul McCartney - Live and Let Die</string>
     <string>Pirates of the Caribbean - He's a Pirate _3_</string>
+    <string>Tetris - Theme A Normal</string>
   </MidiFiles>
 </MidiSet>
