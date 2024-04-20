@@ -31,20 +31,39 @@ public class levelUnlock : MonoBehaviour
             bool passThreshold = lastPlayedData.totalScore >= scoreThreshold;
             Debug.Log(lastPlayedData.totalScore);
             Debug.Log(passThreshold);
-            if (passThreshold == true)
+
+            if (targetLevel == 1)
             {
-                if (targetLevel == 1)
+                if (passThreshold == true)
                 {
                     Debug.Log("btn2 interactable");
                     Btn2.interactable = true;
                 }
-                if (targetLevel == 2)
+                else
+                {
+                    Btn2.interactable = false;
+                }
+            }
+            if (targetLevel == 2)
+            {
+                if (passThreshold == true)
                 {
                     Debug.Log("btn3 interactable");
                     Btn2.interactable = true;
                     Btn3.interactable = true;
                 }
+                else
+                {
+                    Btn2.interactable = true;
+                    Btn3.interactable = false;
+                }
             }
+            else if (targetLevel == 3)
+            {
+                Btn2.interactable = true;
+                Btn3.interactable = true;
+            }
+
         }
     }
 }
