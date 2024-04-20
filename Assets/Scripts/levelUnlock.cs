@@ -4,45 +4,47 @@ using UnityEngine;
 using UnityEngine.UI;
 public class levelUnlock : MonoBehaviour
 {
- [SerializeField] private int scoreThreshold = 100;
- [SerializeField] private Button Btn1;
- [SerializeField] private Button Btn2;
- void Start()
- {
-  List<ScoreData> scores = ScoreManager.Instance.scores;
-
-  if (scores.Count == 0) //to stop error on first load of menu screen trying to get an index that isn't there yet
-  {
-   Debug.Log("No score data found.");
-   return;
-  }
-
-  ScoreData lastPlayedData = ScoreManager.Instance.scores[ScoreManager.Instance.scores.Count - 1];
-  if (lastPlayedData == null)
-  {
-   Debug.Log("No recent score data found.");
-   return;
-  }
-  if (PlayerPrefs.GetString("gameState") == "game")
-  {
-   int originalLevel = PlayerPrefs.GetInt("selectedSongIndex");
-   int targetLevel = originalLevel + 1;
-   bool passThreshold = lastPlayedData.totalScore >= scoreThreshold;
-   Debug.Log(lastPlayedData.totalScore);
-   Debug.Log(passThreshold);
-   if (passThreshold = true)
-   {
-    if (targetLevel == 1)
+    [SerializeField] private int scoreThreshold = 8000;
+    [SerializeField] private Button Btn1;
+    [SerializeField] private Button Btn2;
+    [SerializeField] private Button Btn3;
+    void Start()
     {
-     Debug.Log("btn2 interactable");
-     Btn2.interactable = true;
+        List<ScoreData> scores = ScoreManager.Instance.scores;
+
+        if (scores.Count == 0) //to stop error on first load of menu screen trying to get an index that isn't there yet
+        {
+            Debug.Log("No score data found.");
+            return;
+        }
+
+        ScoreData lastPlayedData = ScoreManager.Instance.scores[ScoreManager.Instance.scores.Count - 1];
+        if (lastPlayedData == null)
+        {
+            Debug.Log("No recent score data found.");
+            return;
+        }
+        if (PlayerPrefs.GetString("gameState") == "game")
+        {
+            int originalLevel = PlayerPrefs.GetInt("selectedSongIndex");
+            int targetLevel = originalLevel + 1;
+            bool passThreshold = lastPlayedData.totalScore >= scoreThreshold;
+            Debug.Log(lastPlayedData.totalScore);
+            Debug.Log(passThreshold);
+            if (passThreshold == true)
+            {
+                if (targetLevel == 1)
+                {
+                    Debug.Log("btn2 interactable");
+                    Btn2.interactable = true;
+                }
+                if (targetLevel == 2)
+                {
+                    Btn2.interactable = true;
+                    Btn3.interactable = true;
+                }
+            }
+        }
     }
-    if (targetLevel == 2)
-    {
-     Btn2.interactable = true;
-    }
-   }
-  }
- }
 }
 

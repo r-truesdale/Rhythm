@@ -10,7 +10,7 @@ using UnityEngine.Networking;
 public class AllSongs
 {
 
-public List<SongBlueprint> songs;
+    public List<SongBlueprint> songs;
 
 }
 
@@ -21,5 +21,8 @@ public class SongBlueprint
     public List<float> midi_score_beats;
     public List<float> midi_score_downbeats;
     public List<float> midi_offbeats;
+    public List<float> easy;
+    public List<float> medium;
+    public List<float> hard;
 }
 
