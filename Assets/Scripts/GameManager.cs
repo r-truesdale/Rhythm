@@ -148,11 +148,11 @@ public class GameManager : MonoBehaviour
             else if (PlayerPrefs.GetString("gameState") == "game")
                 switch (beatType)
                 {
-                    case 0: // midi_score_beats
+                    case 0: //
                         midiScoreBeats = songData.Instance.GetMidiEasy(selectedSongIndex);
                         Debug.Log("easy");
                         break;
-                    case 1: // midi_score_downbeats
+                    case 1: // 
                         midiScoreBeats = songData.Instance.GetMidiMedium(selectedSongIndex);
                         Debug.Log("medium");
                         break;
@@ -162,6 +162,7 @@ public class GameManager : MonoBehaviour
                         break;
                     default: // default to midi_score_beats if PlayerPrefs value is invalid
                         midiScoreBeats = songData.Instance.GetMidiEasy(selectedSongIndex);
+                        Debug.Log("Defualt - Easy");
                         break;
                 }
         }
@@ -195,7 +196,7 @@ public class GameManager : MonoBehaviour
     }
     public bool songDuration()
     {
-        if (levelPlaying && (lastNote) <= (currentDuration))
+        if (levelPlaying && (lastNote - 1000) <= (currentDuration))
         {
             return true;
         }

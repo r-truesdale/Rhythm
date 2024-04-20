@@ -56,5 +56,8 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Song1G.unity
     guid: 0d06e179ba1b77d408a8c349bf0306bb
+  - enabled: 0
+    path: Assets/Scenes/New Scene.unity
+    guid: c476cc849b15ba943be09353dccf9ff9
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

@@ -40,6 +40,7 @@ public class levelUnlock : MonoBehaviour
                 }
                 if (targetLevel == 2)
                 {
+                    Debug.Log("btn3 interactable");
                     Btn2.interactable = true;
                     Btn3.interactable = true;
                 }
