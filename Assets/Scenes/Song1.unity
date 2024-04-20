@@ -3173,7 +3173,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -90.600006, y: -95.80005}
-  m_SizeDelta: {x: 102, y: 101}
+  m_SizeDelta: {x: 160, y: 65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &494375370
 MonoBehaviour:
@@ -6357,8 +6357,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -117.132996, y: 73.216}
-  m_SizeDelta: {x: 159.066, y: 67.033}
+  m_AnchoredPosition: {x: -90, y: 73.216}
+  m_SizeDelta: {x: 159.066, y: 65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &796769827
 MonoBehaviour:
@@ -8710,7 +8710,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: -89.600006, y: -0.3000472}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 160, y: 65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1272264158
 MonoBehaviour:
@@ -8865,6 +8865,9 @@ MonoBehaviour:
   currentBtn: {fileID: 1370518332}
   arrowVisibilityBtn: {fileID: 0}
   arrowVisibilityOnBtn: {fileID: 0}
+  levelEndLevelMenuBtn: {fileID: 1272264158}
+  levelEndStatsBtn: {fileID: 796769827}
+  levelEndMenuBtn: {fileID: 494375370}
   currentBtnText: {fileID: 37895156}
 --- !u!224 &1282876545
 RectTransform:

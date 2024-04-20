@@ -730,8 +730,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -117.132996, y: 73.216}
-  m_SizeDelta: {x: 159.066, y: 67.033}
+  m_AnchoredPosition: {x: -87, y: 73.216}
+  m_SizeDelta: {x: 159.066, y: 65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &70676420
 MonoBehaviour:
@@ -4799,6 +4799,9 @@ MonoBehaviour:
   currentBtn: {fileID: 2087666748}
   arrowVisibilityBtn: {fileID: 495821056}
   arrowVisibilityOnBtn: {fileID: 84363970}
+  levelEndLevelMenuBtn: {fileID: 1677212805}
+  levelEndStatsBtn: {fileID: 70676420}
+  levelEndMenuBtn: {fileID: 741113511}
   currentBtnText: {fileID: 806260974}
 --- !u!223 &721073401
 Canvas:
@@ -5017,7 +5020,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -90.600006, y: -95.80005}
-  m_SizeDelta: {x: 102, y: 101}
+  m_SizeDelta: {x: 160, y: 65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &741113511
 MonoBehaviour:
@@ -11482,7 +11485,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: -89.600006, y: -0.3000472}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 160, y: 65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1677212805
 MonoBehaviour:
@@ -14982,13 +14985,13 @@ SceneRoots:
   - {fileID: 1344008679}
   - {fileID: 929890769}
   - {fileID: 956944715}
-  - {fileID: 1412305010}
   - {fileID: 885455425}
   - {fileID: 405834631}
   - {fileID: 1737672337}
   - {fileID: 736721974}
   - {fileID: 2082084888}
   - {fileID: 721073402}
+  - {fileID: 1412305010}
   - {fileID: 1970796199}
   - {fileID: 2079179574}
   - {fileID: 637080262}

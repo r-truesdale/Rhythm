@@ -196,7 +196,7 @@ public class GameManager : MonoBehaviour
     }
     public bool songDuration()
     {
-        if (levelPlaying && (lastNote - 1000) <= (currentDuration))
+        if (levelPlaying && (lastNote) <= (currentDuration))
         {
             return true;
         }

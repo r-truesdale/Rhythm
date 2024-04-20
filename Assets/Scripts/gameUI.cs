@@ -39,6 +39,9 @@ public class gameUI : MonoBehaviour
     [SerializeField] private Button currentBtn;
     [SerializeField] private Button arrowVisibilityBtn;
     [SerializeField] private Button arrowVisibilityOnBtn;
+    [SerializeField] private Button levelEndLevelMenuBtn;
+    [SerializeField] private Button levelEndStatsBtn;
+    [SerializeField] private Button levelEndMenuBtn;
     [SerializeField] private TMP_Text currentBtnText;
     private bool waitingForKeyInput = false;
     private bool endBtnPressed;
@@ -129,8 +132,21 @@ public class gameUI : MonoBehaviour
         SpawnManager.Instance.stopSpawn();
         SpawnManager.Instance.destroyArrows();
         Debug.Log("end btn pressed");
+        levelEndLevelMenuBtn.interactable = false;
+        levelEndStatsBtn.interactable = false;
+        levelEndMenuBtn.interactable = false;
+        StartCoroutine(EnableButtonAfterDelay(5f)); //ensure song2 has fully finished to prevent errors
     }
 
+
+    private IEnumerator EnableButtonAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        levelEndLevelMenuBtn.interactable = true;
+        levelEndStatsBtn.interactable = true;
+        levelEndMenuBtn.interactable = true;
+    }
     public void lvlSelectPracBtn()
     {
         // GameManager.Instance.resetLevel();
