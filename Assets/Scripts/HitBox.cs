@@ -59,7 +59,7 @@ public class HitBox : MonoBehaviour
     }
     public void Start()
     {
-        perfectHitboxYPositions = new float[] { -50.0f, -25.0f, 25f, 50f };
+        perfectHitboxYPositions = new float[] { -50.0f, -25.0f, 0f, 25f };
         GameObject arrowPrefab = SpawnManager.Instance.arrowPrefab;
         perfectSpawnPoint = GameObject.Find("Perfect").transform;
         earlySpawnPoint = GameObject.Find("TooEarly").transform;
