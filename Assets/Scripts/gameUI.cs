@@ -102,9 +102,12 @@ public class gameUI : MonoBehaviour
     }
     public void pauseMenuKey()//press 'P' while playing
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (GameManager.Instance.songStatus() == true) //so menu doesn't appear before level starts
         {
-            pauseMenu();
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                pauseMenu();
+            }
         }
     }
     public void settingsMenuBtn()
