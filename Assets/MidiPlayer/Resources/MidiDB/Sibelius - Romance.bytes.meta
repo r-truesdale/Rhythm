@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 75a4af7d01edfa741977b3ebc9eb063d
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107994
+  packageName: Maestro - Midi Player Tool Kit - Free
+  packageVersion: 2.11.1
+  assetPath: Assets/MidiPlayer/Resources/MidiDB/Sibelius - Romance.bytes
+  uploadId: 632080

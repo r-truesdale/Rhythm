@@ -1,11 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 [System.Serializable]
 public class ScoreData
 {
-    // Start is called before the first frame update
     public string levelName;
     public string gameMode;
     public int earlyScore;
@@ -16,7 +11,8 @@ public class ScoreData
     public int totalScore;
     public string timestamp;
 
-    public ScoreData(string levelName, string gameMode, int earlyScore, int earlyMissScore, int perfectScore, int lateScore, int lateMissScore, int totalScore, string timestamp){
+    public ScoreData(string levelName, string gameMode, int earlyScore, int earlyMissScore, int perfectScore, int lateScore, int lateMissScore, int totalScore, string timestamp)
+    {
         this.levelName = levelName;
         this.gameMode = gameMode;
         this.earlyScore = earlyScore;

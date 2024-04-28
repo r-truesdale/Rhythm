@@ -637,7 +637,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e315fe714b6a1ba479dfa9c4cedc3713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreThreshold: 2000
+  scoreThreshold: -2000
   Btn1: {fileID: 1023515266}
   Btn2: {fileID: 1102341454}
   Btn3: {fileID: 780954053}

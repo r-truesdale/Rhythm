@@ -2738,8 +2738,8 @@ MonoBehaviour:
   perfect: {fileID: 0}
   late: {fileID: 0}
   lateMiss: {fileID: 0}
-  switchModeButton: {fileID: 0}
   modeText: {fileID: 0}
+  switchModeButton: {fileID: 0}
 --- !u!114 &732777160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2780,7 +2780,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 732777158}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de7389c3b0214f9429fe72ccb4ccd965, type: 3}
+  m_Script: {fileID: 11500000, guid: 41750e32791d833418d601041279ea7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   accuracyResult: 
@@ -2797,13 +2797,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   midiFilePlayer: {fileID: 0}
-  arrowPrefab: {fileID: 9140787773481782127, guid: 3d51158c7b8ae7f49bae21134f8901d3, type: 3}
   hitBoxes: []
   midiScoreBeats: []
-  arrowsSpawned: 
-  spawnedArrows: []
+  BeatObjectPrefab: {fileID: 9140787773481782127, guid: 3d51158c7b8ae7f49bae21134f8901d3, type: 3}
+  BeatObjectsSpawned: 
+  spawnedBeatObjects: []
   initialized: 0
-  spawningPaused: 0
 --- !u!4 &732777164
 Transform:
   m_ObjectHideFlags: 0
@@ -2935,7 +2934,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 785202715}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bce5c9a92b90c23489acd1ef7c12a752, type: 3}
+  m_Script: {fileID: 11500000, guid: 13c8834db0f842447b66e6a3f2d3b890, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   midiScoreBeats: []
@@ -2944,7 +2943,7 @@ MonoBehaviour:
   levelPlaying: 0
   gameStartTime: 0
   gamePaused: 0
-  arrowPrefab: {fileID: 9140787773481782127, guid: 3d51158c7b8ae7f49bae21134f8901d3, type: 3}
+  BeatObjectPrefab: {fileID: 9140787773481782127, guid: 3d51158c7b8ae7f49bae21134f8901d3, type: 3}
   midiFilePlayer: {fileID: 0}
   lastNote: 0
   currentDuration: 0

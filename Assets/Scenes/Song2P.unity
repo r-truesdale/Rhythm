@@ -2001,7 +2001,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -89.600006, y: -0.3000472}
+  m_AnchoredPosition: {x: -89.599976, y: -0.3000472}
   m_SizeDelta: {x: 160, y: 65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &377216596
@@ -2508,7 +2508,6 @@ MonoBehaviour:
   scoreManager: {fileID: 0}
   songEndUI: {fileID: 441162629}
   songMenu: {fileID: 0}
-  playerStats: {fileID: 0}
   earlyMissText: {fileID: 1885873067}
   earlyText: {fileID: 420704768}
   perfectText: {fileID: 1840843708}
@@ -2527,8 +2526,8 @@ MonoBehaviour:
   resumeBtn: {fileID: 942899486}
   gameOverBtn: {fileID: 1189429090}
   currentBtn: {fileID: 1719570652}
-  arrowVisibilityBtn: {fileID: 370700482}
-  arrowVisibilityOnBtn: {fileID: 1052065636}
+  BeatObjectVisibilityBtn: {fileID: 0}
+  BeatObjectVisibilityOnBtn: {fileID: 0}
   levelEndLevelMenuBtn: {fileID: 377216596}
   levelEndStatsBtn: {fileID: 961713775}
   levelEndMenuBtn: {fileID: 1401266509}
@@ -3629,7 +3628,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -42}
+  m_AnchoredPosition: {x: 50, y: -42.00003}
   m_SizeDelta: {x: 100, y: -180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &567909828
@@ -4810,7 +4809,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 664723962}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3887e2f69e3c92a4d86d086d3258f1a9, type: 3}
+  m_Script: {fileID: 11500000, guid: f3dd1bf92d3bc8440a4a2b3a05d433bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hitBoxName: TooEarly
@@ -6321,7 +6320,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 768178878}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3887e2f69e3c92a4d86d086d3258f1a9, type: 3}
+  m_Script: {fileID: 11500000, guid: f3dd1bf92d3bc8440a4a2b3a05d433bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hitBoxName: TooLate
@@ -7912,7 +7911,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 946624164}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3887e2f69e3c92a4d86d086d3258f1a9, type: 3}
+  m_Script: {fileID: 11500000, guid: f3dd1bf92d3bc8440a4a2b3a05d433bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hitBoxName: Perfect
@@ -8723,7 +8722,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1024993499}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3887e2f69e3c92a4d86d086d3258f1a9, type: 3}
+  m_Script: {fileID: 11500000, guid: f3dd1bf92d3bc8440a4a2b3a05d433bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hitBoxName: EarlyMiss
@@ -11455,7 +11454,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -90.600006, y: -95.80005}
+  m_AnchoredPosition: {x: -90.599976, y: -95.80005}
   m_SizeDelta: {x: 160, y: 65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1401266509
@@ -11831,7 +11830,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -46.000015}
+  m_AnchoredPosition: {x: 0, y: -46.00003}
   m_SizeDelta: {x: -536, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1451733134
@@ -12977,7 +12976,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 136.09998, y: -42}
+  m_AnchoredPosition: {x: 136.09998, y: -42.00003}
   m_SizeDelta: {x: 50, y: -180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1655058986
@@ -14525,7 +14524,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1776211555}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3887e2f69e3c92a4d86d086d3258f1a9, type: 3}
+  m_Script: {fileID: 11500000, guid: f3dd1bf92d3bc8440a4a2b3a05d433bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hitBoxName: LateMiss

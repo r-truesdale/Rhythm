@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 2f9df691b8678ef4cbe8be6d561c14e5
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107994
+  packageName: Maestro - Midi Player Tool Kit - Free
+  packageVersion: 2.11.1
+  assetPath: Assets/MidiPlayer/Resources/MidiDB/Conan The Barbarian.bytes
+  uploadId: 632080

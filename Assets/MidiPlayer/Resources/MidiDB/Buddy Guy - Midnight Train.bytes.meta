@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: e36437f4bfb08fb499a159716a0edbc4
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107994
+  packageName: Maestro - Midi Player Tool Kit - Free
+  packageVersion: 2.11.1
+  assetPath: Assets/MidiPlayer/Resources/MidiDB/Buddy Guy - Midnight Train.bytes
+  uploadId: 632080

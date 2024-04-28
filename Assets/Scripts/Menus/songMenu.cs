@@ -1,18 +1,12 @@
-using Newtonsoft.Json.Linq;
-using System.IO;
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class songMenu : MonoBehaviour
 {
-    // public TMP_Text songName;
     public string[] sceneNames;
-    // public string selectedSongName;
     private List<SongBlueprint> songsData;
-    public void getSongData()
+    public void getSongData() // retrieves songData list to load correct scenes
     {
         songsData = songData.Instance.AllSongs;
     }
@@ -20,24 +14,18 @@ public class songMenu : MonoBehaviour
     {
         getSongData();
         PlayerPrefs.SetInt("selectedSongIndex", songIndex);
-        Debug.Log(songIndex);
+        Debug.Log("songIndex = " + songIndex);
         PlayerPrefs.SetString("sceneType", "gameplay");
         PlayerPrefs.SetString("gameState", "game");
         PlayerPrefs.SetString("songName", sceneNames[songIndex]);
         SceneManager.LoadScene(sceneNames[songIndex]);
     }
-    public void practiceLevel1(int songIndex)
-    {
-        PlayerPrefs.SetString("sceneType", "gameplay");
-        PlayerPrefs.SetInt("selectedSongIndex", songIndex);
-        PlayerPrefs.SetString("gameState", "practice");
-        SceneManager.LoadScene("Song1P 1");
-    }
     public void practiceLevel(int songIndex)
     {
         getSongData();
-        PlayerPrefs.SetString("sceneType", "gameplay");
         PlayerPrefs.SetInt("selectedSongIndex", songIndex);
+        Debug.Log("songIndex = " + songIndex);
+        PlayerPrefs.SetString("sceneType", "gameplay");
         PlayerPrefs.SetString("gameState", "practice");
         PlayerPrefs.SetString("songName", sceneNames[songIndex]);
         SceneManager.LoadScene(sceneNames[songIndex] + "P");
@@ -53,7 +41,6 @@ public class songMenu : MonoBehaviour
         PlayerPrefs.SetString("sceneType", "menu");
         PlayerPrefs.SetString("gameState", "game");
     }
-
     public void practiceMenu()
     {
         SceneManager.LoadScene("practiceModeMenu");
@@ -65,10 +52,8 @@ public class songMenu : MonoBehaviour
         PlayerPrefs.SetString("sceneType", "stats");
         SceneManager.LoadScene("playerStats");
     }
-
     public void statsToMenu()
     {
-        PlayerPrefs.SetString("sceneType", "menu");
         string mode = PlayerPrefs.GetString("gameState");
         if (mode == "game")
         {

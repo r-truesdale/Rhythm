@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 65c5afd1f8e7a3b42b83a67443a87bf8
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107994
+  packageName: Maestro - Midi Player Tool Kit - Free
+  packageVersion: 2.11.1
+  assetPath: Assets/MidiPlayer/Resources/MidiDB/WishYouWereHere.bytes
+  uploadId: 632080
