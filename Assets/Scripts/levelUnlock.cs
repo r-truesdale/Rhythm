@@ -17,14 +17,14 @@ public class levelUnlock : MonoBehaviour
             Debug.Log("No score data found.");
             return;
         }
-
+        //finding most recent score data from the manager
         ScoreData lastPlayedData = ScoreManager.Instance.scores[ScoreManager.Instance.scores.Count - 1];
         if (lastPlayedData == null)
         {
             Debug.Log("No recent score data found.");
             return;
         }
-        if (PlayerPrefs.GetString("gameState") == "game")
+        if (PlayerPrefs.GetString("gameState") == "game") //unlocking only works for game mode
         {
             int originalLevel = PlayerPrefs.GetInt("selectedSongIndex");
             int targetLevel = originalLevel + 1;

@@ -59,7 +59,7 @@ public class songMenu : MonoBehaviour
         {
             gameMenu();
         }
-        else
+        else if (mode == "practice")
         {
             practiceMenu();
         }

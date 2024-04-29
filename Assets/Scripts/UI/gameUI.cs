@@ -46,7 +46,7 @@ public class gameUI : MonoBehaviour
     private bool endBtnPressed;
     void Start()
     {
-        // Find the GameManager instance
+        // find the GameManager instance
         gameManager = FindObjectOfType<GameManager>();
         spawnManager = GameObject.Find("GameMaster").GetComponent<SpawnManager>();
         scoreManager = GameObject.Find("GameMaster").GetComponent<ScoreManager>();
@@ -213,7 +213,7 @@ public class gameUI : MonoBehaviour
     private void InstantiateCube(float width, Transform spawnPoint)
     {
         int widthInt = Mathf.RoundToInt(width + 1f);
-        Vector3 barOrigin = spawnPoint.position + new Vector3(width / 2f, 0f, 0f);
+        Vector3 barOrigin = spawnPoint.position + new Vector3(width / 2f, 0f, -3f);
         GameObject bar = Instantiate(barPrefab, barOrigin, Quaternion.identity);
         bar.transform.localScale = new Vector3(widthInt, 5f, 1f);
     }

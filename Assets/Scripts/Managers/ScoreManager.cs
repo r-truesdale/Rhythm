@@ -185,7 +185,7 @@ public List<ScoreData> loadScores()
     return scores;
 }
 #endif
-    public List<ScoreData> modeScores(string gameMode)
+    public List<ScoreData> modeScores(string gameMode) //gets scores filtered by the played mode
     {
         List<ScoreData> filteredScores = new List<ScoreData>();
         foreach (var score in scores)
@@ -197,7 +197,7 @@ public List<ScoreData> loadScores()
         }
         return filteredScores;
     }
-    public void DeleteAllScores()
+    public void DeleteAllScores()//used for debugging
     {
         string filePath = Application.persistentDataPath + "/scores.json";
         if (File.Exists(filePath))
