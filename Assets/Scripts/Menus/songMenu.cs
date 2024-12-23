@@ -24,7 +24,7 @@ public class songMenu : MonoBehaviour
     {
         getSongData();
         PlayerPrefs.SetInt("selectedSongIndex", songIndex);
-        Debug.Log("songIndex = " + songIndex);
+        Debug.Log("songMenu: songIndex = " + songIndex);
         PlayerPrefs.SetString("sceneType", "gameplay");
         PlayerPrefs.SetString("gameState", "practice");
         PlayerPrefs.SetString("songName", sceneNames[songIndex]);

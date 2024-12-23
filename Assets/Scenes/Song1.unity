@@ -2125,7 +2125,7 @@ GameObject:
   - component: {fileID: 232778013}
   - component: {fileID: 232778012}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Medium
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5011,7 +5011,7 @@ GameObject:
   - component: {fileID: 596186247}
   - component: {fileID: 596186246}
   m_Layer: 5
-  m_Name: Button (2)
+  m_Name: Hard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11570,31 +11570,8 @@ PrefabInstance:
     - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 9140787773481782127, guid: 3d51158c7b8ae7f49bae21134f8901d3, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1568379388}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d51158c7b8ae7f49bae21134f8901d3, type: 3}
---- !u!1 &1568379387 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9140787773481782127, guid: 3d51158c7b8ae7f49bae21134f8901d3, type: 3}
-  m_PrefabInstance: {fileID: 1568379386}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1568379388
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1568379387}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3887e2f69e3c92a4d86d086d3258f1a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitBoxName: 
-  perfectHitboxYPositions: []
-  hitboxContainer: {fileID: 0}
 --- !u!1 &1590241244
 GameObject:
   m_ObjectHideFlags: 0
@@ -12472,7 +12449,7 @@ GameObject:
   - component: {fileID: 1693288081}
   - component: {fileID: 1693288080}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: Easy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13883,6 +13860,7 @@ GameObject:
   - component: {fileID: 1928543970}
   - component: {fileID: 1928543969}
   - component: {fileID: 1928543968}
+  - component: {fileID: 1928543971}
   m_Layer: 5
   m_Name: SongInfo
   m_TagString: Untagged
@@ -13979,6 +13957,22 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1928543971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928543965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e5ddc5591c4e6d4f848cdf0e345f087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Btn1: {fileID: 1693288080}
+  Btn2: {fileID: 232778012}
+  Btn3: {fileID: 596186246}
+  selectedBtn: {fileID: 0}
 --- !u!1 &1942636226
 GameObject:
   m_ObjectHideFlags: 0
