@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DropdownMenu : MonoBehaviour
+public class Dropdown : MonoBehaviour
 //controls the beat types selected by the player before the level starts 
 {// reference for each UI button element for inspector and 
     [SerializeField] private Button Btn1;

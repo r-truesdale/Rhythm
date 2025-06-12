@@ -13860,9 +13860,9 @@ GameObject:
   - component: {fileID: 1928543970}
   - component: {fileID: 1928543969}
   - component: {fileID: 1928543968}
-  - component: {fileID: 1928543971}
   - component: {fileID: 1928543973}
   - component: {fileID: 1928543972}
+  - component: {fileID: 1928543974}
   m_Layer: 5
   m_Name: SongInfo
   m_TagString: Untagged
@@ -13959,18 +13959,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &1928543971
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1928543965}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e5ddc5591c4e6d4f848cdf0e345f087, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1928543972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14009,6 +13997,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1928543965}
   m_CullTransparentMesh: 1
+--- !u!114 &1928543974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928543965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e5ddc5591c4e6d4f848cdf0e345f087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Btn1: {fileID: 1693288080}
+  Btn2: {fileID: 232778012}
+  Btn3: {fileID: 596186246}
+  selectedBtn: {fileID: 0}
 --- !u!1 &1942636226
 GameObject:
   m_ObjectHideFlags: 0
